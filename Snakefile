@@ -17,6 +17,7 @@ MMSEQS_PARAMS = config.get("mmseqs_params",
 FORMATTED_MMSEQS_PARAMS = format_mmseqs_params(MMSEQS_PARAMS)
 MMSEQS_THREADS = config.get("threads", 8)
 
+print(FORMATTED_MMSEQS_PARAMS)
 
 genomes, = glob_wildcards(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION))
 print("Running in all vs. all mode.\nGenomes:")
@@ -24,7 +25,7 @@ print(genomes)
 
 
 rule target:
-    input: os.path.join(OUT_DIR, "anib.csv")
+    input: os.path.join(OUT_DIR, "ani.csv")
 
 
 rule make_reference_db:
@@ -94,7 +95,7 @@ rule mmseqs_convert_results:
 
 rule process_results:
     input: os.path.join(OUT_DIR, "search_results.tsv")
-    output: os.path.join(OUT_DIR, "anib.csv")
+    output: os.path.join(OUT_DIR, "ani.csv")
     params: eval_threshold = config.get("eval_filter", 1.0E-15),
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3)
