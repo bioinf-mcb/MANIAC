@@ -20,5 +20,5 @@ def read_pair_list(list_path):
 
 
 def format_mmseqs_params(params):
-    return " ".join([f"-{key} {value}" if len(key) == 1 else "--{key} {value}" 
+    return " ".join([f"-{key} {value}" if len(key) == 1 else f"--{key} {value}" 
                      for key, value in params.items()])
