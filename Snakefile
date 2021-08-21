@@ -28,36 +28,29 @@ rule target:
     input: os.path.join(OUT_DIR, "ani.csv")
 
 
-rule make_reference_db:
-    input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome=genomes)
-    output: os.path.join(OUT_DIR, "reference-db/reference-db")
-    shell: "mmseqs createdb {input} {output}" 
-
-
-rule split_query_genome:
-    input: os.path.join(IN_DIR, "{query_genome}."+INPUT_EXTENSION)
-    output: os.path.join(OUT_DIR, "split/{query_genome}.fasta")
+rule split_genomes:
+    input: os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION)
+    output: os.path.join(OUT_DIR, "split/{genome}.fasta")
     params:
         fragment_size = FRAGMENT_SIZE
     script: "scripts/split_fasta.py"
 
 
-rule get_query_lengths:
+rule get_genome_lengths:
     input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome = genomes)
-    output: os.path.join(OUT_DIR, "query_lengths.csv")
+    output: os.path.join(OUT_DIR, "genome_lengths.csv")
     script: "scripts/get_fasta_lengths.py"
 
 
-rule make_query_db:
+rule make_db:
     input: expand(os.path.join(OUT_DIR, "split/{genome}.fasta"), genome=genomes)
-    output: os.path.join(OUT_DIR, "query-db/query-db")
+    output: os.path.join(OUT_DIR, "genome-db/genome-db")
     shell: "mmseqs createdb {input} {output}" 
 
 
 rule mmseqs_search:
     input:
-        os.path.join(OUT_DIR, "query-db/query-db"),
-        os.path.join(OUT_DIR, "reference-db/reference-db")
+        os.path.join(OUT_DIR, "genome-db/genome-db"),
     output:
         os.path.join(OUT_DIR, "results-db/results-db.index")
     params:
@@ -68,7 +61,7 @@ rule mmseqs_search:
         MMSEQS_THREADS
     shell:
         """
-        mmseqs search {input} {params.results_basename} {params.tmp_dir} \
+        mmseqs search {input} {input} {params.results_basename} {params.tmp_dir} \
         --search-type 3 -a --max-seqs 10000 --threads {threads} \
         {params.mmseqs_params}
         """
@@ -76,8 +69,7 @@ rule mmseqs_search:
 
 rule mmseqs_convert_results:
     input: 
-        os.path.join(OUT_DIR, "query-db/query-db"),
-        os.path.join(OUT_DIR, "reference-db/reference-db"),
+        os.path.join(OUT_DIR, "genome-db/genome-db"),
         os.path.join(OUT_DIR, "results-db/results-db.index")
     output: 
         os.path.join(OUT_DIR, "search_results.tsv")
@@ -87,9 +79,9 @@ rule mmseqs_convert_results:
         MMSEQS_THREADS
     shell:
         """
-        mmseqs convertalis {input[0]} {input[1]} \
+        mmseqs convertalis {input[0]} {input[0]} \
         {params.results_basename} {output} --threads {threads} \
-        --format-output 'qset,query,tset,nident,alnlen,mismatch,gapopen,evalue,qlen'
+        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,gapopen,evalue,qlen'
         """
 
 
