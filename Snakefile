@@ -86,10 +86,22 @@ rule mmseqs_convert_results:
 
 
 rule process_results:
-    input: os.path.join(OUT_DIR, "search_results.tsv")
-    output: os.path.join(OUT_DIR, "ani.csv")
+    input: 
+        os.path.join(OUT_DIR, "search_results.tsv")
+    output: 
+        os.path.join(OUT_DIR, "best_hits.csv"),
+        os.path.join(OUT_DIR, "best_bidirectional_hits.csv")
     params: eval_threshold = config.get("eval_filter", 1.0E-15),
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3)
     script: "scripts/process_results.py"
 
+
+rule compute_ani_af:
+    input:
+        os.path.join(OUT_DIR, "best_hits.csv"),
+        os.path.join(OUT_DIR, "best_bidirectional_hits.csv"),
+        os.path.join(OUT_DIR, "genome_lengths.csv")
+    output:
+        os.path.join(OUT_DIR, "ani.csv")
+    script: "scripts/compute_ani_af.py"        
