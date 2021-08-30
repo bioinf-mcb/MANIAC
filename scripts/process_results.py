@@ -1,17 +1,36 @@
 
 import pandas as pd
 
-INPUT_PATH = snakemake.input[0]
-BEST_HITS_PATH = snakemake.output[0]
-BBH_PATH = snakemake.output[1]
+try:
+    INPUT_PATH = snakemake.input[0]
+    BEST_HITS_PATH = snakemake.output[0]
+    BBH_PATH = snakemake.output[1]
 
-EVAL_THR = snakemake.params["eval_threshold"]
-COVERAGE_THR = snakemake.params["coverage_threshold"]
-IDENTITY_THR = snakemake.params["identity_threshold"]
+    EVAL_THR = snakemake.params["eval_threshold"]
+    COVERAGE_THR = snakemake.params["coverage_threshold"]
+    IDENTITY_THR = snakemake.params["identity_threshold"]
 
-# RESULTS_HEADER = ["query", "reference", "identity", "aln_len",
-#                   "n_mismatches", "n_gaps", "q_start", "q_end",
-#                   "r_start", "r_end", "eval", "bitscore"]
+except NameError:
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Find best bidirectional hits from formatted MMSeqs2 results')
+    parser.add_argument("input", help="Formatted MMSeqs2 results")
+    parser.add_argument("besthits", help="Output path for best hits")
+    parser.add_argument("bbh", help="Output path for best bidirectional hits")
+    parser.add_argument("--eval", default=10, type=float, help="E-value threshold (default: 10)")
+    parser.add_argument("--coverage", default=0, type=float, help="Coverage threshold (default: 0)")
+    parser.add_argument("--identity", default=0, type=float, help="Identity threshold (default: 0)")
+
+    args = parser.parse_args()
+
+    INPUT_PATH = args.input
+    BEST_HITS_PATH = args.besthits
+    BBH_PATH = args.bbh
+
+    EVAL_THR = args.eval
+    COVERAGE_THR = args.coverage
+    IDENTITY_THR = args.identity
+
 
 RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_fragment_id", "n_ident", "aln_len",
                   "n_mismatches", "n_gaps", "evalue", "qlen"]
