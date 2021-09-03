@@ -1,0 +1,16 @@
+input_dir: "../genomes/whole"
+output_dir: "out/ani"
+input_extension: "fasta"
+
+fragment_size: 500
+
+eval_filter: 10
+identity_filter: 0.5
+coverage_filter: 0.5
+
+mmseqs_params:
+  '--search-type 3 -a --max-seqs 10000 -s 7.5 --mask 0 
+  --seed-sub-mat "~/common/ANImm/unit-scoring.out" 
+  --sub-mat "~/common/ANImm/unit-scoring.out"'
+
+

@@ -1,0 +1,14 @@
+input_dir: "../genomes/split-tr"
+output_dir: "out/aai"
+input_extension: "fasta"
+
+prefragmented: True
+
+eval_filter: 10
+identity_filter: 0.3
+coverage_filter: 0.7
+
+mmseqs_params:
+  '--search-type 1 -a --max-seqs 10000 -s 7.5 --mask 0'
+
+
