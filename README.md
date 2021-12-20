@@ -1,4 +1,4 @@
-# ANImm
+# ANImm (Rafal's branch)
 Computation of average nucleotide identity with the use of MMseqs2.
 
 ## How to run
