@@ -1,16 +1,16 @@
-input_dir: "../genomes/split-cds"
-output_dir: "out/ani-cds"
+input_dir: "INPUT"
+output_dir: "OUPUT"
 input_extension: "fasta"
 
-prefragmented: True
+bbh: True
+
+threads: 16
 
 eval_filter: 10
-identity_filter: 0.6
+identity_filter: 0.3
 coverage_filter: 0.7
 
 mmseqs_params:
-  '--search-type 3 -a --max-seqs 10000 -s 7.5 --mask 0 
-  --seed-sub-mat "~/common/ANImm/unit-scoring.out" 
-  --sub-mat "~/common/ANImm/unit-scoring.out"'
-
-
+  '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 
+  --seed-sub-mat "/Users/rmostowy/Applications/ANImm/blastn-scoring.out" 
+  --sub-mat "/Users/rmostowy/Applications/ANImm/blastn-scoring.out"'
