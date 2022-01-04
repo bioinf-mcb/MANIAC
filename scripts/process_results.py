@@ -42,8 +42,6 @@ RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_
                   "matches", "length", "mismatches", "pident", "evalue", "qlen",
                  "gapopen", "qstart", "qend", "rstart", "rend", "bitscore"]
 
-print(BBH)
-
 print("Loading input files...")
 mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
 fasta_lengths = pd.read_csv(LENGTHS_PATH, index_col=0)
