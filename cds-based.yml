@@ -1,9 +1,7 @@
 input_dir: testing/input
 output_dir: testing/results
 bbh: true
-
 threads: 16
-wgrr_threshold: 0.95
 
 coverage_filter: 0.7
 eval_filter: 1.0e-15
