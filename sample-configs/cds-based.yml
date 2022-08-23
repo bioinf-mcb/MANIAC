@@ -1,3 +1,6 @@
+# Calculation of wGRR 
+# as input provide protein fasta file for each phage as seperate file.
+
 input_dir: "INPUT"
 output_dir: "OUPUT"
 input_extension: "fasta"
@@ -10,7 +13,10 @@ eval_filter: 10
 identity_filter: 0.3
 coverage_filter: 0.7
 
+# calculation of wGRR needs search-type 1 (protein space)
 mmseqs_params:
-  '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150 
-  --seed-sub-mat "/Users/rmostowy/Applications/ANImm/scoring/blastn-scoring.out" 
-  --sub-mat "/Users/rmostowy/Applications/ANImm/scoring/blastn-scoring.out"'
+  '--search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150 
+  --seed-sub-mat "scoring/blastn-scoring.out" 
+  --sub-mat "scoring/blastn-scoring.out"'
+
+
