@@ -10,12 +10,10 @@ try:
     COVERAGE_THR = snakemake.params["coverage_threshold"]
     IDENTITY_THR = snakemake.params["identity_threshold"]
     BBH = snakemake.params["bbh_calc"]
-    INPUT_EXTENSION = snakemake.params["input_extension"]
 
 except NameError:
     import argparse
 
-    print('Warning! Script modified and not tested in this mode.')
     parser = argparse.ArgumentParser(description='Find best bidirectional hits from formatted MMSeqs2 results')
     parser.add_argument("input", help="Formatted MMSeqs2 results")
     parser.add_argument("fastalen", help="CSV file of fasta lengths")
@@ -25,7 +23,6 @@ except NameError:
     parser.add_argument("--coverage", default=0, type=float, help="Coverage threshold (default: 0)")
     parser.add_argument("--identity", default=0, type=float, help="Identity threshold (default: 0)")
     parser.add_argument("--bbh", default=False, action='store_true', help="Perform a CDS-based BBH ANI calculation")
-    parser.add_argument("--input_extension", default=False, action='store_true', help="Extesion of input files")
     parser.set_defaults(bbh=False)
 
     args = parser.parse_args()
@@ -62,15 +59,13 @@ mmseqs_results["ani_pid"] = mmseqs_results.ani_ids / mmseqs_results.qlen
 mmseqs_results.pident = mmseqs_results.pident*0.01
 
 mmseqs_results_filtered = mmseqs_results[
-    (mmseqs_results.ani_cov > float(COVERAGE_THR)) &
-    (mmseqs_results.ani_pid > float(IDENTITY_THR)) &
-    (mmseqs_results.evalue < float(EVAL_THR))
+    (mmseqs_results.ani_cov > COVERAGE_THR) &
+    (mmseqs_results.ani_pid > IDENTITY_THR) &
+    (mmseqs_results.evalue < EVAL_THR)
 ].reset_index(drop=True)
 
 # Only take the best hit for each fragment-reference pair
 print("Selecting best hits...")
-print("ORFs headers have to be unique for each phage!")
-
 best_hits = mmseqs_results_filtered.iloc[
     mmseqs_results_filtered.groupby(['query_fragment_id', 'reference_seq']).evalue.idxmin()
 ].copy()
@@ -87,19 +82,13 @@ if (BBH):
 else:
     best_hits_final = best_hits
 
+best_hits_final.to_csv(BEST_HITS_PATH, index=False)
 best_hits_final = best_hits_final.rename(columns = {"query_seq_x": "query_seq", "reference_seq_x": "reference_seq"})
 
-try:
-    best_hits_final.query_seq = best_hits_final.query_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
-    best_hits_final.reference_seq = best_hits_final.reference_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
-except:
-    print('No bbh hits were found! Throws and error and stops snakemake :/ ')
+best_hits_final.query_seq = best_hits_final.query_seq.str.split(".", expand = True)[0]
+best_hits_final.reference_seq = best_hits_final.reference_seq.str.split(".", expand = True)[0]
 
-best_hits_final.to_csv(BEST_HITS_PATH, index=False)
-
-ani_mean = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().reset_index()
-ani_mean.rename({'pident':'ani_mean'},axis=1,inplace=True)
-
+ani = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().reset_index()
 
 aligned_nucleotides = best_hits_final.groupby(["query_seq", "reference_seq"]).ani_alnlen.sum().reset_index()
 aligned_nucleotides["len_1"] = fasta_lengths.loc[aligned_nucleotides.query_seq].reset_index(drop=True)
@@ -110,9 +99,9 @@ aligned_nucleotides["af_mean"] = 2* aligned_nucleotides.ani_alnlen / (aligned_nu
 aligned_nucleotides["af_min"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].min(axis=1)
 aligned_nucleotides["af_jaccard"] = aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2 - aligned_nucleotides.ani_alnlen)
 
-merged = pd.merge(ani_mean, aligned_nucleotides, on = ["query_seq", "reference_seq"]) \
-           .rename({"query_seq": "Seq1", "reference_seq": "Seq2"}, axis=1)
-
+merged = pd.merge(ani, aligned_nucleotides, on = ["query_seq", "reference_seq"]) \
+           .rename({"query_seq": "Seq1", "reference_seq": "Seq2", "pident": "ANI"}, axis=1)
+           
 merged.to_csv(OUTPUT_PATH, index=False)
 
 print("Done!")

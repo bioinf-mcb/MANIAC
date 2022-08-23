@@ -32,8 +32,7 @@ print('------checkpoint------')
 
 rule target:
     input: os.path.join(OUT_DIR, "search_results.tsv"),
-           os.path.join(OUT_DIR, "best_hits.csv"),
-           os.path.join(OUT_DIR, "wgrr.csv")
+           os.path.join(OUT_DIR, "best_hits.csv")
 
 rule split_genomes:
     input: os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION)
@@ -46,13 +45,13 @@ rule split_genomes:
 rule make_query_db:
     input: expand(os.path.join(OUT_DIR, "split/{genome}.fasta"), genome=genomes)
     output: os.path.join(OUT_DIR, "query-db/query-db")
-    shell: "mmseqs createdb {input} {output}"
-
+    shell: "mmseqs createdb {input} {output}"    
+    
 rule make_db:
     input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome=genomes)
     output: os.path.join(OUT_DIR, "cds-db/cds-db") if CDS_BASED_BBH else \
 			os.path.join(OUT_DIR, "reference-db/reference-db")
-    shell: "mmseqs createdb {input} {output}"
+    shell: "mmseqs createdb {input} {output}" 
 
 rule get_total_cds_lengths:
     input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome = genomes)
@@ -71,13 +70,13 @@ rule mmseqs_qr_search:
         results_basename = os.path.join(OUT_DIR, "results-qr-db/results-qr-db"),
         tmp_dir = TMP_DIR,
         mmseqs_params = MMSEQS_PARAMS
-    threads:
+    threads: 
         MMSEQS_THREADS
     shell:
         """
         mmseqs search {input} {params.results_basename} {params.tmp_dir} \
         --threads {threads} {params.mmseqs_params}
-        """
+        """  
 
 # the following rule is carried out for the CDS-based BBH ANI calculation
 # and it carries out an all-by-all CDS search
@@ -90,7 +89,7 @@ rule mmseqs_cds_search:
         results_basename = os.path.join(OUT_DIR, "results-cds-db/results-cds-db"),
         tmp_dir = TMP_DIR,
         mmseqs_params = MMSEQS_PARAMS
-    threads:
+    threads: 
         MMSEQS_THREADS
     shell:
         """
@@ -99,10 +98,10 @@ rule mmseqs_cds_search:
         """
 
 rule mmseqs_cds_convert:
-    input:
+    input: 
         os.path.join(OUT_DIR, "cds-db/cds-db"),
         os.path.join(OUT_DIR, "results-cds-db/results-cds-db.index")
-    output:
+    output: 
         os.path.join(OUT_DIR, "search_results.tsv")
     params:
         results_basename = os.path.join(OUT_DIR, "results-cds-db/results-cds-db")
@@ -116,11 +115,11 @@ rule mmseqs_cds_convert:
         """
 
 rule mmseqs_qr_convert:
-    input:
+    input: 
         os.path.join(OUT_DIR, "query-db/query-db"),
         os.path.join(OUT_DIR, "reference-db/reference-db"),
         os.path.join(OUT_DIR, "results-qr-db/results-qr-db.index")
-    output:
+    output: 
         os.path.join(OUT_DIR, "search_results.tsv")
     params:
         results_basename = os.path.join(OUT_DIR, "results-qr-db/results-qr-db")
@@ -134,25 +133,14 @@ rule mmseqs_qr_convert:
         """
 
 rule process_results:
-    input:
+    input: 
         os.path.join(OUT_DIR, "search_results.tsv"),
         os.path.join(OUT_DIR, "fasta_lengths.csv")
-    output:
+    output: 
         os.path.join(OUT_DIR, "best_hits.csv"),
         os.path.join(OUT_DIR, "ani.csv")
     params: eval_threshold = config.get("eval_filter", 1.0E-15),
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3),
-            bbh_calc = config.get("bbh", False),
-            input_extension=INPUT_EXTENSION
+            bbh_calc = config.get("bbh", False)
     script: "scripts/process_results.py"
-
-
-rule wgrr:
-    input:
-        IN_DIR,
-        os.path.join(OUT_DIR, "ani.csv"),
-        os.path.join(OUT_DIR, "best_hits.csv")
-    output: os.path.join(OUT_DIR, "wgrr.csv")
-    params: input_extension=INPUT_EXTENSION
-    script: "scripts/wgrr.py"
