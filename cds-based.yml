@@ -1,14 +1,16 @@
-input_dir: testing/input
-output_dir: testing/results
-bbh: true
+input_dir: "INPUT"
+output_dir: "OUPUT"
+input_extension: "fasta"
+
+bbh: True
+
 threads: 16
 
-coverage_filter: 0.7
-eval_filter: 1.0e-15
+eval_filter: 10
 identity_filter: 0.3
-indentity_filter: 0.3
-input_extension: fasta
-  
-mmseqs_params: --search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask
-  0 -e 1e-15 -k 13 --zdrop 150 --seed-sub-mat "scoring/blastn-scoring.out" --sub-mat
-  "scoring/blastn-scoring.out"
+coverage_filter: 0.7
+
+mmseqs_params:
+  '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150 
+  --seed-sub-mat "/Users/rmostowy/Applications/ANImm/scoring/blastn-scoring.out" 
+  --sub-mat "/Users/rmostowy/Applications/ANImm/scoring/blastn-scoring.out"'
