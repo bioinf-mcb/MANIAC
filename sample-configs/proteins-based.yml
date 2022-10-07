@@ -1,23 +1,10 @@
-# Calculation of wGRR 
-# as input provide protein fasta file for each phage as seperate file.
-
-input_dir: "testing/INPUT"
-output_dir: "testing/OUPUT"
-input_extension: "fasta"
-
-bbh: True
-
-threads: 16
-
+bbh: true
+coverage_filter: 0.7
 eval_filter: 10
 identity_filter: 0.3
-coverage_filter: 0.7
-
-# Probably to short kmer parameter created skyrocket demand for memory (for 3 phages 16GB was not enough)
-# calculation of wGRR needs search-type 1 (protein space)
-mmseqs_params:
-  '--search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 --zdrop 150'
-  #--seed-sub-mat "scoring/blastn-scoring.out" 
-  #--sub-mat "scoring/blastn-scoring.out"'
-
-
+input_dir: /home/MCB/jkoszucki/phagedb/PHAGES-DB/2_stGRR/1_struct_prots
+input_extension: fasta
+mmseqs_params: --search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask
+  0 -e 1e-15 --zdrop 150
+output_dir: /home/MCB/jkoszucki/phagedb/PHAGES-DB/2_stGRR/2_ANImm
+threads: 16
