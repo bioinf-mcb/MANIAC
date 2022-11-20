@@ -9,15 +9,16 @@ OUTPUT_PATH = snakemake.output[0]
 names = []
 lengths = []
 
-for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
-    name = seq_record.id
-    name = name.split('.')[0]
+for fasta_path in FASTA_PATHS:
+    name = os.path.basename(fasta_path)
+    name = ".".join(name.split(".")[:-1])
     names.append(name)
     length = 0
-    length += len(seq_record.seq)
-    	lengths.append(length)
+
+    for record in SeqIO.parse(fasta_path, "fasta"):
+        length += len(record.seq)
+    
+    lengths.append(length)
 
 length_table = pd.DataFrame({"genome": names, "length": lengths})
-length_table_final=length_table.groupby('genome').sum().reset_index()
-length_table_final.to_csv(OUTPUT_PATH, index = False)
-
+length_table.to_csv(OUTPUT_PATH, index = False)
