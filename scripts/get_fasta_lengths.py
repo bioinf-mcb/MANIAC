@@ -15,7 +15,7 @@ for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
     names.append(name)
     length = 0
     length += len(seq_record.seq)
-    lengths.append(length)
+    	lengths.append(length)
 
 length_table = pd.DataFrame({"genome": names, "length": lengths})
 length_table_final=length_table.groupby('genome').sum().reset_index()
