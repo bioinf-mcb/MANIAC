@@ -1,11 +1,6 @@
 # ANImm
 Computation of average nucleotide identity with the use of MMseqs2.
 
-**wGRR comment**
-**To run wGRR put your protein sequences into one file per phage.**
-**mmseqs --search-flag in cds-based.yml had to be set to one.**
-**mmseqs -k (kmer size) in cds-based.yml had to be >=16 (mmseqs prompts error otherwise that value is to low).**
-
 ## How to run
 This pipeline is built with the use of [Snakemake](https://snakemake.github.io/) and can be run (for example) with the following command:
 
