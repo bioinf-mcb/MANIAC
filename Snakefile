@@ -36,26 +36,26 @@ rule target:
            os.path.join(OUT_DIR, "wgrr.csv")
 
 rule split_genomes:
-    input: os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION)
-    output: os.path.join(OUT_DIR, "split/{genome}.fasta")
+    input: os.path.join(IN_DIR)
+    output: os.path.join(OUT_DIR, "split/IN_DIR")
     params:
         fragment_size = FRAGMENT_SIZE
     script: "scripts/split_fasta.py"
 
 
 rule make_query_db:
-    input: expand(os.path.join(OUT_DIR, "split/{genome}.fasta"), genome=genomes)
+    input: os.path.join(OUT_DIR, "split/IN_DIR")
     output: os.path.join(OUT_DIR, "query-db/query-db")
     shell: "mmseqs createdb {input} {output}"
 
 rule make_db:
-    input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome=genomes)
+    input: os.path.join(IN_DIR)
     output: os.path.join(OUT_DIR, "cds-db/cds-db") if CDS_BASED_BBH else \
 			os.path.join(OUT_DIR, "reference-db/reference-db")
     shell: "mmseqs createdb {input} {output}"
 
 rule get_total_cds_lengths:
-    input: expand(os.path.join(IN_DIR, "{genome}."+INPUT_EXTENSION), genome = genomes)
+    input: os.path.join(IN_DIR)
     output: os.path.join(OUT_DIR, "fasta_lengths.csv")
     script: "scripts/get_fasta_lengths.py"
 
