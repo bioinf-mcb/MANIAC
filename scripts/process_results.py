@@ -47,6 +47,8 @@ RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_
 
 print("Loading input files...")
 mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
+mmseqs_results.iloc[:,0]=mmseqs_results.iloc[:,1].str.split('.').str[0]
+mmseqs_results.iloc[:,2]=mmseqs_results.iloc[:,3].str.split('.').str[0]
 fasta_lengths = pd.read_csv(LENGTHS_PATH, index_col=0)
 
 
