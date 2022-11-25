@@ -3,7 +3,7 @@ import os
 
 from Bio import SeqIO
 
-FASTA_PATHS = snakemake.input
+FASTA_PATHS = snakemake.input[0]
 OUTPUT_PATH = snakemake.output[0]
 
 names = []
@@ -18,6 +18,9 @@ for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
     lengths.append(length)
 
 length_table = pd.DataFrame({"genome": names, "length": lengths})
+df_prots=length_table['genome'].value_counts()
+prots_count=df_prots.to_dict()
 length_table_final=length_table.groupby('genome').sum().reset_index()
+length_table_final['n_prots']=length_table_final['genome'].map(prots_count)
 length_table_final.to_csv(OUTPUT_PATH, index = False)
 
