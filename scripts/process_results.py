@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+from pathlib import Path
+from Bio import SeqIO
 
 try:
     INPUT_PATH = snakemake.input[0]
@@ -49,7 +52,11 @@ print("Loading input files...")
 mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
 mmseqs_results.iloc[:,0]=mmseqs_results.iloc[:,1].str.split('.').str[0]
 mmseqs_results.iloc[:,2]=mmseqs_results.iloc[:,3].str.split('.').str[0]
-fasta_lengths = pd.read_csv(LENGTHS_PATH, index_col=0)
+lengths_prots=pd.read_csv(LENGTHS_PATH)  #read the fasta length csv
+lengths2=lengths_prots[['genome','length']]  #get a subset of the fasta_length for ani calculation
+n_prot_df =lengths_prots[['genome','n_prots']].copy()  #get a subset for wgrr calculation 
+n_prot_df.rename({'genome': 'Seq1'}, axis=1, inplace=True)  #renaming the genome column
+fasta_lengths = lengths2.set_index('genome')
 
 
 print("Filtering...")
@@ -71,7 +78,7 @@ mmseqs_results_filtered = mmseqs_results[
 
 # Only take the best hit for each fragment-reference pair
 print("Selecting best hits...")
-print("ORFs headers have to be unique for each phage!")
+#print("ORFs headers have to be unique for each phage!")
 
 best_hits = mmseqs_results_filtered.iloc[
     mmseqs_results_filtered.groupby(['query_fragment_id', 'reference_seq']).evalue.idxmin()
@@ -89,19 +96,20 @@ if (BBH):
 else:
     best_hits_final = best_hits
 
-best_hits_final = best_hits_final.rename(columns = {"query_seq_x": "query_seq", "reference_seq_x": "reference_seq"})
-
-try:
-    best_hits_final.query_seq = best_hits_final.query_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
-    best_hits_final.reference_seq = best_hits_final.reference_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
-except:
-    print('No bbh hits were found! Throws and error and stops snakemake :/ ')
 
 best_hits_final.to_csv(BEST_HITS_PATH, index=False)
+best_hits_final = best_hits_final.rename(columns = {"query_seq_x": "query_seq", "reference_seq_x": "reference_seq"})
+#commented this section out to be at par with new ANI code
+#try:
+    #best_hits_final.query_seq = best_hits_final.query_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
+    #best_hits_final.reference_seq = best_hits_final.reference_seq.str.split(f".{INPUT_EXTENSION}", expand = True)[0]
+#except:
+    #print('No bbh hits were found! Throws and error and stops snakemake :/ ')
 
-ani_mean = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().reset_index()
-ani_mean.rename({'pident':'ani_mean'},axis=1,inplace=True)
+best_hits_final.query_seq = best_hits_final.query_seq
+best_hits_final.reference_seq = best_hits_final.reference_seq
 
+ani = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().reset_index()
 
 aligned_nucleotides = best_hits_final.groupby(["query_seq", "reference_seq"]).ani_alnlen.sum().reset_index()
 aligned_nucleotides["len_1"] = fasta_lengths.loc[aligned_nucleotides.query_seq].reset_index(drop=True)
@@ -112,9 +120,36 @@ aligned_nucleotides["af_mean"] = 2* aligned_nucleotides.ani_alnlen / (aligned_nu
 aligned_nucleotides["af_min"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].min(axis=1)
 aligned_nucleotides["af_jaccard"] = aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2 - aligned_nucleotides.ani_alnlen)
 
-merged = pd.merge(ani_mean, aligned_nucleotides, on = ["query_seq", "reference_seq"]) \
-           .rename({"query_seq": "Seq1", "reference_seq": "Seq2"}, axis=1)
+merged = pd.merge(ani, aligned_nucleotides, on = ["query_seq", "reference_seq"]) \
+           .rename({"query_seq": "Seq1", "reference_seq": "Seq2", "pident": "ANI"}, axis=1)
 
-merged.to_csv(OUTPUT_PATH, index=False)
+if (BBH):
+    print("wgrr stage")
+    #####calculating wgrr
+    #get number of bbh used to calculate mean ani
+    bbh_cols = ['query_seq', 'reference_seq', 'query_fragment_id_x', 'reference_fragment_id_x']
+    bbh_df = best_hits_final.groupby(bbh_cols).count().reset_index()[bbh_cols] # group by phages and orfs
+    bbh_df['bbh_counts'] = 1
+    bbh_df = bbh_df.groupby(['query_seq', 'reference_seq']).count()['bbh_counts'].reset_index()
+    bbh_df.rename({'query_seq':'Seq1', 'reference_seq': 'Seq2'}, axis=1, inplace=True)
+
+    #merge ani df to number of proteins 
+    ani_df = pd.merge(merged, n_prot_df, how='left', on='Seq1')
+    ani_df.rename({'n_prots': 'seq1_n_prots'}, axis=1, inplace=True)
+
+    n_prot_df.rename({'Seq1': 'Seq2'}, axis=1, inplace=True)
+    ani_df = pd.merge(ani_df, n_prot_df, how='left', on='Seq2')
+    ani_df.rename({'n_prots': 'seq2_n_prots'}, axis=1, inplace=True)
+
+    ##check point if its merged instead of ani_df
+    ani_df = pd.merge(ani_df, bbh_df, on=['Seq1', 'Seq2'], how='left') # add number of bbh for each pair of genomes
+    ani_df['min_prots'] = ani_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1) # min number of prots from pair of genomes
+
+    ani_df['ani_sum'] = ani_df['ANI'] * ani_df['bbh_counts'] # sum of ani for pair of genomes from bbh
+    ani_df['wgrr'] = np.round(ani_df['ani_sum'] / ani_df['min_prots'], 3) # wgrr
+
+    ani_df.to_csv(OUTPUT_PATH, index=False)
+else:
+    merged.to_csv(OUTPUT_PATH, index=False)
 
 print("Done!")
