@@ -4,7 +4,7 @@ eval_filter: 10
 identity_filter: 0.3
 input_dir: /Users/wanangwandovie/Desktop/vcontact1/protein_subset_fp.fasta
 input_extension: fasta
-mmseqs_params: --search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask
-  0 -e 1e-15 --zdrop 150
 output_dir: /Users/wanangwandovie/Desktop/vcontact1/memory
 threads: 16
+mmseqs_params: --search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 --zdrop 150
+
