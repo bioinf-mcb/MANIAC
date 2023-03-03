@@ -52,11 +52,11 @@ print("Loading input files...")
 mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
 mmseqs_results.iloc[:,0]=mmseqs_results.iloc[:,1].str.split('.').str[0]
 mmseqs_results.iloc[:,2]=mmseqs_results.iloc[:,3].str.split('.').str[0]
-lengths_prots=pd.read_csv(LENGTHS_PATH)  #read the fasta length csv
-lengths2=lengths_prots[['genome','length']]  #get a subset of the fasta_length for ani calculation
-n_prot_df =lengths_prots[['genome','n_prots']].copy()  #get a subset for wgrr calculation 
+lengths_df=pd.read_csv(LENGTHS_PATH)  #read the fasta length csv
+prot_length=lengths_df[['genome','length']]  #get a subset of the fasta_length for ani calculation
+n_prot_df =lengths_df[['genome','n_prots']].copy()  #get a subset with the number of proteins for wgrr calculation 
 n_prot_df.rename({'genome': 'Seq1'}, axis=1, inplace=True)  #renaming the genome column
-fasta_lengths = lengths2.set_index('genome')
+fasta_lengths = prot_length.set_index('genome')
 
 
 print("Filtering...")
