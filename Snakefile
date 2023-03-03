@@ -32,8 +32,8 @@ print('------checkpoint------')
 
 rule target:
     input: os.path.join(OUT_DIR, "search_results.tsv"),
-           os.path.join(OUT_DIR, "best_hits.csv"),
-           os.path.join(OUT_DIR, "wgrr.csv")
+           os.path.join(OUT_DIR, "best_hits.csv")
+           
 
 rule split_genomes:
     input: os.path.join(IN_DIR)
@@ -147,12 +147,3 @@ rule process_results:
             input_extension=INPUT_EXTENSION
     script: "scripts/process_results.py"
 
-
-rule wgrr:
-    input:
-        IN_DIR,
-        os.path.join(OUT_DIR, "ani.csv"),
-        os.path.join(OUT_DIR, "best_hits.csv")
-    output: os.path.join(OUT_DIR, "wgrr.csv")
-    params: input_extension=INPUT_EXTENSION
-    script: "scripts/wgrr.py"
