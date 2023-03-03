@@ -12,5 +12,5 @@ coverage_filter: 0.7
 
 mmseqs_params:
   '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 11 --zdrop 150 
-  --seed-sub-mat "/Users/wanangwandovie/PhD_Projects/repos/ANImm/scoring/blastn-scoring.out" 
-  --sub-mat "/Users/wanangwandovie/PhD_Projects/repos/ANImm/scoring/blastn-scoring.out"'
+  --seed-sub-mat "/scoring/blastn-scoring.out" 
+  --sub-mat "/scoring/blastn-scoring.out"'
