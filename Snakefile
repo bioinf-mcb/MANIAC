@@ -144,6 +144,7 @@ rule process_results:
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3),
             bbh_calc = config.get("bbh", False),
+            memory_mode = config.get("Low_memory_mode", False),
             input_extension=INPUT_EXTENSION
     script: "scripts/process_results.py"
 
