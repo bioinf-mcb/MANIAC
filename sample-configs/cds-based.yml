@@ -1,8 +1,9 @@
-input_dir: "/Users/wanangwandovie/Desktop/sabali/test/1000combined_cds3.fasta"
-output_dir: "/Users/wanangwandovie/Desktop/sabali/test/wggr_output2"
+input_dir: INPUT
+output_dir: OUTPUT
 input_extension: "fasta"
 
 bbh: True
+Low_memory_mode: True
 
 threads: 16
 
