@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from Bio import SeqIO
+import gc
+
+
 
 try:
     INPUT_PATH = snakemake.input[0]
@@ -14,7 +17,7 @@ try:
     IDENTITY_THR = snakemake.params["identity_threshold"]
     BBH = snakemake.params["bbh_calc"]
     INPUT_EXTENSION = snakemake.params["input_extension"]
-
+    Low_memory_mode = snakemake.params["memory_mode"]
 except NameError:
     import argparse
 
@@ -42,14 +45,27 @@ except NameError:
     COVERAGE_THR = args.coverage
     IDENTITY_THR = args.identity
     BBH = args.bbh
+    Low_memory_mode =args.Low_memory_mode
+
+if (Low_memory_mode):
+    print('low memory mode,some columns will not be loaded to save memomory')
+    RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_fragment_id",
+                  "matches", "length", "mismatches", "pident", "evalue", "qlen"]
+                  
+    print("Loading input files...")
+    mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None,usecols=[0,1,2,3,4,5,6,7,8,9])
+    mmseqs_results.columns=RESULTS_HEADER
 
 
-RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_fragment_id",
+else:
+    RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_fragment_id",
                   "matches", "length", "mismatches", "pident", "evalue", "qlen",
                  "gapopen", "qstart", "qend", "rstart", "rend", "bitscore"]
 
-print("Loading input files...")
-mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
+    print("Loading input files...")
+    mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
+
+print('dataframe loaded')
 mmseqs_results.iloc[:,0]=mmseqs_results.iloc[:,1].str.split('.').str[0]
 mmseqs_results.iloc[:,2]=mmseqs_results.iloc[:,3].str.split('.').str[0]
 lengths_df=pd.read_csv(LENGTHS_PATH)  #read the fasta length csv
@@ -76,6 +92,9 @@ mmseqs_results_filtered = mmseqs_results[
     (mmseqs_results.evalue < float(EVAL_THR))
 ].reset_index(drop=True)
 
+del mmseqs_results
+gc.collect()
+
 # Only take the best hit for each fragment-reference pair
 print("Selecting best hits...")
 #print("ORFs headers have to be unique for each phage!")
@@ -83,6 +102,10 @@ print("Selecting best hits...")
 best_hits = mmseqs_results_filtered.iloc[
     mmseqs_results_filtered.groupby(['query_fragment_id', 'reference_seq']).evalue.idxmin()
 ].copy()
+
+del mmseqs_results_filtered
+gc.collect()
+
 
 if (BBH):
     print("Finding best bidirectional hits...")
