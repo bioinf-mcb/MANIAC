@@ -1,8 +1,9 @@
-input_dir: "/Users/wanangwandovie/Desktop/test_project/test/test.fasta"
-output_dir: "/Users/wanangwandovie/Desktop/test_project/test/test_repo"
+input_dir: "test_data/sample100.fasta"
+output_dir: outdir
 input_extension: "fasta"
 
 bbh: False
+Low_memory_mode: False
 
 threads: 16
 
