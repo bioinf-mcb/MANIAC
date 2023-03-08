@@ -36,7 +36,29 @@ Other optional:
 * `Low_memory_mode` : mode used to run ANImm in a memory stringent manner.Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation(default:`false` for fragment_based and `true` for tr and cds)
 For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
 
-Data type and runtime
-| data | type | RAM |run_time |
-|inphared(~23k)|diverse |~270GB |~30HRS|
-|Klebsiella prophages(~8K)|similar |~270GB |~2HRS to parse results table|
+* Data type and runtime
+
+  <table>
+    <thead>
+      <tr>
+        <th>data</th>
+        <th>type</th>
+        <th>RAM</th>
+        <th>run_time</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>"Inphared(~23k)"</td>
+            <td>diverse</td>
+            <td>~270GB</td>
+            <td>~30HRS</td>
+        </tr>
+        <tr>
+            <td>"Klebsiella prophages(~8K)"</td>
+            <td>similar</td>
+            <td>~270GB</td>
+            <td>~2HRS to parse results table</td>
+        </tr>
+    </tbody>
+  </table>
