@@ -1,4 +1,4 @@
-input_dir: INPUT
+input_dir: /test_data/test_cds.fasta
 output_dir: OUTPUT
 input_extension: "fasta"
 
