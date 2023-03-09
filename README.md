@@ -58,7 +58,7 @@ For more sensitive search it is recommended to use higher sensitivity settings t
             <td>"Klebsiella prophages(~8K)"</td>
             <td>similar</td>
             <td>~270GB</td>
-            <td>~2HRS to parse results table</td>
+            <td>~7HRS to parse results table</td>
         </tr>
     </tbody>
   </table>
