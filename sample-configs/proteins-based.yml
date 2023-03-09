@@ -1,11 +1,13 @@
+
+input_dir: test_data/protein2_fp.fasta
+input_extension: fasta
+output_dir: test_data
+threads: 16
 bbh: true
 Low_memory_mode: true
 coverage_filter: 0.7
 eval_filter: 10
 identity_filter: 0.3
-input_dir: test_data/protein2_fp.fasta
-input_extension: fasta
-output_dir: outdir
-threads: 16
+
 mmseqs_params: --search-type 1 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 --zdrop 150
 
