@@ -15,7 +15,7 @@ try:
     IDENTITY_THR = snakemake.params["identity_threshold"]
     BBH = snakemake.params["bbh_calc"]
     INPUT_EXTENSION = snakemake.params["input_extension"]
-    Low_memory_mode = snakemake.params["memory_mode"]
+    LOW_MEMORY_MODE = snakemake.params["memory_mode"]
 except NameError:
     import argparse
 
@@ -43,9 +43,9 @@ except NameError:
     COVERAGE_THR = args.coverage
     IDENTITY_THR = args.identity
     BBH = args.bbh
-    Low_memory_mode =args.Low_memory_mode
+    LOW_MEMORY_MODE =args.Low_memory_mode
 
-if (Low_memory_mode):
+if (LOW_MEMORY_MODE):
     print('low memory mode,some columns will not be loaded to save memomory')
     col_dtypes = {0:'object',1:'object',2:'object',3:'object',4:'int32',5:'int32',6:'int32',7:'float64',8:'float64',9:'int32'}
     RESULTS_HEADER = ["query_seq", "query_fragment_id", "reference_seq", "reference_fragment_id",
