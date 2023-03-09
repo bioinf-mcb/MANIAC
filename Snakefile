@@ -32,6 +32,7 @@ print('------checkpoint------')
 
 rule target:
     input: os.path.join(OUT_DIR, "search_results.tsv"),
+           os.path.join(OUT_DIR, "hits.csv"),
            os.path.join(OUT_DIR, "best_hits.csv")
            
 
@@ -135,11 +136,9 @@ rule mmseqs_qr_convert:
 
 rule process_results:
     input:
-        os.path.join(OUT_DIR, "search_results.tsv"),
-        os.path.join(OUT_DIR, "fasta_lengths.csv")
+        os.path.join(OUT_DIR, "search_results.tsv")
     output:
-        os.path.join(OUT_DIR, "best_hits.csv"),
-        os.path.join(OUT_DIR, "ani.csv")
+        os.path.join(OUT_DIR, "hits.csv")
     params: eval_threshold = config.get("eval_filter", 1.0E-15),
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3),
@@ -147,4 +146,14 @@ rule process_results:
             memory_mode = config.get("Low_memory_mode", False),
             input_extension=INPUT_EXTENSION
     script: "scripts/process_results.py"
+
+rule calculate_ani:
+    input: 
+        os.path.join(OUT_DIR, "hits.csv"),
+        os.path.join(OUT_DIR, "fasta_lengths.csv")
+    output: 
+        os.path.join(OUT_DIR, "best_hits.csv"),
+        os.path.join(OUT_DIR, "ani.csv")
+    params: bbh_calc = config.get("bbh", False)
+    script: "scripts/ani_calculation.py"   
 
