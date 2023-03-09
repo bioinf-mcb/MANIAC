@@ -1,5 +1,5 @@
 
-input_dir: test_data/protein2_fp.fasta
+input_dir: test_data/protein_test.fasta
 input_extension: fasta
 output_dir: test_data
 threads: 16
