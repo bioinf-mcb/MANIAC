@@ -11,11 +11,21 @@ lengths = []
 
 for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
     name = seq_record.id
-    name = name.split('.')[0]
-    names.append(name)
-    length = 0
-    length += len(seq_record.seq)
-    lengths.append(length)
+    name = name.split('_')
+    #ref_seq sequences usually have NC_.. we dont want to exclude them
+    if len(name) <= 2:
+        name ='_'.join(name)
+        names.append(name)
+        length = 0
+        length += len(seq_record.seq)
+        lengths.append(length)
+    else:
+        #for our labs convension where we have _ORF_number or _Protein_number
+        name ='_'.join(name[:-2])
+        names.append(name)
+        length = 0
+        length += len(seq_record.seq)
+        lengths.append(length)
 
 length_table = pd.DataFrame({"genome": names, "length": lengths})
 df_prots=length_table['genome'].value_counts()
