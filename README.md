@@ -18,7 +18,7 @@ The configuration file is expected to be a yaml file, in which the following opt
 * fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447),
 * cds-based.yml: best bidirectional hit calculation using predicted CDS as fragments.
 
-## Input files header formant
+**Input files header format**
 * For fragment-based ANImm,the ID must not contain more than one underscore (_)character.Examples of valid IDs for fragment-based ANImm are: `NC_001`,`MA001`,`PEXV001`
 * For CDS and Protein based ANImm,the IDs must follow the convension ID_(ORF/PROTEIN)_NUMBER for example: `NC_001_ORF_23`,`MA001_PROTEIN_44`
 
