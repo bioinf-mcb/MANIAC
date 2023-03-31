@@ -5,28 +5,30 @@ from Bio import SeqIO
 
 FASTA_PATHS = snakemake.input[0]
 OUTPUT_PATH = snakemake.output[0]
+CDS_BASED_BBH = snakemake.params.CDS_BASED_BBH
 
 names = []
 lengths = []
 
 for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
-    name = seq_record.id
-    name = name.split('_')
-    #ref_seq sequences usually have NC_.. we dont want to exclude them
-    if len(name) <= 2:
-        name ='_'.join(name)
-        names.append(name)
-        length = 0
-        length += len(seq_record.seq)
-        lengths.append(length)
-    else:
-        #for our labs convension where we have _ORF_number or _Protein_number
-        name ='_'.join(name[:-2])
-        names.append(name)
-        length = 0
-        length += len(seq_record.seq)
-        lengths.append(length)
+    
+    # convert record ID depending on the pipeline mode
+    if CDS_BASED_BBH: 
+        name = seq_record.id                        # phage protein/ORF ID
+        name = '_'.join(name.split('_')[:-2])       # get phage ID
+        length = len(seq_record.seq)                # get protein/ORF ID
 
+    # whole phage is loaded
+    else: 
+        name = seq_record.id                # unique phageID
+        length = len(seq_record.seq)        # whole phage length
+
+    # append
+    names.append(name)
+    lengths.append(length)
+    
+
+# create table
 length_table = pd.DataFrame({"genome": names, "length": lengths})
 df_prots=length_table['genome'].value_counts()
 prots_count=df_prots.to_dict()

@@ -58,6 +58,7 @@ rule make_db:
 rule get_total_cds_lengths:
     input: os.path.join(IN_DIR)
     output: os.path.join(OUT_DIR, "fasta_lengths.csv")
+    params: CDS_BASED_BBH=CDS_BASED_BBH
     script: "scripts/get_fasta_lengths.py"
 
 # the following rule is carried out for Gorie et al ANI calculation
@@ -142,7 +143,7 @@ rule process_results:
     params: eval_threshold = config.get("eval_filter", 1.0E-15),
             coverage_threshold = config.get("coverage_filter", 0.7),
             identity_threshold = config.get("identity_filter", 0.3),
-            bbh_calc = config.get("bbh", False),
+            CDS_BASED_BBH = CDS_BASED_BBH,
             memory_mode = config.get("Low_memory_mode", False),
             input_extension=INPUT_EXTENSION
     script: "scripts/process_results.py"
@@ -154,6 +155,6 @@ rule calculate_ani:
     output: 
         os.path.join(OUT_DIR, "best_hits.csv"),
         os.path.join(OUT_DIR, "ani.csv")
-    params: bbh_calc = config.get("bbh", False)
+    params: CDS_BASED_BBH = CDS_BASED_BBH
     script: "scripts/ani_calculation.py"   
 

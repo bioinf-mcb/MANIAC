@@ -1,5 +1,5 @@
 input_dir: test_data/test_cds.fasta
-output_dir: test_data
+output_dir: test_data/TEST_CDS_OUTPUT
 input_extension: "fasta"
 
 bbh: True

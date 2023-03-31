@@ -16,7 +16,7 @@ output_records = []
 
 for record in SeqIO.parse(INPUT_PATH, "fasta"):
     for i, fragment in enumerate(split_into_fragments(record.seq, FRAGMENT_SIZE)):
-        fragment_record = SeqRecord(fragment, id = record.id + "." + str(i), description = "")
+        fragment_record = SeqRecord(fragment, id = record.id + "_FRAGMENT_" + str(i), description = "")
         output_records.append(fragment_record)
 
 with open(OUTPUT_PATH, "w") as output_handle:

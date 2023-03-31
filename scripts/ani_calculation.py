@@ -8,7 +8,7 @@ try:
     BEST_HITS_PATH = snakemake.output[0]
     OUTPUT_PATH = snakemake.output[1]
 
-    BBH = snakemake.params["bbh_calc"]
+    BBH = snakemake.params["CDS_BASED_BBH"]
 
 except NameError:
     import argparse
@@ -36,14 +36,13 @@ except NameError:
     IDENTITY_THR = args.identity
     BBH = args.bbh
 
-col_dtypes = {'length':'int32','mismatches':'int32','qlen':'int32','gaps':'int32','ani_alnlen':'int32','ani_ids':'int32'}
 
-best_hits=pd.read_csv(INPUT_PATH,dtype=col_dtypes) 
+col_dtypes = {'length':'int32','mismatches':'int32','qlen':'int32','gaps':'int32','ani_alnlen':'int32','ani_ids':'int32'}
+best_hits = pd.read_csv(INPUT_PATH,dtype=col_dtypes) 
 print('dataframe loaded')
 
 
-
-if (BBH):
+if BBH:
     print("Finding best bidirectional hits...")
     bbh = pd.merge(best_hits,best_hits, how="inner", \
       left_on=["query_fragment_id", "reference_fragment_id"], \
@@ -58,11 +57,13 @@ else:
     best_hits_final = best_hits
     del best_hits
     gc.collect()
+
 best_hits_final.to_csv(BEST_HITS_PATH, index=False)
 best_hits_final = best_hits_final.rename(columns = {"query_seq_x": "query_seq", "reference_seq_x": "reference_seq"})
 
-best_hits_final.query_seq = best_hits_final.query_seq.str.split(".", expand = True)[0]
-best_hits_final.reference_seq = best_hits_final.reference_seq.str.split(".", expand = True)[0]
+best_hits_final.query_seq = best_hits_final.query_seq.str.split("_FRAGMENT_", expand = True)[0]
+best_hits_final.reference_seq = best_hits_final.reference_seq.str.split("_FRAGMENT_", expand = True)[0]
+
 
 ani = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().reset_index()
 

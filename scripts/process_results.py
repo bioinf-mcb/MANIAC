@@ -13,7 +13,7 @@ try:
     EVAL_THR = snakemake.params["eval_threshold"]
     COVERAGE_THR = snakemake.params["coverage_threshold"]
     IDENTITY_THR = snakemake.params["identity_threshold"]
-    BBH = snakemake.params["bbh_calc"]
+    BBH = snakemake.params["CDS_BASED_BBH"]
     INPUT_EXTENSION = snakemake.params["input_extension"]
     LOW_MEMORY_MODE = snakemake.params["memory_mode"]
 except NameError:
@@ -64,10 +64,30 @@ else:
     print("Loading input files...")
     mmseqs_results = pd.read_csv(INPUT_PATH, sep = "\t", header = None, names = RESULTS_HEADER)
 
-print('dataframe loaded')
-mmseqs_results.iloc[:,0]=mmseqs_results.iloc[:,1].str.split('.').str[0]
-mmseqs_results.iloc[:,2]=mmseqs_results.iloc[:,3].str.split('.').str[0]
 
+print(mmseqs_results)
+print('Dataframe loaded!')
+
+# curate phage IDs
+print('Curate phage indetifiers... ', end='')
+
+# queries phage identifiers [from fragments/ORFs/proteins]
+query_fragment_id_list = mmseqs_results['query_fragment_id'].to_list()
+query_seq = ['_'.join(query_fragment_id.split('_')[:-2]) for query_fragment_id in query_fragment_id_list]
+mmseqs_results['query_seq'] = query_seq
+
+
+# reference phage indetifiers
+if BBH: 
+    # fragments/ORFs/proteins
+    reference_fragment_id_list = mmseqs_results['reference_fragment_id'].to_list()
+    reference_seq = ['_'.join(reference_fragment_id.split('_')[:-2]) for reference_fragment_id in reference_fragment_id_list]
+    mmseqs_results['reference_seq'] = reference_seq
+else: 
+    # map phageIDs
+    mmseqs_results['reference_seq'] = mmseqs_results['reference_fragment_id']
+
+print('Done!')
 
 print("Filtering...")
 
