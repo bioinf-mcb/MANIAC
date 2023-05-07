@@ -40,10 +40,10 @@ display_settings(INPUT_FILE, OUTPUT_DIR, TMP_DIR,
 
 ### run workflow
 rule target:
-    input: Path(OUTPUT_DIR, "fasta_lengths.csv")
-           # Path(OUTPUT_DIR, "search_results.tsv"),
-           # Path(OUTPUT_DIR, "hits.csv"),
-           # Path(OUTPUT_DIR, "best_hits.csv")
+    input: Path(OUTPUT_DIR, "fasta_lengths.csv"),
+           Path(OUTPUT_DIR, "search_results.tsv"),
+           Path(OUTPUT_DIR, "hits.csv"),
+           Path(OUTPUT_DIR, "best_hits.csv")
            
 
 rule split_genomes:

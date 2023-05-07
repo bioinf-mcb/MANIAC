@@ -35,8 +35,8 @@ prots_count=df_prots.to_dict()
 length_table_final=length_table.groupby('genome').sum().reset_index()
 length_table_final['n_prots']=length_table_final['genome'].map(prots_count)
 
-# save number of ORFs only in cds-based mode
+# save number ORFs per genome only in cds-based mode
 if CDS_BASED: length_table_final.to_csv(OUTPUT_PATH, index = False)
-else: length_table_final.iloc[:,:-1].to_csv(OUTPUT_PATH, index = False)
+else: length_table_final.iloc[:, :-1].to_csv(OUTPUT_PATH, index = False)
 
 

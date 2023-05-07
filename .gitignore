@@ -3,4 +3,4 @@ __pycache__
 RAFAL
 *.DS_Store
 .snakemake
-testing
+test/output
