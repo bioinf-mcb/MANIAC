@@ -5,7 +5,7 @@ from Bio import SeqIO
 
 FASTA_PATHS = snakemake.input[0]
 OUTPUT_PATH = snakemake.output[0]
-CDS_BASED_BBH = snakemake.params.CDS_BASED_BBH
+CDS_BASED = snakemake.params.CDS_BASED
 
 names = []
 lengths = []
@@ -13,7 +13,7 @@ lengths = []
 for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
     
     # convert record ID depending on the pipeline mode
-    if CDS_BASED_BBH: 
+    if CDS_BASED: 
         name = seq_record.id                        # phage protein/ORF ID
         name = '_'.join(name.split('_')[:-2])       # get phage ID
         length = len(seq_record.seq)                # get protein/ORF ID
@@ -34,5 +34,9 @@ df_prots=length_table['genome'].value_counts()
 prots_count=df_prots.to_dict()
 length_table_final=length_table.groupby('genome').sum().reset_index()
 length_table_final['n_prots']=length_table_final['genome'].map(prots_count)
-length_table_final.to_csv(OUTPUT_PATH, index = False)
+
+# save number of ORFs only in cds-based mode
+if CDS_BASED: length_table_final.to_csv(OUTPUT_PATH, index = False)
+else: length_table_final.iloc[:,:-1].to_csv(OUTPUT_PATH, index = False)
+
 

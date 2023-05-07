@@ -10,12 +10,12 @@ try:
     INPUT_PATH = snakemake.input[0]
     BEST_HITS_PATH = snakemake.output[0]
     
-    EVAL_THR = snakemake.params["eval_threshold"]
-    COVERAGE_THR = snakemake.params["coverage_threshold"]
-    IDENTITY_THR = snakemake.params["identity_threshold"]
-    BBH = snakemake.params["CDS_BASED_BBH"]
-    INPUT_EXTENSION = snakemake.params["input_extension"]
-    LOW_MEMORY_MODE = snakemake.params["memory_mode"]
+    EVAL_THR = EVALUE
+    COVERAGE_THR = COVERAGE
+    IDENTITY_THR = IDENTITY
+    BBH = CDS_BASED
+    LOW_MEMORY_MODE = MEMORY_EFFICIENT
+
 except NameError:
     import argparse
 

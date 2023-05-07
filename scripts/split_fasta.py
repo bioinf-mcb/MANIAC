@@ -4,7 +4,7 @@ from Bio.SeqRecord import SeqRecord
 
 INPUT_PATH = snakemake.input[0]
 OUTPUT_PATH = snakemake.output[0]
-FRAGMENT_SIZE = snakemake.params.fragment_size 
+FRAGMENT_SIZE = snakemake.params.FRAGMENT_SIZE 
 
 def split_into_fragments(seq, fragment_length = 1020):
     '''A generator to divide a sequence into fragments of n units.'''

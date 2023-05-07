@@ -22,3 +22,25 @@ def read_pair_list(list_path):
 def format_mmseqs_params(params):
     return " ".join([f"-{key} {value}" if len(key) == 1 else f"--{key} {value}" 
                      for key, value in params.items()])
+
+
+def display_settings(INPUT_FILE, OUTPUT_DIR, TMP_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, MMSEQS_THREADS, MMSEQS_PARAMS, EVALUE, IDENTITY, COVERAGE):    
+    """ Print settings to console """
+    
+    print('PATHS:')
+    print(f'Input file: {INPUT_FILE}')
+    print(f'Output directory: {OUTPUT_DIR}')
+    print(f'Temporary directory: {TMP_DIR}\n')
+
+    print('PARAMETERS:')
+    print(f'Fragment size: {FRAGMENT_SIZE}')
+    print(f'CDS based: {CDS_BASED}')
+    print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
+
+    print(f'MMSEQS threads: {MMSEQS_THREADS}')
+    print(f'MMSEQS params: {MMSEQS_PARAMS}\n')
+
+    print(f'Maximum e-value: {EVALUE}')
+    print(f'Minimum identity: {IDENTITY}')
+    print(f'Minimum query & target coverage: {COVERAGE}')
+
