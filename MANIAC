@@ -11,7 +11,7 @@ Authors: Jan Havranek, Wanangwa Ndovie, Janusz Koszucki, Rafal Mostowy
 # modules
 import itertools
 from pathlib import Path
-from helpers import display_settings, format_mmseqs_params
+from scripts.helpers import display_settings, format_mmseqs_params
 
 # paths
 INPUT_FILE = config["INPUT_FILE"]

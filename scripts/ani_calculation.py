@@ -50,7 +50,6 @@ best_hits_final.to_csv(BEST_HITS_PATH, index=False)
 print("Done!")
 
 # clean best hits table 
-print("HERE THERE WAS SOME PROBLEMS WITH IDS AND I DONT REMEMBER WHAT")
 best_hits_final = best_hits_final.rename(columns = {"query_seq_x": "query_seq", "reference_seq_x": "reference_seq"})
 best_hits_final.query_seq = best_hits_final.query_seq.str.split("_FRAGMENT_", expand = True)[0]
 best_hits_final.reference_seq = best_hits_final.reference_seq.str.split("_FRAGMENT_", expand = True)[0]

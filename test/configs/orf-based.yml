@@ -1,11 +1,11 @@
-# input file is a fasta file with phage genome sequences
-# each record ID should be unique
+# input file is a fasta file with ORF sequences.
+# each record should follow convention: {GENOMEID}_ORF_{ORFID}
 
-INPUT_FILE: "test/data/fragment-based.fasta"
-OUTPUT_DIR: "test/output/FRAGMENT-BASED"
+INPUT_FILE: "test/data/orf-based.fasta"
+OUTPUT_DIR: "test/output/ORF-BASED"
 
-CDS_BASED: False
-MEMORY_EFFICIENT: False
+CDS_BASED: True
+MEMORY_EFFICIENT: True
 THREADS: 16
 
 EVALUE: 10

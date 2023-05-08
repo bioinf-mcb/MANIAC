@@ -46,7 +46,7 @@ print("Done!")
 
 
 # curate phage IDs
-print('Curate phage indetifiers... ', end='')
+print("Curate phage indetifiers... ", end='')
 
 # queries phage identifiers [from fragments/ORFs/proteins]
 query_fragment_id_list = mmseqs_results['query_fragment_id'].to_list()
@@ -63,7 +63,7 @@ else:
     # map phageIDs
     mmseqs_results['reference_seq'] = mmseqs_results['reference_fragment_id']
 
-print('Done!')
+print("Done!")
 
 print("Filtering...", end='')
 
