@@ -27,8 +27,7 @@ snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds
 ### Configuration file
 The configuration file is expected to be a yaml file, in which the various options can be specified. Each record header in input file has to be unique and follow a convenction. 
 
-Config files examples are [here](./test/configs).
-Header formatting examples are [here](./test/data).
+Examples of [config files](./test/configs) and [headers formatting](./test/data).
 
 * fragment-based: fragment-based ANI calculation, based on Goris et al (PMID 17220447) (headers: any unique set)
 * orf-based: best bidirectional hit calculation open reading frames (ORFs). (headers: PHAGEID_ORF_NUMBER)
