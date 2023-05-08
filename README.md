@@ -14,37 +14,38 @@ conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=
 #### Test workflow
 
 ```
-# fragment based
+# fragment
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
 
-# orf based
+# orf
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
 
-# cds based
+# cds
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
 
 ### Configuration file
-The configuration file is expected to be a yaml file, in which the following options can be specified. A [set of examples](./test/configs) covering the two basic types of calculation:
+The configuration file is expected to be a yaml file, in which the following options can be specified. A set of examples can be found [here](./test/configs).
 
 * fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447)
 * orf-based.yml: best bidirectional hit calculation open reading frames (ORFs).
 * cds-based.yml: best bidirectional hit calculation using protein sequences (CDSs).
 
 
-*Header format*
-Each record header in input file has to be unique and follow a convenction (examples in test/data). 
+Each record header in input file has to be unique and follow a convenction. A set of examples can be found [here](./test/data).
 
 * fragment-based.yml: any set of unique headers
-* orf-based.yml: {PHAGEID}_ORF_{NUMBER}
-* cds-based.yml: {PHAGEID}_PROTEIN_{NUMBER}
+* orf-based.yml: PHAGEID_ORF_NUMBER
+* cds-based.yml: PHAGEID_PROTEIN_NUMBER
 
 
-##### Configuration files details
+### Details
+
+#### Configuration files
 
 Required:
-* `INPUT_FILE`: one file with sequences (genomes/ORFs/CDSs) *[WARNING! Look at header formatting paragraph]*
+* `INPUT_FILE`: one file with sequences (genomes/ORFs/CDSs)
 * `OUTPUT_DIR`: where the output should be written
 * `CDS_BASED`: use best bidirectional hits to calculate ANI (only when ORFs/CDSs are provided instead of full genomes) [True/False]
 
@@ -61,7 +62,7 @@ Other optional:
 
 For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
 
-##### Run time details
+#### Run time
 * Data type and runtime
 
   <table>
