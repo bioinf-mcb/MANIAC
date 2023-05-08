@@ -24,20 +24,15 @@ snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
-
 ### Configuration file
-The configuration file is expected to be a yaml file, in which the following options can be specified. A set of examples can be found [here](./test/configs).
+The configuration file is expected to be a yaml file, in which the various options can be specified. Each record header in input file has to be unique and follow a convenction. 
 
-* fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447)
-* orf-based.yml: best bidirectional hit calculation open reading frames (ORFs).
-* cds-based.yml: best bidirectional hit calculation using protein sequences (CDSs).
+Config files examples are [here](./test/configs).
+Header formatting examples are [here](./test/data).
 
-
-Each record header in input file has to be unique and follow a convenction. A set of examples can be found [here](./test/data).
-
-* fragment-based.yml: any set of unique headers
-* orf-based.yml: PHAGEID_ORF_NUMBER
-* cds-based.yml: PHAGEID_PROTEIN_NUMBER
+* fragment-based: fragment-based ANI calculation, based on Goris et al (PMID 17220447) (headers: any unique set)
+* orf-based: best bidirectional hit calculation open reading frames (ORFs). (headers: PHAGEID_ORF_NUMBER)
+* cds-based: best bidirectional hit calculation using protein sequences (CDSs). (headers: PHAGEID_PROTEIN_NUMBER)
 
 
 ### Details
@@ -63,7 +58,6 @@ Other optional:
 For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
 
 #### Run time
-* Data type and runtime
 
   <table>
     <thead>
@@ -71,7 +65,7 @@ For more sensitive search it is recommended to use higher sensitivity settings t
         <th>data</th>
         <th>type</th>
         <th>RAM</th>
-        <th>run_time</th>
+        <th>time</th>
       </tr>
     </thead>
     <tbody>
