@@ -1,45 +1,62 @@
 # ANImm
-Computation of average nucleotide identity with the use of MMseqs2.
-
-**wGRR comment**
-**To run wGRR put your protein sequences into one file per phage.**
-**mmseqs --search-flag in cds-based.yml had to be set to one.**
+Snakemake workflow for computation of average nucleotide identity with the use of MMseqs2 optimized for phages. 
 
 
-## How to run
-This pipeline is built with the use of [Snakemake](https://snakemake.github.io/) and can be run (for example) with the following command:
+## Installation and execution (Linux)
+
+### Clone repository and install dependencies **(not tested)**.
 
 ```
-snakemake --cores 8 --snakefile <path to Snakefile in this repository> --configfile <path to configuration file>
+git clone https://github.com/bioinf-mcb/ANImm
+conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas
 ```
+
+### Test workflow
+
+```
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml      # test one
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml           # test two
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml           # test three
+```
+
 
 ## Configuration file
-The configuration file is expected to be a yaml file, in which the following options can be specified. A [set of examples](./sample-configs) covering the two basic types of calculation:
-* fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447),
-* cds-based.yml: best bidirectional hit calculation using predicted CDS as fragments.
+The configuration file is expected to be a yaml file, in which the following options can be specified. A [set of examples](./test/configs) covering the two basic types of calculation:
 
-**Input files header format**
-* For fragment-based ANImm,the ID must not contain more than one underscore (_)character.Examples of valid IDs for fragment-based ANImm are: `NC_001`,`MA001`,`PEXV001`
-* For CDS and Protein based ANImm,the IDs must follow the convension ID_(ORF/PROTEIN)_NUMBER for example: `NC_001_ORF_23`,`MA001_PROTEIN_44`
+* fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447)
+* orf-based.yml: best bidirectional hit calculation open reading frames (ORFs).
+* cds-based.yml: best bidirectional hit calculation using protein sequences (CDSs).
+
+
+*Header format*
+Each record header in input file has to be unique and follow a convenction (examples in test/data). 
+
+* fragment-based.yml: any set of unique headers
+* orf-based.yml: {PHAGEID}_ORF_{NUMBER}
+* cds-based.yml: {PHAGEID}_PROTEIN_{NUMBER}
+
+
+#### Configuration files details
 
 Required:
-*  `input_dir`: directory in which the genomes are present (one genome per file)
-* `output_dir`: where the output should be written
-* `bbh`: use best bidirectional hits to calculate ANI (only when CDS are provided instead of full genomes; True or False)
+* `INPUT_FILE`: one file with sequences (genomes/ORFs/CDSs) *[WARNING! Look at header formatting paragraph]*
+* `OUTPUT_DIR`: where the output should be written
+* `CDS_BASED`: use best bidirectional hits to calculate ANI (only when ORFs/CDSs are provided instead of full genomes) [True/False]
 
 Filtering (optional):
-* `eval_filter`: maximal allowed E-value (default: `1.0E-15`)
-* `coverage_filter`: minimal query coverage (default: `0.7`)
-* `identity_filter`: minimal query identity (default: `0.3`)
+* `EVALUE`: maximal allowed E-value (default: `1.0E-15`)
+* `COVERAGE`: minimal query coverage (default: `0.7`)
+* `IDENTITY`: minimal query identity (default: `0.3`)
 
 Other optional:
-* `input_extension`: file extension of the genome files (default: `fna`)
-* `fragment_size`: length of the genome fragments to be used in search (default: `1020`)
-* `mmseqs_params`: any additional parameters to be passed to MMseqs2 search (default: `--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150`; calibrated with Pyani)
-* `threads`: number of threads to be used for computationally intensive steps. Will be reduced if is greater than the `cores` parameter of Snakemake (default: `8`)
-* `Low_memory_mode` : mode used to run ANImm in a memory stringent manner.Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation(default:`false` for fragment_based and `true` for tr and cds)
+* `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `1020`)
+* `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search (default: `--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150`; calibrated with Pyani)
+* `THREADS`: number of threads to be used for computationally intensive steps. Will be reduced if is greater than the `cores` parameter of Snakemake (default: `8`)
+* `MEMORY_EFFICIENT` : mode used to run ANImm in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation.
+
 For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
 
+#### Run time details
 * Data type and runtime
 
   <table>
