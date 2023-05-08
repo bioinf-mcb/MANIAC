@@ -4,3 +4,4 @@ RAFAL
 *.DS_Store
 .snakemake
 test/output
+configs-jk
