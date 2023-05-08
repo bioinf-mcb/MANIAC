@@ -2,25 +2,30 @@
 Snakemake workflow for computation of average nucleotide identity with the use of MMseqs2 optimized for phages. 
 
 
-## Installation and execution (Linux)
+### Installation and execution (Linux)
 
-### Clone repository and install dependencies **(not tested)**.
+#### Clone repository and install dependencies **(not tested)**.
 
 ```
 git clone https://github.com/bioinf-mcb/ANImm
 conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas
 ```
 
-### Test workflow
+#### Test workflow
 
 ```
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml      # test one
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml           # test two
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml           # test three
+# fragment based
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
+
+# orf based
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
+
+# cds based
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
 
-## Configuration file
+### Configuration file
 The configuration file is expected to be a yaml file, in which the following options can be specified. A [set of examples](./test/configs) covering the two basic types of calculation:
 
 * fragment-based.yml: fragment-based ANI calculation, based on Goris et al (PMID 17220447)
@@ -36,7 +41,7 @@ Each record header in input file has to be unique and follow a convenction (exam
 * cds-based.yml: {PHAGEID}_PROTEIN_{NUMBER}
 
 
-#### Configuration files details
+##### Configuration files details
 
 Required:
 * `INPUT_FILE`: one file with sequences (genomes/ORFs/CDSs) *[WARNING! Look at header formatting paragraph]*
@@ -56,7 +61,7 @@ Other optional:
 
 For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
 
-#### Run time details
+##### Run time details
 * Data type and runtime
 
   <table>
