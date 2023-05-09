@@ -5,3 +5,4 @@ RAFAL
 .snakemake
 test/output
 configs-jk
+nohup*

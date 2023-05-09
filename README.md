@@ -82,3 +82,10 @@ For more sensitive search it is recommended to use higher sensitivity settings t
         </tr>
     </tbody>
   </table>
+
+#### Results notes
+
+* Fragment-based calculation has duplicate entries (a-b & b-a) (all modes do?)
+* ANI for proteins (CDS) is AAI
+* wGRR for ORFs is not *sensu stricto* wGRR
+
