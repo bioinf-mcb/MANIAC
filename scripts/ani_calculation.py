@@ -73,6 +73,7 @@ aligned_nucleotides["af_1"] = aligned_nucleotides.ani_alnlen / aligned_nucleotid
 aligned_nucleotides["af_2"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_2
 aligned_nucleotides["af_mean"] = 2* aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2)
 aligned_nucleotides["af_min"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].min(axis=1)
+aligned_nucleotides["af_max"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].max(axis=1)
 aligned_nucleotides["af_jaccard"] = aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2 - aligned_nucleotides.ani_alnlen)
 
 # add measures
