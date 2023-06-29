@@ -16,12 +16,17 @@ from scripts.helpers import display_settings, format_mmseqs_params
 # paths
 INPUT_FILE = config["INPUT_FILE"]
 OUTPUT_DIR = config["OUTPUT_DIR"]
-TMP_DIR = config.get("TMP_DIR", Path(OUTPUT_DIR, "tmp"))
+
+# intermediate directories
+TEMP_DIR = Path(OUTPUT_DIR, "temp")
+MMSEQS_TEMP_DIR = Path(TEMP_DIR, 'mmseqs2-temp')
 
 # params
 FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
 CDS_BASED = config.get("CDS_BASED", False)
 MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", False)
+DELETE_TEMP_FILES = config.get("DELETE_TEMP_FILES", True)
+
 
 MMSEQS_THREADS = config.get("THREADS", 8)
 MMSEQS_PARAMS = config.get("MMSEQS_PARAMS", "--search-type 3 -a --max-seqs 10000")
@@ -33,43 +38,41 @@ COVERAGE = config.get('COVERAGE', 0.7)
 
 # prompt settings
 print('Running workflow! Settings:\n')
-display_settings(INPUT_FILE, OUTPUT_DIR, TMP_DIR, 
+display_settings(INPUT_FILE, OUTPUT_DIR, TEMP_DIR, 
                  FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, 
                  MMSEQS_THREADS, MMSEQS_PARAMS, 
                  EVALUE, IDENTITY, COVERAGE)
 
 ### run workflow
 rule target:
-    input: Path(OUTPUT_DIR, "fasta_lengths.csv"),
-           Path(OUTPUT_DIR, "search_results.tsv"),
-           Path(OUTPUT_DIR, "hits.csv"),
+    input: Path(OUTPUT_DIR, "ani.csv"),
            Path(OUTPUT_DIR, "best_hits.csv")
            
-
+           
 rule split_genomes:
     input: Path(INPUT_FILE)
-    output: Path(OUTPUT_DIR, "split/INPUT_FILE")
+    output: Path(TEMP_DIR, "split/INPUT_FILE")
     params: FRAGMENT_SIZE = FRAGMENT_SIZE
     conda: "env.yml"
     script: "scripts/split_fasta.py"
 
 rule make_query_db:
-    input: Path(OUTPUT_DIR, "split/INPUT_FILE")
-    output: Path(OUTPUT_DIR, "query-db/query-db")
+    input: Path(TEMP_DIR, "split/INPUT_FILE")
+    output: Path(TEMP_DIR, "query-db/query-db")
     conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 ### fragment-based / CDS-based switch
 rule make_db:
     input: Path(INPUT_FILE)
-    output: Path(OUTPUT_DIR, "cds-db/cds-db") if CDS_BASED else \
-			Path(OUTPUT_DIR, "reference-db/reference-db")
+    output: Path(TEMP_DIR, "cds-db/cds-db") if CDS_BASED else \
+			Path(TEMP_DIR, "reference-db/reference-db")
     conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 rule get_total_cds_lengths:
     input: Path(INPUT_FILE)
-    output: Path(OUTPUT_DIR, "fasta_lengths.csv")
+    output: Path(TEMP_DIR, "fasta_lengths.csv")
     params: CDS_BASED=CDS_BASED
     conda: "env.yml"
     script: "scripts/get_fasta_lengths.py"
@@ -77,43 +80,43 @@ rule get_total_cds_lengths:
 ### ANI calculation (Gorie et al) - genome fragments against whole genome
 rule mmseqs_qr_search:
     input:
-        Path(OUTPUT_DIR, "query-db/query-db"),
-        Path(OUTPUT_DIR, "reference-db/reference-db")
-    output: Path(OUTPUT_DIR, "results-qr-db/results-qr-db.index")
+        Path(TEMP_DIR, "query-db/query-db"),
+        Path(TEMP_DIR, "reference-db/reference-db")
+    output: Path(TEMP_DIR, "results-qr-db/results-qr-db.index")
     params:
-        RESULTS_BASENAME = Path(OUTPUT_DIR, "results-qr-db/results-qr-db"),
-        TMP_DIR = TMP_DIR,
+        RESULTS_BASENAME = Path(TEMP_DIR, "results-qr-db/results-qr-db"),
+        MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
         """
-        mmseqs search {input} {params.RESULTS_BASENAME} {params.TMP_DIR} \
+        mmseqs search {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
         --threads {threads} {params.MMSEQS_PARAMS}
         """
 
 ### CDS-based ANI calculation (BBH) [all-by-all CDS]
 rule mmseqs_cds_search:
-    input: Path(OUTPUT_DIR, "cds-db/cds-db")
-    output: Path(OUTPUT_DIR, "results-cds-db/results-cds-db.index")
+    input: Path(TEMP_DIR, "cds-db/cds-db")
+    output: Path(TEMP_DIR, "results-cds-db/results-cds-db.index")
     params:
-        RESULTS_BASENAME = Path(OUTPUT_DIR, "results-cds-db/results-cds-db"),
-        TMP_DIR = TMP_DIR,
+        RESULTS_BASENAME = Path(TEMP_DIR, "results-cds-db/results-cds-db"),
+        MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
         """
-        mmseqs search {input} {input} {params.RESULTS_BASENAME} {params.TMP_DIR} \
+        mmseqs search {input} {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
         --threads {threads} {params.MMSEQS_PARAMS}
         """
 
 rule mmseqs_cds_convert:
     input:
-        Path(OUTPUT_DIR, "cds-db/cds-db"),
-        Path(OUTPUT_DIR, "results-cds-db/results-cds-db.index")
-    output: Path(OUTPUT_DIR, "search_results.tsv")
-    params: RESULTS_BASENAME = Path(OUTPUT_DIR, "results-cds-db/results-cds-db")
+        Path(TEMP_DIR, "cds-db/cds-db"),
+        Path(TEMP_DIR, "results-cds-db/results-cds-db.index")
+    output: Path(TEMP_DIR, "search_results.tsv")
+    params: RESULTS_BASENAME = Path(TEMP_DIR, "results-cds-db/results-cds-db")
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
@@ -125,11 +128,11 @@ rule mmseqs_cds_convert:
 
 rule mmseqs_qr_convert:
     input:
-        Path(OUTPUT_DIR, "query-db/query-db"),
-        Path(OUTPUT_DIR, "reference-db/reference-db"),
-        Path(OUTPUT_DIR, "results-qr-db/results-qr-db.index")
-    output: Path(OUTPUT_DIR, "search_results.tsv")
-    params: RESULTS_BASENAME = Path(OUTPUT_DIR, "results-qr-db/results-qr-db")
+        Path(TEMP_DIR, "query-db/query-db"),
+        Path(TEMP_DIR, "reference-db/reference-db"),
+        Path(TEMP_DIR, "results-qr-db/results-qr-db.index")
+    output: Path(TEMP_DIR, "search_results.tsv")
+    params: RESULTS_BASENAME = Path(TEMP_DIR, "results-qr-db/results-qr-db")
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
@@ -140,8 +143,8 @@ rule mmseqs_qr_convert:
         """
 
 rule process_results:
-    input: Path(OUTPUT_DIR, "search_results.tsv")
-    output: Path(OUTPUT_DIR, "hits.csv")
+    input: Path(TEMP_DIR, "search_results.tsv")
+    output: Path(TEMP_DIR, "hits.csv")
     params: EVALUE = EVALUE,
             COVERAGE = COVERAGE,
             IDENTITY = IDENTITY,
@@ -152,12 +155,17 @@ rule process_results:
 
 rule calculate_ani:
     input: 
-        Path(OUTPUT_DIR, "hits.csv"),
-        Path(OUTPUT_DIR, "fasta_lengths.csv")
+        Path(TEMP_DIR, "hits.csv"),
+        Path(TEMP_DIR, "fasta_lengths.csv")
     output: 
         Path(OUTPUT_DIR, "best_hits.csv"),
         Path(OUTPUT_DIR, "ani.csv")
-    params: CDS_BASED = CDS_BASED
+    params: 
+        CDS_BASED = CDS_BASED,
+        DELETE_TEMP_FILES = DELETE_TEMP_FILES
     conda: "env.yml"
-    script: "scripts/ani_calculation.py"   
+    script: "scripts/ani_calculation.py"
+
+
+
 

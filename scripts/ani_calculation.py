@@ -1,7 +1,10 @@
 # modules
+from pathlib import Path
 import pandas as pd
 import gc
 import numpy as np
+import shutil
+
 
 # paths
 INPUT_PATH = snakemake.input[0]
@@ -11,6 +14,9 @@ OUTPUT_PATH = snakemake.output[1]
 
 # params
 CDS_BASED = snakemake.params.CDS_BASED
+DELETE_TEMP_FILES = snakemake.params.DELETE_TEMP_FILES
+TEMP_DIR = Path(snakemake.input[0]).parent
+
 col_dtypes = {'length':'int32','mismatches':'int32',
               'qlen':'int32','gaps':'int32',
               'ani_alnlen':'int32',
@@ -116,10 +122,8 @@ else:
     merged.to_csv(OUTPUT_PATH, index=False)
 
 
-
-
-
-
-
-
-
+# remove intermediate files
+if DELETE_TEMP_FILES: 
+    print('Removing temporary files... ', end='')
+    shutil.rmtree(TEMP_DIR)
+    print('Done!')
