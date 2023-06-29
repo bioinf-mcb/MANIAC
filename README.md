@@ -15,13 +15,17 @@ conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=
 
 ```
 # fragment
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
+snakemake --use-conda --snakefile MANIAC --configfile test/configs/fragment-based.yml
+```
 
+```
 # orf
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
+snakemake --use-conda --snakefile MANIAC --configfile test/configs/orf-based.yml
+```
 
+```
 # cds
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
+snakemake --use-conda --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
 ### Configuration file
