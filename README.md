@@ -19,7 +19,7 @@ NOTE: If you're using Apple M1/M2 computer, you may get a `PackagesNotFoundError
 ```
 conda config --add subdirs osx-64
 ```
-and then run `conda install ...'.
+and then run `conda install ...`.
 
 #### Test workflow
 
