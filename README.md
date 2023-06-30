@@ -1,15 +1,30 @@
 # MANIAC
-Snakemake workflow for computation of average nucleotide identity with the use of MMseqs2 optimized for phages. 
 
+### What is MANIAC?
+MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A**ccurate **C**alculator. It is a bioinformatic pipeline, written using SnakeMake, for rapid and accurate calculation of average nucleotide identity (ANI) and Alignment Fraction (AF) between viral genomes. The goal of MANIAC is to provide a user-friendly and efficient tool for researchers in genomics, bioinformatics, and virology.
 
-### Installation and execution (Mac OS X & Linux)
+### Features
+- High throughput: MANIAC can efficiently process large datasets (thousands) of viral genomes.
+- Accurate: Uses MMseqs2 to ensure accurate calculation of average nucleotide identity (ANI) and alignment fraction (AF).
+- Comprehensive: Provides analysis at both nucleotide and amino-acid level.
+- User-friendly: Easy-to-use Snakemake workflow.
+- Reproducible: Conda-based installation support ensures reproducibility.
+
+### Prerequisities (to be verified)
+- mmseqs2
+- snakemake
+- biopython=1.79
+- pathlib=1.0.1
+- pandas
+
+### Installation (Mac OS X & Linux)
 
 #### Clone repository and install dependencies **(not tested)**.
 First clone the Github directory
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
-Then create a conda environment with required dependencies
+Then create a conda environment with required dependencies, activate it and install the dependencies.
 ```
 conda create --name maniac
 conda activate maniac
@@ -19,22 +34,26 @@ NOTE: If you're using Apple M1/M2 computer, you may get a `PackagesNotFoundError
 ```
 conda config --add subdirs osx-64
 ```
-and then run `conda install ...`.
+and then run `conda install ...`. Hopefully you're good to go.
 
-#### Test workflow
+### Execution
+MANIAC operates in three modes:
 
+#### Fragment-based ANI
+In this mode, MANIAC calculates ANI following the approach of Goris et al. [1]. [DETAILS]. To run the fragment-based mode, type 
 ```
-# fragment
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
 ```
 
+#### BBH using nucleotide-based CDS
+In this mode, MANIAC calculates ANI using best-bidirectional hits based on the user-provided CDS (nucleotide level). 
 ```
-# orf
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
 ```
 
+#### BBH using amino acid-based CDS
+In this mode, MANIAC calculated AAI (average amino-acid identity) using best-bidirectional hits based on the user-provided CDS (amino-acid level). 
 ```
-# cds
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
