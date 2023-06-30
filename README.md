@@ -5,11 +5,21 @@ Snakemake workflow for computation of average nucleotide identity with the use o
 ### Installation and execution (Linux)
 
 #### Clone repository and install dependencies **(not tested)**.
-
+First clone the Github directory
 ```
-git clone https://github.com/bioinf-mcb/ANImm
-conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas
+git clone https://github.com/bioinf-mcb/MANIAC
 ```
+Then create a conda environment with required dependencies
+```
+conda create --name maniac
+conda activate maniac
+conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas mmseqs2
+```
+NOTE: If you're using Apple M1/M2 computer, you may get a `PackagesNotFoundError`. If this should happen, run the following command:
+```
+conda config --add subdirs osx-64
+```
+and then run `conda install ...'.
 
 #### Test workflow
 
