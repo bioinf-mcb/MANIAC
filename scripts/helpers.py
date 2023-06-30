@@ -24,23 +24,79 @@ def format_mmseqs_params(params):
                      for key, value in params.items()])
 
 
-def display_settings(INPUT_FILE, OUTPUT_DIR, TMP_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, MMSEQS_THREADS, MMSEQS_PARAMS, EVALUE, IDENTITY, COVERAGE):    
-    """ Print settings to console """
-    
-    print('PATHS:')
+def input_checkpoint(INPUT_FILE):
+    print('Processing input... ', end='')
+    print('Success!')
+
+
+def get_params(config):
+    """ extract information about parameters from config file """
+
+    CDS_BASED = config["CDS_BASED"]
+    if CDS_BASED:
+        # homologous proteins
+        EVALUE = config['HOMOLOGS']['EVALUE']
+        HOMOLOGS_IDENTITY = config['HOMOLOGS']['IDENTITY']
+        HOMOLOGS_COVERAGE = config['HOMOLOGS']['COVERAGE']
+
+        # conservative proteins
+        CONSERVED_IDENTITY = config['CONSERVED']['IDENTITY']
+        CONSERVED_COVERAGE = config['CONSERVED']['COVERAGE']
+    elif not CDS_BASED:
+        # filter significant proteins
+        EVALUE = config['EVALUE']
+        HOMOLOGS_IDENTITY = config['IDENTITY']
+        HOMOLOGS_COVERAGE = config['COVERAGE']
+
+        CONSERVED_IDENTITY = None
+        CONSERVED_COVERAGE = None
+    else: 
+        print(f'CDS_BASED [True | False] cannot be {CDS_BASED} of {type(CDS_BASED)}! Abort!')
+        exit()
+
+    return EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE
+
+
+def display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, MMSEQS_THREADS, MMSEQS_PARAMS, EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE):    
+    """ print settings to console """
+
+    print('\nPATHS:')
     print(f'Input file: {INPUT_FILE}')
     print(f'Output directory: {OUTPUT_DIR}')
-    print(f'Temporary directory: {TMP_DIR}\n')
+    print(f'Intermediate directory: {INTERMEDIATE_FILES_DIR}\n')
 
-    print('PARAMETERS:')
-    print(f'Fragment size: {FRAGMENT_SIZE}')
-    print(f'CDS based: {CDS_BASED}')
-    print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
 
+    if CDS_BASED:
+        print('PARAMETERS:')
+        print(f'CDS based: {CDS_BASED}')
+        print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
+
+        print('Homologs proteins definition:')
+        print(f'Maximum e-value: {EVALUE}')
+        print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
+        print(f'Minimum query & target coverage: {HOMOLOGS_COVERAGE}\n')
+
+        print('Conserved proteins definition:')
+        print(f'Minimum identity: {CONSERVED_IDENTITY}')
+        print(f'Minimum query & target coverage: {CONSERVED_COVERAGE}\n')
+    
+    elif not CDS_BASED:
+        print('PARAMETERS:')
+        print(f'Fragment size: {FRAGMENT_SIZE}')
+        print(f'CDS based: {CDS_BASED}')
+        print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
+
+        print('DNA significant hits definition:')
+        print(f'Maximum e-value: {EVALUE}')
+        print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
+        print(f'Minimum query & target coverage: {HOMOLOGS_COVERAGE}\n')
+
+    else: 
+        print(f'CDS_BASED [True | False] cannot be {CDS_BASED} of {type(CDS_BASED)}! Abort!')
+        exit()
+    
+    
     print(f'MMSEQS threads: {MMSEQS_THREADS}')
     print(f'MMSEQS params: {MMSEQS_PARAMS}\n')
-
-    print(f'Maximum e-value: {EVALUE}')
-    print(f'Minimum identity: {IDENTITY}')
-    print(f'Minimum query & target coverage: {COVERAGE}')
+    
 

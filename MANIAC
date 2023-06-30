@@ -1,9 +1,8 @@
 """ MANIAC v0.1
 
-Tool for efficient comparison of DNA fragments.
-Optimized for phage genomes.
+Tool for efficient comparison of DNA fragments optimized for phage genomes.
 
-Version: 0.1
+Version: 0.2
 Authors: Jan Havranek, Wanangwa Ndovie, Janusz Koszucki, Rafal Mostowy 
 
 """
@@ -11,68 +10,73 @@ Authors: Jan Havranek, Wanangwa Ndovie, Janusz Koszucki, Rafal Mostowy
 # modules
 import itertools
 from pathlib import Path
+from scripts.helpers import input_checkpoint, get_params
 from scripts.helpers import display_settings, format_mmseqs_params
+
+print('Running MANIAC!')
 
 # paths
 INPUT_FILE = config["INPUT_FILE"]
 OUTPUT_DIR = config["OUTPUT_DIR"]
 
 # intermediate directories
-TEMP_DIR = Path(OUTPUT_DIR, "temp")
-MMSEQS_TEMP_DIR = Path(TEMP_DIR, 'mmseqs2-temp')
+INTERMEDIATE_FILES_DIR = Path(OUTPUT_DIR, "intermediate")
+MMSEQS_DIR = Path(INTERMEDIATE_FILES_DIR, "mmseqs2")
+MMSEQS_TEMP_DIR = Path(MMSEQS_DIR, "temp")
 
 # params
 FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
 CDS_BASED = config.get("CDS_BASED", False)
 MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", False)
-DELETE_TEMP_FILES = config.get("DELETE_TEMP_FILES", True)
 
+DELETE_CDS_ALIGNMENT = config.get("DELETE_CDS_ALIGNMENT", False)
+DELETE_INTERMEDIATE_FILES = config.get("DELETE_INTERMEDIATE_FILES", True)
 
 MMSEQS_THREADS = config.get("THREADS", 8)
 MMSEQS_PARAMS = config.get("MMSEQS_PARAMS", "--search-type 3 -a --max-seqs 10000")
 
-EVALUE = config.get("EVALUE", 1.0E-15)
-IDENTITY = config.get('IDENTITY', 0.3)
-COVERAGE = config.get('COVERAGE', 0.7)
+EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE = get_params(config)
+
+# input file checkpoint
+input_checkpoint(INPUT_FILE)
 
 
-# prompt settings
-print('Running workflow! Settings:\n')
-display_settings(INPUT_FILE, OUTPUT_DIR, TEMP_DIR, 
+# print settings to user
+display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, 
                  FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, 
                  MMSEQS_THREADS, MMSEQS_PARAMS, 
-                 EVALUE, IDENTITY, COVERAGE)
+                 EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE,
+                 CONSERVED_IDENTITY, CONSERVED_COVERAGE)
 
-### run workflow
+### run MANIAC
 rule target:
-    input: Path(OUTPUT_DIR, "ani.csv"),
-           Path(OUTPUT_DIR, "best_hits.csv")
+    input: Path(OUTPUT_DIR, "genome-alignment.csv")
            
            
 rule split_genomes:
     input: Path(INPUT_FILE)
-    output: Path(TEMP_DIR, "split/INPUT_FILE")
+    output: Path(INTERMEDIATE_FILES_DIR, "split/INPUT_FILE")
     params: FRAGMENT_SIZE = FRAGMENT_SIZE
     conda: "env.yml"
     script: "scripts/split_fasta.py"
 
 rule make_query_db:
-    input: Path(TEMP_DIR, "split/INPUT_FILE")
-    output: Path(TEMP_DIR, "query-db/query-db")
+    input: Path(INTERMEDIATE_FILES_DIR, "split/INPUT_FILE")
+    output: Path(MMSEQS_DIR, "query-db/query-db")
     conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 ### fragment-based / CDS-based switch
 rule make_db:
     input: Path(INPUT_FILE)
-    output: Path(TEMP_DIR, "cds-db/cds-db") if CDS_BASED else \
-			Path(TEMP_DIR, "reference-db/reference-db")
+    output: Path(MMSEQS_DIR, "cds-db/cds-db") if CDS_BASED else \
+			Path(MMSEQS_DIR, "reference-db/reference-db")
     conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 rule get_total_cds_lengths:
     input: Path(INPUT_FILE)
-    output: Path(TEMP_DIR, "fasta_lengths.csv")
+    output: Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
     params: CDS_BASED=CDS_BASED
     conda: "env.yml"
     script: "scripts/get_fasta_lengths.py"
@@ -80,11 +84,11 @@ rule get_total_cds_lengths:
 ### ANI calculation (Gorie et al) - genome fragments against whole genome
 rule mmseqs_qr_search:
     input:
-        Path(TEMP_DIR, "query-db/query-db"),
-        Path(TEMP_DIR, "reference-db/reference-db")
-    output: Path(TEMP_DIR, "results-qr-db/results-qr-db.index")
+        Path(MMSEQS_DIR, "query-db/query-db"),
+        Path(MMSEQS_DIR, "reference-db/reference-db")
+    output: Path(MMSEQS_DIR, "results-qr-db/results-qr-db.index")
     params:
-        RESULTS_BASENAME = Path(TEMP_DIR, "results-qr-db/results-qr-db"),
+        RESULTS_BASENAME = Path(MMSEQS_DIR, "results-qr-db/results-qr-db"),
         MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
@@ -97,10 +101,10 @@ rule mmseqs_qr_search:
 
 ### CDS-based ANI calculation (BBH) [all-by-all CDS]
 rule mmseqs_cds_search:
-    input: Path(TEMP_DIR, "cds-db/cds-db")
-    output: Path(TEMP_DIR, "results-cds-db/results-cds-db.index")
+    input: Path(MMSEQS_DIR, "cds-db/cds-db")
+    output: Path(MMSEQS_DIR, "results-cds-db/results-cds-db.index")
     params:
-        RESULTS_BASENAME = Path(TEMP_DIR, "results-cds-db/results-cds-db"),
+        RESULTS_BASENAME = Path(MMSEQS_DIR, "results-cds-db/results-cds-db"),
         MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
@@ -113,10 +117,10 @@ rule mmseqs_cds_search:
 
 rule mmseqs_cds_convert:
     input:
-        Path(TEMP_DIR, "cds-db/cds-db"),
-        Path(TEMP_DIR, "results-cds-db/results-cds-db.index")
-    output: Path(TEMP_DIR, "search_results.tsv")
-    params: RESULTS_BASENAME = Path(TEMP_DIR, "results-cds-db/results-cds-db")
+        Path(MMSEQS_DIR, "cds-db/cds-db"),
+        Path(MMSEQS_DIR, "results-cds-db/results-cds-db.index")
+    output: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+    params: RESULTS_BASENAME = Path(MMSEQS_DIR, "results-cds-db/results-cds-db")
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
@@ -128,11 +132,11 @@ rule mmseqs_cds_convert:
 
 rule mmseqs_qr_convert:
     input:
-        Path(TEMP_DIR, "query-db/query-db"),
-        Path(TEMP_DIR, "reference-db/reference-db"),
-        Path(TEMP_DIR, "results-qr-db/results-qr-db.index")
-    output: Path(TEMP_DIR, "search_results.tsv")
-    params: RESULTS_BASENAME = Path(TEMP_DIR, "results-qr-db/results-qr-db")
+        Path(MMSEQS_DIR, "query-db/query-db"),
+        Path(MMSEQS_DIR, "reference-db/reference-db"),
+        Path(MMSEQS_DIR, "results-qr-db/results-qr-db.index")
+    output: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+    params: RESULTS_BASENAME = Path(MMSEQS_DIR, "results-qr-db/results-qr-db")
     threads: MMSEQS_THREADS
     conda: "env.yml"
     shell:
@@ -143,11 +147,11 @@ rule mmseqs_qr_convert:
         """
 
 rule process_results:
-    input: Path(TEMP_DIR, "search_results.tsv")
-    output: Path(TEMP_DIR, "hits.csv")
+    input: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+    output: Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv")
     params: EVALUE = EVALUE,
-            COVERAGE = COVERAGE,
-            IDENTITY = IDENTITY,
+            COVERAGE = HOMOLOGS_COVERAGE,
+            IDENTITY = HOMOLOGS_IDENTITY,
             CDS_BASED = CDS_BASED,
             MEMORY_EFFICIENT = MEMORY_EFFICIENT
     conda: "env.yml"
@@ -155,17 +159,19 @@ rule process_results:
 
 rule calculate_ani:
     input: 
-        Path(TEMP_DIR, "hits.csv"),
-        Path(TEMP_DIR, "fasta_lengths.csv")
-    output: 
-        Path(OUTPUT_DIR, "best_hits.csv"),
-        Path(OUTPUT_DIR, "ani.csv")
+        Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv"),
+        Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
+    output: Path(OUTPUT_DIR, "genome-alignment.csv")
     params: 
+        CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv"),
+        CDS_ALIGNMENT_RAW = Path(INTERMEDIATE_FILES_DIR, "3_cds-alignment-raw.csv"),
         CDS_BASED = CDS_BASED,
-        DELETE_TEMP_FILES = DELETE_TEMP_FILES
+        DELETE_CDS_ALIGNMENT = DELETE_CDS_ALIGNMENT,
+        DELETE_INTERMEDIATE_FILES = DELETE_INTERMEDIATE_FILES,
+        MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
+        CONSERVED_IDENTITY = CONSERVED_IDENTITY,
+        CONSERVED_COVERAGE = CONSERVED_COVERAGE
     conda: "env.yml"
     script: "scripts/ani_calculation.py"
-
-
 
 
