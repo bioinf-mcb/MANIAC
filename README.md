@@ -1,8 +1,8 @@
-# ANImm
+# MANIAC
 Snakemake workflow for computation of average nucleotide identity with the use of MMseqs2 optimized for phages. 
 
 
-### Installation and execution (Linux)
+### Installation and execution (Mac OS X & Linux)
 
 #### Clone repository and install dependencies **(not tested)**.
 First clone the Github directory
