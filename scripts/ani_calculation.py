@@ -47,8 +47,8 @@ if CDS_BASED:
 
     # deduplicate
     bbh.query("query_seq_x < reference_seq_x", inplace=True)  
-    bbh["pident"] = (bbh.pident_x + bbh.pident_y) / 2
-    bbh["ani_alnlen"] = (bbh.ani_alnlen_x + bbh.ani_alnlen_y) / 2
+    bbh["pident"] = np.round((bbh.pident_x + bbh.pident_y) / 2, 6)
+    bbh["ani_alnlen"] = np.round((bbh.ani_alnlen_x + bbh.ani_alnlen_y) / 2, 6)
     best_hits_final = bbh
     print("Done!")
 else:
@@ -81,14 +81,14 @@ ani = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().rese
 
 # calculate different measures
 aligned_nucleotides = best_hits_final.groupby(["query_seq", "reference_seq"]).ani_alnlen.sum().reset_index()
-aligned_nucleotides["len_1"] = genome_length_df.loc[aligned_nucleotides.query_seq].reset_index(drop=True)
-aligned_nucleotides["len_2"] = genome_length_df.loc[aligned_nucleotides.reference_seq].reset_index(drop=True)
-aligned_nucleotides["af_1"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_1
-aligned_nucleotides["af_2"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_2
-aligned_nucleotides["af_mean"] = 2* aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2)
-aligned_nucleotides["af_min"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].min(axis=1)
-aligned_nucleotides["af_max"] = aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].max(axis=1)
-aligned_nucleotides["af_jaccard"] = aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2 - aligned_nucleotides.ani_alnlen)
+aligned_nucleotides["len_1"] = genome_length_df.loc[aligned_nucleotides.query_seq].reset_index(drop=True).astype(int)
+aligned_nucleotides["len_2"] = genome_length_df.loc[aligned_nucleotides.reference_seq].reset_index(drop=True).astype(int)
+aligned_nucleotides["af_1"] = np.round(aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_1, 6)
+aligned_nucleotides["af_2"] = np.round(aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_2, 6)
+aligned_nucleotides["af_mean"] = np.round(2* aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2), 6)
+aligned_nucleotides["af_min"] = np.round(aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].min(axis=1), 6)
+aligned_nucleotides["af_max"] = np.round(aligned_nucleotides.ani_alnlen / aligned_nucleotides[["len_1", "len_2"]].max(axis=1), 6)
+aligned_nucleotides["af_jaccard"] = np.round(aligned_nucleotides.ani_alnlen / (aligned_nucleotides.len_1 + aligned_nucleotides.len_2 - aligned_nucleotides.ani_alnlen), 6)
 
 # add measures
 merged = pd.merge(ani, aligned_nucleotides, on = ["query_seq", "reference_seq"]) \
@@ -181,10 +181,10 @@ if CDS_BASED:
     genome_alignment_df = pd.merge(genome_alignment_df, cds_alignment_df, on=['Seq1', 'Seq2'], how='left')
 
     # minimum number of proteins
-    genome_alignment_df['min_prots'] = genome_alignment_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1) 
+    genome_alignment_df['min_prots'] = np.round(genome_alignment_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1), 6)
 
     # calculate wgrr
-    genome_alignment_df['cds_alignments_ani_sum'] = genome_alignment_df['ANI'] * genome_alignment_df['cds_alignments_counts']
+    genome_alignment_df['cds_alignments_ani_sum'] = np.round(genome_alignment_df['ANI'] * genome_alignment_df['cds_alignments_counts'], 6)
     genome_alignment_df['wgrr'] = np.round(genome_alignment_df['cds_alignments_ani_sum'] / genome_alignment_df['min_prots'], 3)
 
     # save
