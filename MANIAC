@@ -163,7 +163,7 @@ rule calculate_ani:
         Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
     output: Path(OUTPUT_DIR, "genome-alignment.csv")
     params: 
-        CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv"),
+        CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv") if CDS_BASED else Path(OUTPUT_DIR, "fragments-alignment.csv"),
         CDS_ALIGNMENT_RAW = Path(INTERMEDIATE_FILES_DIR, "3_cds-alignment-raw.csv"),
         CDS_BASED = CDS_BASED,
         DELETE_CDS_ALIGNMENT = DELETE_CDS_ALIGNMENT,

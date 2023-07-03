@@ -53,6 +53,12 @@ if CDS_BASED:
     print("Done!")
 else:
     best_hits_final = significant_hits_df
+    
+    if not DELETE_CDS_ALIGNMENT: 
+        print('Saving fragments alignment file... ', end='')
+        # cols2save
+        best_hits_final.to_csv(CDS_ALIGNMENT_FILE, index=False)
+        print('Done!')
 
     # release RAM
     del significant_hits_df
@@ -153,7 +159,7 @@ if CDS_BASED:
     cols2save = ['Seq1', 'Seq2', 'seq1_fragment_id', 'seq2_fragment_id', 'seq1_fragment_pident', 'seq2_fragment_pident', 'seq1_fragment_cov', 'seq2_fragment_cov']
 
     if not DELETE_CDS_ALIGNMENT: 
-        print('Delete CDS alignment file... ', end='')
+        print('Saving CDS alignment file... ', end='')
         cds_alignment_df[cols2save].to_csv(CDS_ALIGNMENT_FILE, index=False)
         print('Done!')
 
