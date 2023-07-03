@@ -181,6 +181,7 @@ if CDS_BASED:
 
     # minimum number of proteins
     genome_alignment_df['min_prots'] = genome_alignment_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1)
+    genome_alignment_df['min_prots'] = pd.to_numeric(genome_alignment_df['min_prots'], downcast='integer')
 
     # calculate wgrr
     genome_alignment_df['cds_alignments_ani_sum'] = np.round(genome_alignment_df['ANI'] * genome_alignment_df['cds_alignments_counts'], 6)
