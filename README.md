@@ -11,7 +11,7 @@ MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A*
 - User-friendly: Easy-to-use Snakemake workflow.
 - Reproducible: Conda-based installation support ensures reproducibility.
 
-## 3. ANI calculation modes
+## 3. ANI calculation
 ### Fragment mode
 <p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/ani-fragment.png" alt="fragment" width="600"></p>
 
@@ -25,7 +25,6 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 1. CDS are being used instead of fragments
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
-
 
 
 
@@ -57,87 +56,85 @@ conda config --add subdirs osx-64
 ```
 and then run `conda install ...`. Hopefully you're good to go.
 
-## 6. Execution
-MANIAC operates in three modes:
+## 6. Usage
+This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
 
-### A) Fragment-based ANI
-In this mode, MANIAC calculates ANI following the approach of Goris et al. [1]. [DETAILS]. To run the fragment-based mode, type 
+### Input files
+MANIAC requires one of two types of input files: 
+
+1. Full genome files (for the fragment calculation), 
+2. Nucleotide or amino-acid coding-sequences (for the BBH calculation).
+
+Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` sting, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
+
+`>XYZ_phageVp123_CDS1`, `>XYZ_phageVp123_CDS2` and `>XYZ_phageVp123_CDS5`
+
+Examples of input files are located in `test/data`.
+
+### Configuration file
+MANIAC uses a yaml configuration file to set the workflow parameters. Here's an example of what this file might look like:
+
 ```
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
+INPUT_FILE: "test/data/fragment-based.fasta"
+OUTPUT_DIR: "test/output/FRAGMENT-BASED"
+
+THREADS: 16
+CDS_BASED: False
+MEMORY_EFFICIENT: True
+DELETE_CDS_ALIGNMENT: False
+DELETE_INTERMEDIATE_FILES: True
+
+EVALUE: 10
+IDENTITY: 0.3
+COVERAGE: 0.7
+
+MMSEQS_PARAMS:
+  '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 11 --zdrop 150 
+  --seed-sub-mat "scoring/blastn-scoring.out" 
+  --sub-mat "scoring/blastn-scoring.out"'
 ```
 
-### B) BBH using nucleotide-based CDS
-In this mode, MANIAC calculates ANI using best-bidirectional hits based on the user-provided CDS (nucleotide level). 
-```
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
-```
+Here are details of various parameters.
 
-### C) BBH using amino acid-based CDS
-In this mode, MANIAC calculated AAI (average amino-acid identity) using best-bidirectional hits based on the user-provided CDS (amino-acid level). 
-```
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
-```
-
-## 7. Configuration file
-The configuration file is expected to be a yaml file, in which the various options can be specified. Each record header in input file has to be unique and follow a convenction. 
-
-Examples of [config files](./test/configs) and [headers formatting](./test/data).
-
-* fragment-based: fragment-based ANI calculation, based on Goris et al (PMID 17220447) (headers: any unique set)
-* orf-based: best bidirectional hit calculation open reading frames (ORFs). (headers: PHAGEID_ORF_NUMBER)
-* cds-based: best bidirectional hit calculation using protein sequences (CDSs). (headers: PHAGEID_PROTEIN_NUMBER)
-
-
-### Details
-
-#### Configuration files
-
-Required:
-* `INPUT_FILE`: one file with sequences (genomes/ORFs/CDSs)
+#### Parameters: required
+* `INPUT_FILE`: full genome or CDS files
 * `OUTPUT_DIR`: where the output should be written
-* `CDS_BASED`: use best bidirectional hits to calculate ANI (only when ORFs/CDSs are provided instead of full genomes) [True/False]
+* `CDS_BASED`: use BBH to calculate ANI (only when ORFs/CDSs are provided instead of full genomes) [True/False]
 
-Filtering (optional):
+#### Parameters: filtering (optional)
 * `EVALUE`: maximal allowed E-value (default: `1.0E-15`)
 * `COVERAGE`: minimal query coverage (default: `0.7`)
 * `IDENTITY`: minimal query identity (default: `0.3`)
 
-Other optional:
+#### Parameters: other optional
 * `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `1020`)
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search (default: `--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150`; calibrated with Pyani)
 * `THREADS`: number of threads to be used for computationally intensive steps. Will be reduced if is greater than the `cores` parameter of Snakemake (default: `8`)
 * `MEMORY_EFFICIENT` : mode used to run ANImm in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation.
 
-For more sensitive search it is recommended to use higher sensitivity settings than default (such as `-s 7.5`) as well as the blastn scoring matrix (provided in this repository).
+#### Parameters: recommendations
 
-#### Run time
+For full genome and nucleotide CDS mode, the alignment scoring matrix should be provided. Matrices for the blastn and unit-scoring modes are provided in the repository. Please note that the sensitivity parameter will not matter for nucleotide-based calculations, only k-mer size will.
 
-  <table>
-    <thead>
-      <tr>
-        <th>data</th>
-        <th>type</th>
-        <th>RAM</th>
-        <th>time</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>"Inphared(~23k)"</td>
-            <td>diverse</td>
-            <td>~270GB</td>
-            <td>~30HRS</td>
-        </tr>
-        <tr>
-            <td>"Klebsiella prophages(~8K)"</td>
-            <td>similar</td>
-            <td>~270GB</td>
-            <td>~7HRS to parse results table</td>
-        </tr>
-    </tbody>
-  </table>
+For amino-acid calculations, no scoring matrix has to be provided but a more sensitive search is recommended (such as `-s 7.5` or higher). Please refer to the original mmseqs publication [2].
 
-#### Results notes
+Examples of input files for different calculation modes are located in `test/configs`. **We strongly recommend against changing the mmseqs input parameters** as they have been optimised for different calculation modes.
+
+
+### Running MANIAC
+After your input files are ready and your configuration file is set, you can run MANIAC as follows:
+```
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile your-path-to-configuration-file.yml
+```
+where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode.
+
+## References
+1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
+2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
+  
+
+
+## NOTES
 
 * Fragment-based calculation has duplicate entries (a-b & b-a) (all modes do?)
 * ANI for proteins (CDS) is AAI
