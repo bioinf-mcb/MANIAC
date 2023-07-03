@@ -1,30 +1,50 @@
 # MANIAC
-<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/maniac-logo.png" alt="MANIAC" width="400"></p>
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/maniac-logo.png" alt="MANIAC" width="500"></p>
 
-### What is MANIAC?
-MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A**ccurate **C**alculator. It is a bioinformatic pipeline, written using SnakeMake, for rapid and accurate calculation of average nucleotide identity (ANI) and Alignment Fraction (AF) between viral genomes. The goal of MANIAC is to provide a user-friendly and efficient tool for researchers in genomics, bioinformatics, and virology.
+## 1. What is MANIAC?
+MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A**ccurate **C**alculator. It is a bioinformatic pipeline, written using SnakeMake, for rapid and accurate calculation of average nucleotide identity (ANI) and Alignment Fraction (AF) between viral genomes. The goal of MANIAC is to provide a user-friendly and efficient tool for researchers in genomics, bioinformatics, and virology. MANIAC has been developed and optimised for bacteriophages but in principle can be used on any microbial genomes.
 
-### Features
+## 2. Features
 - High throughput: MANIAC can efficiently process large datasets (thousands) of viral genomes.
 - Accurate: Uses MMseqs2 to ensure accurate calculation of average nucleotide identity (ANI) and alignment fraction (AF).
 - Comprehensive: Provides analysis at both nucleotide and amino-acid level.
 - User-friendly: Easy-to-use Snakemake workflow.
 - Reproducible: Conda-based installation support ensures reproducibility.
 
-### Prerequisities (to be verified)
+## 3. ANI calculation modes
+### Fragment mode
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/ani-fragment.png" alt="fragment" width="400"></p>
+
+The standard and quickest way of ANI calculation is based on the approach proposed by Goris et al. for bacterial genomes [1]. Specifically, each query is chopped into short fragments of pre-defined length (by default 1020 nt). Then, each fragment is aligned with the subject and the best hit is found – but only if the query coverage is at least 70% and the sequence identity is 30% across the entire query length. ANI is then taken as the mean percentage identity of all aligned fragments and query AF is calculated as the length of the aligned query genome (i.e., the summed length of all aligned fragments) to the full query length.
+
+
+### Best-bidirectional hits mode
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/ani-bbh.png" alt="BBH" width="400"></p>
+
+In addition to the standard, fragment-based ANI calculation, MANIAC carries out the calculation using best-bidirectional hits approach should the user provide coding sequences (CDSs) for input genomes, either in nucleotide or amino-acid. The calculation is then carried out analogously as in the fragment mode with the following differences:
+
+1. CDS are being used instead of fragments
+2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
+
+
+
+
+## 4. Prerequisities (to be verified)
 - mmseqs2
 - snakemake
 - biopython=1.79
 - pathlib=1.0.1
 - pandas
+- numpy
 
-### Installation (Mac OS X & Linux)
+## 5. Installation (Mac OS X & Linux)
 
-#### Clone repository and install dependencies **(not tested)**.
+### Clone repository and install dependencies 
 First clone the Github directory
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
+
 Then create a conda environment with required dependencies, activate it and install the dependencies.
 ```
 conda create --name maniac
@@ -37,28 +57,28 @@ conda config --add subdirs osx-64
 ```
 and then run `conda install ...`. Hopefully you're good to go.
 
-### Execution
+## 6. Execution
 MANIAC operates in three modes:
 
-#### Fragment-based ANI
+### A) Fragment-based ANI
 In this mode, MANIAC calculates ANI following the approach of Goris et al. [1]. [DETAILS]. To run the fragment-based mode, type 
 ```
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
 ```
 
-#### BBH using nucleotide-based CDS
+### B) BBH using nucleotide-based CDS
 In this mode, MANIAC calculates ANI using best-bidirectional hits based on the user-provided CDS (nucleotide level). 
 ```
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/orf-based.yml
 ```
 
-#### BBH using amino acid-based CDS
+### C) BBH using amino acid-based CDS
 In this mode, MANIAC calculated AAI (average amino-acid identity) using best-bidirectional hits based on the user-provided CDS (amino-acid level). 
 ```
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-based.yml
 ```
 
-### Configuration file
+## 7. Configuration file
 The configuration file is expected to be a yaml file, in which the various options can be specified. Each record header in input file has to be unique and follow a convenction. 
 
 Examples of [config files](./test/configs) and [headers formatting](./test/data).
