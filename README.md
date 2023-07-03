@@ -1,5 +1,5 @@
 # MANIAC
-<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/maniac-logo.png" alt="MANIAC" width="500"></p>
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/main/extras/maniac-logo.png" alt="MANIAC" width="500"></p>
 
 ## 1. What is MANIAC?
 MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A**ccurate **C**alculator. It is a bioinformatic pipeline, written using SnakeMake, for rapid and accurate calculation of average nucleotide identity (ANI) and Alignment Fraction (AF) between viral genomes. The goal of MANIAC is to provide a user-friendly and efficient tool for researchers in genomics, bioinformatics, and virology. MANIAC has been developed and optimised for bacteriophages but in principle can be used on any microbial genomes.
@@ -13,13 +13,13 @@ MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A*
 
 ## 3. ANI calculation
 ### Fragment mode
-<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/ani-fragment.png" alt="fragment" width="600"></p>
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/main/extras/ani-fragment.png" alt="fragment" width="600"></p>
 
 The standard and quickest way of ANI calculation is based on the approach proposed by Goris et al. for bacterial genomes [1]. Specifically, each query is chopped into short fragments of pre-defined length (by default 1020 nt). Then, each fragment is aligned with the subject and the best hit is found – but only if the query coverage is at least 70% and the sequence identity is 30% across the entire query length. ANI is then taken as the mean percentage identity of all aligned fragments and query AF is calculated as the length of the aligned query genome (i.e., the summed length of all aligned fragments) to the full query length.
 
 
 ### Best-bidirectional hits mode
-<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/wgrr/extras/ani-bbh.png" alt="BBH" width="600"></p>
+<p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/main/extras/ani-bbh.png" alt="BBH" width="600"></p>
 
 In addition to the standard, fragment-based ANI calculation, MANIAC carries out the calculation using best-bidirectional hits approach should the user provide coding sequences (CDSs) for input genomes, either in nucleotide or amino-acid. The calculation is then carried out analogously as in the fragment mode with the following differences:
 
