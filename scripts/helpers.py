@@ -26,6 +26,20 @@ def format_mmseqs_params(params):
 
 def input_checkpoint(INPUT_FILE):
     print('Processing input... ', end='')
+    # print('File does not exists! Abort!')
+    # print('File is empty! Abort!')
+    # print('File is not a fasta file!')
+    # print('Fasta file is corrupted! [less then 10 characters | less then 2 proteins]')
+    # print('You are trying to run protein comparisons, but your file do not contain proteins!')
+    # print('You are trying to run nucleotide comparisons, but your file do not contain nucleotides!')
+    # print('Extracting phage identifiers... ') 
+    # print('Parsing protein IDs... ') # [PHAGEID_"CDS"_NUMBER]
+
+
+    # print('Phage IDs are not unique!')
+    # print('Protein IDs are not unique!')
+    
+
     print('Success!')
 
 
