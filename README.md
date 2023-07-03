@@ -128,6 +128,10 @@ snakemake --use-conda --cores 8 --snakefile MANIAC --configfile your-path-to-con
 ```
 where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode.
 
+### Output files
+(TO BE WRITTEN)
+
+
 ## 7. References
 1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
 2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
