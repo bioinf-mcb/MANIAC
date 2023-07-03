@@ -151,7 +151,6 @@ if CDS_BASED:
 
     # save BBH
     cols2save = ['Seq1', 'Seq2', 'seq1_fragment_id', 'seq2_fragment_id', 'seq1_fragment_pident', 'seq2_fragment_pident', 'seq1_fragment_cov', 'seq2_fragment_cov']
-    #'seq1_n_prots_hom', 'seq2_n_prots_hom', 'seq1_n_prots_cons', 'seq2_n_prots_cons']
 
     if not DELETE_CDS_ALIGNMENT: 
         print('Delete CDS alignment file... ', end='')
@@ -181,7 +180,7 @@ if CDS_BASED:
     genome_alignment_df = pd.merge(genome_alignment_df, cds_alignment_df, on=['Seq1', 'Seq2'], how='left')
 
     # minimum number of proteins
-    genome_alignment_df['min_prots'] = np.round(genome_alignment_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1), 6)
+    genome_alignment_df['min_prots'] = genome_alignment_df[['seq1_n_prots', 'seq2_n_prots']].min(axis=1)
 
     # calculate wgrr
     genome_alignment_df['cds_alignments_ani_sum'] = np.round(genome_alignment_df['ANI'] * genome_alignment_df['cds_alignments_counts'], 6)
