@@ -15,6 +15,7 @@ EVAL_THR = snakemake.params.EVALUE
 COVERAGE_THR = snakemake.params.COVERAGE
 IDENTITY_THR = snakemake.params.IDENTITY
 CDS_BASED = snakemake.params.CDS_BASED
+SEPARATOR = snakemake.params.SEPARATOR
 MEMORY_EFFICIENT = snakemake.params.MEMORY_EFFICIENT
 
 
@@ -50,14 +51,14 @@ print("Curate phage indetifiers... ", end='')
 
 # queries phage identifiers [from fragments/ORFs/proteins]
 query_fragment_id_list = mmseqs_results['query_fragment_id'].to_list()
-query_seq = ['_'.join(query_fragment_id.split('_')[:-2]) for query_fragment_id in query_fragment_id_list]
+query_seq = [SEPARATOR.join(query_fragment_id.split(SEPARATOR)[:-1]) for query_fragment_id in query_fragment_id_list]
 mmseqs_results['query_seq'] = query_seq
 
 # reference phage indetifiers
 if CDS_BASED: 
     # fragments/ORFs/proteins
     reference_fragment_id_list = mmseqs_results['reference_fragment_id'].to_list()
-    reference_seq = ['_'.join(reference_fragment_id.split('_')[:-2]) for reference_fragment_id in reference_fragment_id_list]
+    reference_seq = [SEPARATOR.join(reference_fragment_id.split(SEPARATOR)[:-1]) for reference_fragment_id in reference_fragment_id_list]
     mmseqs_results['reference_seq'] = reference_seq
 else: 
     # map phageIDs

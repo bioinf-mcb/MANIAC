@@ -27,6 +27,8 @@ MMSEQS_TEMP_DIR = Path(MMSEQS_DIR, "temp")
 # params
 FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
 CDS_BASED = config.get("CDS_BASED", False)
+SEPARATOR = config.get("SEPARATOR", "_CDS")
+if not CDS_BASED: SEPARATOR = "_FRAGMENT"
 MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", False)
 
 DELETE_CDS_ALIGNMENT = config.get("DELETE_CDS_ALIGNMENT", False)
@@ -153,6 +155,7 @@ rule process_results:
             COVERAGE = HOMOLOGS_COVERAGE,
             IDENTITY = HOMOLOGS_IDENTITY,
             CDS_BASED = CDS_BASED,
+            SEPARATOR = SEPARATOR,
             MEMORY_EFFICIENT = MEMORY_EFFICIENT
     conda: "env.yml"
     script: "scripts/process_results.py"
