@@ -27,8 +27,17 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
 
 
+## 4. Installation (Mac OS X & Linux)
+### Clone repository
+First clone the Github directory
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
 
-## 4. Prerequisities (to be verified)
+### Install dependencies
+To install MANIAC, you will need the following prerequisities:
+
+- Python3
 - mmseqs2
 - snakemake
 - biopython=1.79
@@ -36,27 +45,24 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 - pandas
 - numpy
 
-## 5. Installation (Mac OS X & Linux)
+To install them, run the following:
 
-### Clone repository and install dependencies 
-First clone the Github directory
 ```
-git clone https://github.com/bioinf-mcb/MANIAC
+brew install python3 snakemake mmseqs2
+pip3 install biopython pathlib pandas numpy
 ```
 
-Then create a conda environment with required dependencies, activate it and install the dependencies.
+If everything should go smoothly, MANIAC is ready to use.
+
+Alternatively, you can create a conda environment, activate it and install the dependencies:
+
 ```
 conda create --name maniac
 conda activate maniac
 conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas mmseqs2
 ```
-NOTE: If you're using Apple M1/M2 computer, you may get a `PackagesNotFoundError`. If this should happen, run the following command:
-```
-conda config --add subdirs osx-64
-```
-and then run `conda install ...`. Hopefully you're good to go.
 
-## 6. Usage
+## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
 
 ### Input files
@@ -132,7 +138,7 @@ where `your-path-to-configuration-file.yml` is the full path to your configurati
 (TO BE WRITTEN)
 
 
-## 7. References
+## 6. References
 1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
 2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
   
