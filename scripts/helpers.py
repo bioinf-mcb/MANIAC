@@ -24,24 +24,26 @@ def format_mmseqs_params(params):
                      for key, value in params.items()])
 
 
-def input_checkpoint(INPUT_FILE, SEPARATOR):
+def input_checkpoint(INPUT_FILE, SEPARATOR, CDS_BASED):
 
     print('Processing input... ', end='')
-    print('Veryfiying separator... ', end='')
-    with open(INPUT_FILE) as f:
-        first_line = f.readline()
 
-    
-    if SEPARATOR in first_line: pass
-    elif '_CDS' in first_line: 
-        print(f'\nWARNING! {SEPARATOR} not found, but "_CDS" found!')
-        SEPARATOR = '_CDS'
-    elif '_cds' in first_line:
-        print(f'\nWARNING! {SEPARATOR} not found, but "_cds" found!')
-        SEPARATOR = '_cds'
-    else:
-        print(f'\nFAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
-        exit()
+    # verify separator for CDS BASED
+    if CDS_BASED:
+        print('Veryfiying separator... ', end='')
+        with open(INPUT_FILE) as f:
+            first_line = f.readline()
+        
+        if SEPARATOR in first_line: pass
+        elif '_CDS' in first_line: 
+            print(f'\nWARNING: CHANGING SEPARATOR! "{SEPARATOR}" not found, but "_CDS" found!')
+            SEPARATOR = '_CDS'
+        elif '_cds' in first_line:
+            print(f'\nWARNING: CHANGING SEPARATOR! "{SEPARATOR}" not found, but "_cds" found!')
+            SEPARATOR = '_cds'
+        else:
+            print(f'\nFAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
+            exit()
 
 
     # print('File does not exists! Abort!')

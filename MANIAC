@@ -28,7 +28,6 @@ MMSEQS_TEMP_DIR = Path(MMSEQS_DIR, "temp")
 FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
 CDS_BASED = config.get("CDS_BASED", False)
 SEPARATOR = config.get("SEPARATOR", "_CDS")
-if not CDS_BASED: SEPARATOR = "_FRAGMENT"
 MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", False)
 
 DELETE_CDS_ALIGNMENT = config.get("DELETE_CDS_ALIGNMENT", False)
@@ -40,8 +39,10 @@ MMSEQS_PARAMS = config.get("MMSEQS_PARAMS", "--search-type 3 -a --max-seqs 10000
 EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE = get_params(config)
 
 # input file checkpoint
-SEPARATOR = input_checkpoint(INPUT_FILE, SEPARATOR)
+SEPARATOR = input_checkpoint(INPUT_FILE, SEPARATOR, CDS_BASED)
 
+# overwrite separator for fragment based
+if not CDS_BASED: SEPARATOR = "_FRAGMENT" 
 
 # print settings to user
 display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, 
