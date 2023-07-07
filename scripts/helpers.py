@@ -43,6 +43,7 @@ def input_checkpoint(INPUT_FILE, SEPARATOR):
     else:
         print(f'\nMANIAC FAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
         exit()
+        
     # print('File does not exists! Abort!')
     # print('File is empty! Abort!')
     # print('File is not a fasta file!')
