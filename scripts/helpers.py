@@ -24,8 +24,25 @@ def format_mmseqs_params(params):
                      for key, value in params.items()])
 
 
-def input_checkpoint(INPUT_FILE):
+def input_checkpoint(INPUT_FILE, SEPARATOR):
+
     print('Processing input... ', end='')
+    print('Veryfiying separator... ', end='')
+    with open(INPUT_FILE) as f:
+        first_line = f.readline()
+
+    if SEPARATOR in first_line: pass
+    elif '_CDS' in first_line: 
+        print(f'\nWARNING! "{SEPARATOR}" not found in first header.')
+        print('Found "_CDS" though, changing SEPARATOR to "_CDS"!')
+        SEPARATOR = '_CDS'
+    elif '_cds' in first_line:
+        print(f'\nWARNING! "{SEPARATOR}" nor "_CDS" found in first header.')
+        print('Found "_cds" though, changing SEPARATOR to "_cds"!')
+        SEPARATOR = '_cds'
+    else:
+        print(f'\nMANIAC FAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
+        exit()
     # print('File does not exists! Abort!')
     # print('File is empty! Abort!')
     # print('File is not a fasta file!')
@@ -42,6 +59,7 @@ def input_checkpoint(INPUT_FILE):
 
     print('Success!')
 
+    return SEPARATOR
 
 def get_params(config):
     """ extract information about parameters from config file """
@@ -71,7 +89,7 @@ def get_params(config):
     return EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE
 
 
-def display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, MMSEQS_THREADS, MMSEQS_PARAMS, EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE):    
+def display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR, MMSEQS_THREADS, MMSEQS_PARAMS, EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE):    
     """ print settings to console """
 
     print('\nPATHS:')
@@ -83,7 +101,8 @@ def display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SI
     if CDS_BASED:
         print('PARAMETERS:')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
+        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
+        print(f'Separator: {SEPARATOR}\n')
 
         print('Homologs proteins definition:')
         print(f'Maximum e-value: {EVALUE}')

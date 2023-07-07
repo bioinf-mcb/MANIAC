@@ -40,12 +40,12 @@ MMSEQS_PARAMS = config.get("MMSEQS_PARAMS", "--search-type 3 -a --max-seqs 10000
 EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE = get_params(config)
 
 # input file checkpoint
-input_checkpoint(INPUT_FILE)
+SEPARATOR = input_checkpoint(INPUT_FILE, SEPARATOR)
 
 
 # print settings to user
 display_settings(INPUT_FILE, OUTPUT_DIR, INTERMEDIATE_FILES_DIR, 
-                 FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, 
+                 FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR,
                  MMSEQS_THREADS, MMSEQS_PARAMS, 
                  EVALUE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE,
                  CONSERVED_IDENTITY, CONSERVED_COVERAGE)
