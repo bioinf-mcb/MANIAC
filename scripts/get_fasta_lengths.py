@@ -18,8 +18,8 @@ for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
         name = seq_record.id                                    # phage protein/ORF ID
         name = SEPARATOR.join(name.split(SEPARATOR)[:-1])       # get phage ID
         if '|' in name:                                         # WARNING
-            print(f"WARNING: '|' character in the fasta header of phage {name}!")
-            print(" Please avoid this character in phage identifiers. MMseq2 removes text form identifier preceding '|' character ! ")
+            print("WARNING!")
+            print(f"{name} contains '|' character!")
             print("MANIAC handles that, but it potentially can lead to errors.")
             name = name.split('|')[-1]                          # remove text preceding '|' character
         length = len(seq_record.seq)                            # get protein/ORF ID
