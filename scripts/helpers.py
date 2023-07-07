@@ -31,19 +31,19 @@ def input_checkpoint(INPUT_FILE, SEPARATOR):
     with open(INPUT_FILE) as f:
         first_line = f.readline()
 
+    
     if SEPARATOR in first_line: pass
     elif '_CDS' in first_line: 
-        print(f'\nWARNING! "{SEPARATOR}" not found in first header.')
-        print('Found "_CDS" though, changing SEPARATOR to "_CDS"!')
+        print(f'\nWARNING! {SEPARATOR} not found, but "_CDS" found!')
         SEPARATOR = '_CDS'
     elif '_cds' in first_line:
-        print(f'\nWARNING! "{SEPARATOR}" nor "_CDS" found in first header.')
-        print('Found "_cds" though, changing SEPARATOR to "_cds"!')
+        print(f'\nWARNING! {SEPARATOR} not found, but "_cds" found!')
         SEPARATOR = '_cds'
     else:
-        print(f'\nMANIAC FAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
+        print(f'\nFAILED! "{SEPARATOR}" nor "_CDS" nor "_cds" found in first header!')
         exit()
-        
+
+
     # print('File does not exists! Abort!')
     # print('File is empty! Abort!')
     # print('File is not a fasta file!')
