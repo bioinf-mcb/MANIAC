@@ -79,7 +79,9 @@ rule make_db:
 rule get_total_cds_lengths:
     input: Path(INPUT_FILE)
     output: Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
-    params: CDS_BASED=CDS_BASED
+    params: 
+        SEPARATOR=SEPARATOR,
+        CDS_BASED=CDS_BASED
     conda: "env.yml"
     script: "scripts/get_fasta_lengths.py"
 

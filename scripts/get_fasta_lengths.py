@@ -5,6 +5,7 @@ from Bio import SeqIO
 
 FASTA_PATHS = snakemake.input[0]
 OUTPUT_PATH = snakemake.output[0]
+SEPARATOR = snakemake.params.SEPARATOR
 CDS_BASED = snakemake.params.CDS_BASED
 
 names = []
@@ -14,9 +15,14 @@ for seq_record in SeqIO.parse(FASTA_PATHS, "fasta"):
     
     # convert record ID depending on the pipeline mode
     if CDS_BASED: 
-        name = seq_record.id                        # phage protein/ORF ID
-        name = '_'.join(name.split('_')[:-2])       # get phage ID
-        length = len(seq_record.seq)                # get protein/ORF ID
+        name = seq_record.id                                    # phage protein/ORF ID
+        name = SEPARATOR.join(name.split(SEPARATOR)[:-1])       # get phage ID
+        if '|' in name:                                         # WARNING
+            print(f"WARNING: '|' character in the fasta header of phage {name}!")
+            print(" Please avoid this character in phage identifiers. MMseq2 removes text form identifier preceding '|' character ! ")
+            print("MANIAC handles that, but it potentially can lead to errors.")
+            name = name.split('|')[-1]                          # remove text preceding '|' character
+        length = len(seq_record.seq)                            # get protein/ORF ID
 
     # whole phage is loaded
     else: 

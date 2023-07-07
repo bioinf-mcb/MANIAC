@@ -3,6 +3,8 @@ __pycache__
 RAFAL
 *.DS_Store
 .snakemake
-test/output
 configs-jk
 nohup*
+test/configs/cds-nt-test*.yml
+test/data/cds-*-test*.fasta
+test/output

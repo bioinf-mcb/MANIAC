@@ -87,6 +87,8 @@ ani = best_hits_final.groupby(["query_seq", "reference_seq"]).pident.mean().rese
 
 # calculate different measures
 aligned_nucleotides = best_hits_final.groupby(["query_seq", "reference_seq"]).ani_alnlen.sum().reset_index()
+
+aligned_nucleotides.to_csv('/Users/januszkoszucki/MGG Dropbox/Janusz Koszucki/code/repos/MANIAC/scripts/aligned_nucleotides.tsv', sep='\t', index='False')
 aligned_nucleotides["len_1"] = genome_length_df.loc[aligned_nucleotides.query_seq].reset_index(drop=True).astype(int)
 aligned_nucleotides["len_2"] = genome_length_df.loc[aligned_nucleotides.reference_seq].reset_index(drop=True).astype(int)
 aligned_nucleotides["af_1"] = np.round(aligned_nucleotides.ani_alnlen / aligned_nucleotides.len_1, 6)
