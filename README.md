@@ -28,26 +28,21 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 
 ## 4. Installation
+
 ### Clone repository
-First clone the Github directory
+First clone the GitHub directory
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
 ### Install dependencies (conda)
 
-#### Linux & MacOS (intel 64-bit x86_64)
+#### Linux & MacOS
 ```
 conda install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
 ```
 
-#### Mac OS (Apple M1/M2/M3)
-```
-brew install mmseqs2
-conda install -c conda-forge -c bioconda snakemake pandas biopython=1.79
-```
-
-#### test
+#### Test
 ```
 cd MANIAC
 snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
@@ -58,11 +53,11 @@ snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds
 
 #### MANIAC dependencies:
 
-- snakemake=8.5.3
-- pandas=2.2.1
+- snakemake=8.5
+- pandas=2.2
 - biopython=1.79
-- python=3.11.8
-- mmseqs2=15-6f452
+- python=3.11
+- mmseqs2=15.6
 
 
 
