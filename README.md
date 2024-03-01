@@ -27,40 +27,44 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
 
 
-## 4. Installation (Mac OS X & Linux)
+## 4. Installation
 ### Clone repository
 First clone the Github directory
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
-### Install dependencies
-To install MANIAC, you will need the following prerequisities:
+### Install dependencies (conda)
 
-- Python3
-- mmseqs2
-- snakemake
+#### Linux & MacOS (intel 64-bit x86_64)
+```
+conda install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
+```
+
+#### Mac OS (Apple M1/M2/M3)
+```
+brew install mmseqs2
+conda install -c conda-forge -c bioconda snakemake pandas biopython=1.79
+```
+
+#### test
+```
+cd MANIAC
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-aa.yml
+snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-nt.yml
+```
+
+
+#### MANIAC dependencies:
+
+- snakemake=8.5.3
+- pandas=2.2.1
 - biopython=1.79
-- pathlib=1.0.1
-- pandas
-- numpy
+- python=3.11.8
+- mmseqs2=15-6f452
 
-To install them, run the following:
 
-```
-brew install python3 snakemake mmseqs2
-pip3 install biopython pathlib pandas numpy
-```
-
-If everything should go smoothly, MANIAC is ready to use.
-
-Alternatively, you can create a conda environment, activate it and install the dependencies:
-
-```
-conda create --name maniac
-conda activate maniac
-conda install -c conda-forge -c bioconda snakemake mamba biopython=1.79 pathlib=1.0.1 pandas mmseqs2
-```
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
