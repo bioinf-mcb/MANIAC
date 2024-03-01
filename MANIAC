@@ -60,13 +60,11 @@ rule split_genomes:
     input: Path(INPUT_FILE)
     output: Path(INTERMEDIATE_FILES_DIR, "split/INPUT_FILE")
     params: FRAGMENT_SIZE = FRAGMENT_SIZE
-    conda: "env.yml"
     script: "scripts/split_fasta.py"
 
 rule make_query_db:
     input: Path(INTERMEDIATE_FILES_DIR, "split/INPUT_FILE")
     output: Path(MMSEQS_DIR, "query-db/query-db")
-    conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 ### fragment-based / CDS-based switch
@@ -74,7 +72,6 @@ rule make_db:
     input: Path(INPUT_FILE)
     output: Path(MMSEQS_DIR, "cds-db/cds-db") if CDS_BASED else \
 			Path(MMSEQS_DIR, "reference-db/reference-db")
-    conda: "env.yml"
     shell: "mmseqs createdb {input} {output}"
 
 rule get_total_cds_lengths:
@@ -83,7 +80,6 @@ rule get_total_cds_lengths:
     params: 
         SEPARATOR=SEPARATOR,
         CDS_BASED=CDS_BASED
-    conda: "env.yml"
     script: "scripts/get_fasta_lengths.py"
 
 ### ANI calculation (Gorie et al) - genome fragments against whole genome
@@ -97,7 +93,6 @@ rule mmseqs_qr_search:
         MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
-    conda: "env.yml"
     shell:
         """
         mmseqs search {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
@@ -113,7 +108,6 @@ rule mmseqs_cds_search:
         MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         MMSEQS_PARAMS = MMSEQS_PARAMS
     threads: MMSEQS_THREADS
-    conda: "env.yml"
     shell:
         """
         mmseqs search {input} {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
@@ -127,7 +121,6 @@ rule mmseqs_cds_convert:
     output: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
     params: RESULTS_BASENAME = Path(MMSEQS_DIR, "results-cds-db/results-cds-db")
     threads: MMSEQS_THREADS
-    conda: "env.yml"
     shell:
         """
         mmseqs convertalis {input[0]} {input[0]} \
@@ -143,7 +136,6 @@ rule mmseqs_qr_convert:
     output: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
     params: RESULTS_BASENAME = Path(MMSEQS_DIR, "results-qr-db/results-qr-db")
     threads: MMSEQS_THREADS
-    conda: "env.yml"
     shell:
         """
         mmseqs convertalis {input[0]} {input[1]} \
@@ -160,7 +152,6 @@ rule process_results:
             CDS_BASED = CDS_BASED,
             SEPARATOR = SEPARATOR,
             MEMORY_EFFICIENT = MEMORY_EFFICIENT
-    conda: "env.yml"
     script: "scripts/process_results.py"
 
 rule calculate_ani:
@@ -177,7 +168,6 @@ rule calculate_ani:
         MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
         CONSERVED_IDENTITY = CONSERVED_IDENTITY,
         CONSERVED_COVERAGE = CONSERVED_COVERAGE
-    conda: "env.yml"
     script: "scripts/ani_calculation.py"
 
 
