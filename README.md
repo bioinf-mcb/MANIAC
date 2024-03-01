@@ -38,21 +38,25 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ### Install dependencies (conda)
 
 #### Linux & MacOS
+
 ```
-conda install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
+conda create -n maniac python=3.9
+conda install -n maniac -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
+conda activate maniac
 ```
 
 #### Test
 ```
 cd MANIAC
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-aa.yml
-snakemake --use-conda --cores 8 --snakefile MANIAC --configfile test/configs/cds-nt.yml
+snakemake --cores 8 --snakefile MANIAC --configfile test/configs/fragment-based.yml
+snakemake --cores 8 --snakefile MANIAC --configfile test/configs/cds-aa.yml
+snakemake --cores 8 --snakefile MANIAC --configfile test/configs/cds-nt.yml
 ```
 
 
 #### MANIAC dependencies:
 
+- python=3.9
 - snakemake=8.5
 - pandas=2.2
 - biopython=1.79
