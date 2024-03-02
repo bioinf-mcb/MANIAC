@@ -41,7 +41,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 
 ```
 conda create -n maniac python=3.9
-conda install -n maniac -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
+conda install -n maniac -c conda-forge -c bioconda snakemake pandas biopython mmseqs2
 conda activate maniac
 ```
 
