@@ -36,13 +36,12 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
 ### Install dependencies (conda)
-
 #### Linux & MacOS
 
 ```
-conda create -n maniac python=3.9
-conda install -n maniac -c conda-forge -c bioconda snakemake pandas biopython mmseqs2
+conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
+mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
 ```
 
 #### Test
