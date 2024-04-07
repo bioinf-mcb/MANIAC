@@ -132,7 +132,7 @@ Examples of input files for different calculation modes are located in `test/con
 ### Running MANIAC
 After your input files are ready and your configuration file is set, you can run MANIAC as follows:
 ```
-snakemake --cores 8 --snakefile MANIAC --configfile your-path-to-configuration-file.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile your-path-to-configuration-file.yml
 ```
 where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode.
 
