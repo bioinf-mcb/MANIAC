@@ -11,7 +11,6 @@ INPUT_PATH = snakemake.input[0]
 BEST_HITS_PATH = snakemake.output[0]
 
 # params
-EVAL_THR = snakemake.params.EVALUE
 COVERAGE_THR = snakemake.params.COVERAGE
 IDENTITY_THR = snakemake.params.IDENTITY
 CDS_BASED = snakemake.params.CDS_BASED
@@ -79,8 +78,7 @@ mmseqs_results.pident = mmseqs_results.pident*0.01
 
 mmseqs_results_filtered = mmseqs_results[
     (mmseqs_results.ani_cov > float(COVERAGE_THR)) &
-    (mmseqs_results.ani_pid > float(IDENTITY_THR)) &
-    (mmseqs_results.evalue < float(EVAL_THR))
+    (mmseqs_results.ani_pid > float(IDENTITY_THR))
 ].reset_index(drop=True)
 
 # RAM release
