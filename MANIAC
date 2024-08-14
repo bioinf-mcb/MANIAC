@@ -148,29 +148,20 @@ rule mmseqs_qr_convert:
         """
 
 rule process_results:
-    input: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
-    output: Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv")
+    input: 
+        Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+        Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
+    output: Path(OUTPUT_DIR, "genome-alignment.csv")
     params: COVERAGE = HOMOLOGS_COVERAGE,
             IDENTITY = HOMOLOGS_IDENTITY,
             CDS_BASED = CDS_BASED,
             SEPARATOR = SEPARATOR,
-            MEMORY_EFFICIENT = MEMORY_EFFICIENT
-    script: "scripts/process_results.py"
-
-rule calculate_ani:
-    input: 
-        Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv"),
-        Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
-    output: Path(OUTPUT_DIR, "genome-alignment.csv")
-    params: 
-        CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv") if CDS_BASED else Path(OUTPUT_DIR, "fragments-alignment.csv"),
-        CDS_ALIGNMENT_RAW = Path(INTERMEDIATE_FILES_DIR, "3_cds-alignment-raw.csv"),
-        CDS_BASED = CDS_BASED,
-        DELETE_CDS_ALIGNMENT = DELETE_CDS_ALIGNMENT,
-        DELETE_INTERMEDIATE_FILES = DELETE_INTERMEDIATE_FILES,
-        MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
-        CONSERVED_IDENTITY = CONSERVED_IDENTITY,
-        CONSERVED_COVERAGE = CONSERVED_COVERAGE
-    script: "scripts/ani_calculation.py"
-
-
+            MEMORY_EFFICIENT = MEMORY_EFFICIENT,
+            CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv") if CDS_BASED else Path(OUTPUT_DIR, "fragments-alignment.csv"),
+            DELETE_CDS_ALIGNMENT = DELETE_CDS_ALIGNMENT,
+            DELETE_INTERMEDIATE_FILES = DELETE_INTERMEDIATE_FILES,
+            MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
+            CONSERVED_IDENTITY = CONSERVED_IDENTITY,
+            CONSERVED_COVERAGE = CONSERVED_COVERAGE,
+            BEST_HITS_PATH = Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv")
+    script: "scripts/process_results.r"
