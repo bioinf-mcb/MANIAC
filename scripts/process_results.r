@@ -101,15 +101,15 @@ if (CDS_BASED) {
     ani_alnlen = round((ani_alnlen.x + ani_alnlen.y) / 2, 6)
   )]
 
+	# clean best hits table 
+	setnames(best_hits_final, old = c("query_seq.x", "reference_seq.x"), new = c("query_seq", "reference_seq"))
+
 } else {
   best_hits_final <- best_hits
 }
 
 # Remove the original dataframe to free memory
 rm(best_hits)
-
-# clean best hits table 
-setnames(best_hits_final, old = c("query_seq.x", "reference_seq.x"), new = c("query_seq", "reference_seq"))
 
 writeLines("Calculating ANI...")
 # Load genome lengths
