@@ -72,7 +72,7 @@ rule make_db:
     output: Path(MMSEQS_DIR, "cds-db/cds-db") if CDS_BASED else \
 			Path(MMSEQS_DIR, "reference-db/reference-db")
     log: Path(LOG_DIR, "mmseqs_reference_createdb.log")
-    shell: "mmseqs createdb {input} {output} > {log}.log 2>&1"
+    shell: "mmseqs createdb {input} {output} > {log} 2>&1"
 
 rule get_total_cds_lengths:
     input: Path(INPUT_FILE)
@@ -113,7 +113,7 @@ rule mmseqs_cds_search:
     shell:
         """
         mmseqs search {input} {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
-        --threads {threads} {params.MMSEQS_PARAMS} > {log}.log 2>&1
+        --threads {threads} {params.MMSEQS_PARAMS} > {log} 2>&1
         """
 
 rule mmseqs_cds_convert:
@@ -128,7 +128,7 @@ rule mmseqs_cds_convert:
         """
         mmseqs convertalis {input[0]} {input[0]} \
         {params.RESULTS_BASENAME} {output} --threads {threads} \
-        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log}.log 2>&1
+        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log} 2>&1
         """
 
 rule mmseqs_qr_convert:
@@ -144,14 +144,15 @@ rule mmseqs_qr_convert:
         """
         mmseqs convertalis {input[0]} {input[1]} \
         {params.RESULTS_BASENAME} {output} --threads {threads} \
-        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log}.log 2>&1
+        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log} 2>&1
         """
 
 rule process_results:
     input: 
-        Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+        Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv"),
         Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
     output: Path(OUTPUT_DIR, "genome-alignment.csv")
+    log: Path(LOG_DIR, "process_results.log")
     params: COVERAGE = HOMOLOGS_COVERAGE,
             IDENTITY = HOMOLOGS_IDENTITY,
             CDS_BASED = CDS_BASED,
@@ -164,4 +165,4 @@ rule process_results:
             CONSERVED_IDENTITY = CONSERVED_IDENTITY,
             CONSERVED_COVERAGE = CONSERVED_COVERAGE,
             BEST_HITS_PATH = Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv")
-    script: "scripts/process_results.r"
+    script: "scripts/process_results.R"

@@ -4,21 +4,22 @@
 INPUT_PATH = snakemake@input[[1]]
 PHAGE_LENGTHS_PATH = snakemake@input[[2]]
 
-BEST_HITS_PATH = snakemake@config[["BEST_HITS_PATH"]]
-COVERAGE_THR = snakemake@config[["COVERAGE"]]
-IDENTITY_THR = snakemake@config[["IDENTITY"]]
-CDS_BASED = snakemake@config[["CDS_BASED"]]
-SEPARATOR = snakemake@config[["SEPARATOR"]]
-MEMORY_EFFICIENT = snakemake@config[["MEMORY_EFFICIENT"]]
+BEST_HITS_PATH = snakemake@params[["BEST_HITS_PATH"]]
+COVERAGE_THR = snakemake@params[["COVERAGE"]]
+IDENTITY_THR = snakemake@params[["IDENTITY"]]
+CDS_BASED = snakemake@params[["CDS_BASED"]]
+SEPARATOR = snakemake@params[["SEPARATOR"]]
+
+MEMORY_EFFICIENT = snakemake@params[["MEMORY_EFFICIENT"]]
 GENOME_ALIGNMENT = snakemake@output[[1]]
-CDS_ALIGNMENT_FILE = snakemake@config[["CDS_ALIGNMENT_FILE"]]
-MMSEQS_TEMP_DIR = snakemake@config[["MMSEQS_TEMP_DIR"]]
+CDS_ALIGNMENT_FILE = snakemake@params[["CDS_ALIGNMENT_FILE"]]
+MMSEQS_TEMP_DIR = snakemake@params[["MMSEQS_TEMP_DIR"]]
 
-CONSERVED_IDENTITY = snakemake@config[["CONSERVED_IDENTITY"]]
-CONSERVED_COVERAGE = snakemake@config[["CONSERVED_COVERAGE"]]
+CONSERVED_IDENTITY = snakemake@params[["CONSERVED_IDENTITY"]]
+CONSERVED_COVERAGE = snakemake@params[["CONSERVED_COVERAGE"]]
 
-DELETE_CDS_ALIGNMENT = snakemake@config[["DELETE_CDS_ALIGNMENT"]]
-DELETE_INTERMEDIATE_FILES = snakemake@config[["DELETE_INTERMEDIATE_FILES"]]
+DELETE_CDS_ALIGNMENT = snakemake@params[["DELETE_CDS_ALIGNMENT"]]
+DELETE_INTERMEDIATE_FILES = snakemake@params[["DELETE_INTERMEDIATE_FILES"]]
 INTERMEDIATE_FILES_DIR = dirname(snakemake@input[[1]])
 
 # Load necessary libraries
@@ -65,7 +66,7 @@ mmseqs_results[, ani_cov := ani_alnlen / qlen]
 mmseqs_results[, ani_pid := ani_ids / qlen]
 mmseqs_results[, pident := pident * 0.01]
 
-mmseqs_results <- mmseqs_results[query_seq != reference_seq & ani_cov > COVERAGE_THR & ani_pid > IDENTITY_THR & evalue < EVAL_THR]
+mmseqs_results <- mmseqs_results[query_seq != reference_seq & ani_cov > COVERAGE_THR & ani_pid > IDENTITY_THR]
 
 # grouping by query fragment ID
 writeLines("Grouping by query fragment ID...")
