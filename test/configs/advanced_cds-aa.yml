@@ -3,10 +3,10 @@
 
 INPUT_FILE: "test/data/cds-aa-based.fasta"
 OUTPUT_DIR: "test/output/CDS-AA-BASED"
+MODE: "PROTEIN_CDS"
+FAST: False
 
-CDS_BASED: True
 MEMORY_EFFICIENT: True
-DELETE_CDS_ALIGNMENT: False
 DELETE_INTERMEDIATE_FILES: True
 
 # BBH & homologous proteins definition

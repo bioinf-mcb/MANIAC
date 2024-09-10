@@ -47,9 +47,10 @@ mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
 #### Test
 ```
 cd MANIAC
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/cds-nt.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy_config.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_cds-nt.yml
 ```
 
 
@@ -81,53 +82,54 @@ Each file should be in FASTA format. The header convention for CDS input should 
 Examples of input files are located in `test/data`.
 
 ### Configuration file
-MANIAC uses a yaml configuration file to set the workflow parameters. Here's an example of what this file might look like:
+MANIAC uses a yaml configuration file to set the workflow parameters. Here's an example of what a simple configuration file might look like:
 
 ```
 INPUT_FILE: "test/data/fragment-based.fasta"
 OUTPUT_DIR: "test/output/FRAGMENT-BASED"
-
-THREADS: 16
-CDS_BASED: False
-MEMORY_EFFICIENT: True
-DELETE_CDS_ALIGNMENT: False
-DELETE_INTERMEDIATE_FILES: True
-
-EVALUE: 10
-IDENTITY: 0.3
-COVERAGE: 0.7
-
-MMSEQS_PARAMS:
-  '--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 11 --zdrop 150 
-  --seed-sub-mat "scoring/blastn-scoring.out" 
-  --sub-mat "scoring/blastn-scoring.out"'
+MODE: DNA_FRAGMENTS
+FAST: False
 ```
-
 Here are details of various parameters.
 
 #### Parameters: required
-* `INPUT_FILE`: full genome or CDS files
-* `OUTPUT_DIR`: where the output should be written
-* `CDS_BASED`: use BBH to calculate ANI (only when ORFs/CDSs are provided instead of full genomes) [True/False]
+* `INPUT_FILE`: full genome or CDS file
+* `OUTPUT_DIR`: directory where the output should be written
+* `MODE`: DNA_FRAGMENTS requires full genomes as an input, while DNA_ORF and PROTEIN_CDS use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [DNA_FRAGMENTS|DNA_ORF|PROTEIN_CDS]
+* `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
 
-#### Parameters: filtering (optional)
-* `EVALUE`: maximal allowed E-value (default: `1.0E-15`)
-* `COVERAGE`: minimal query coverage (default: `0.7`)
-* `IDENTITY`: minimal query identity (default: `0.3`)
-
-#### Parameters: other optional
+#### Parameters: specific to fragment mode (optional)
+* `COVERAGE`: minimal query coverage used for filtering (default: `0.7`)
+* `IDENTITY`: minimal query identity used for filtering (default: `0.3`)
 * `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `1020`)
-* `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search (default: `--search-type 3 -a --max-seqs 10000 --max-seq-len 100000 -s 7.5 --mask 0 -e 1e-15 -k 13 --zdrop 150`; calibrated with Pyani)
-* `THREADS`: number of threads to be used for computationally intensive steps. Will be reduced if is greater than the `cores` parameter of Snakemake (default: `8`)
-* `MEMORY_EFFICIENT` : mode used to run ANImm in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation.
+
+#### Parameters: specific to BBH mode (optional)
+* `HOMOLOGS:` BBH & homologous CDS definition
+  * `IDENTITY`: (default: `0.3`)
+  * `COVERAGE`: (default: `0.7`)
+* `CONSERVED`: conservative CDS definition
+  * `IDENTITY`: (default: `0.8`)
+  * `COVERAGE`: (default: `0.5`)
+
+#### Parameters: others (optional)
+* `DELETE_INTERMEDIATE_FILES`: [True/False]
+* `MEMORY_EFFICIENT`: mode used to run ANImm in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation [True/False]
+* `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
+  * `EVALUE`: (default: `1e-15`)
+  * `SENSITIVITY`: (default: `7.5`)
+  * `ZDROP`: (default: `150`)
+  * `MAX_SEQS`: (default: `10000`)
+  * `MAX_SEQ_LEN`: (default: `100000`)
+  * `KMER`: (default: `100000`)
+  * `SEED_SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
+  * `SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
 
 #### Parameters: recommendations
-
-For full genome and nucleotide CDS mode, the alignment scoring matrix should be provided. Matrices for the blastn and unit-scoring modes are provided in the repository. Please note that the sensitivity parameter will not matter for nucleotide-based calculations, only k-mer size will.
+For full genome and nucleotide CDS mode, the alignment scoring matrix should be provided. Matrices for the blastn and unit-scoring modes are provided in the repository. Please note that the sensitivity parameter will not matter for nucleotide-based calculations, only k-mer size will. If FAST is enabled, k-mer size will be forced to 15.
 
 For amino-acid calculations, no scoring matrix has to be provided but a more sensitive search is recommended (such as `-s 7.5` or higher). Please refer to the original mmseqs publication [2].
 
-Examples of input files for different calculation modes are located in `test/configs`. **We strongly recommend against changing the mmseqs input parameters** as they have been optimised for different calculation modes.
+Examples of input files for different calculation modes are located in `test/configs`. A minumum working example is provided, as well as different examples with more complete sets of parameters for advanced users. **We strongly recommend against changing the mmseqs input parameters** as they have been optimised for different calculation modes.
 
 
 ### Running MANIAC
@@ -135,7 +137,7 @@ After your input files are ready and your configuration file is set, you can run
 ```
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile your-path-to-configuration-file.yml
 ```
-where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode.
+where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode. `cores` should be adapted to the machine you are using to run MANIAC.
 
 ### Maniac Output Description
 

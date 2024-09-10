@@ -18,7 +18,6 @@ MMSEQS_TEMP_DIR = snakemake@params[["MMSEQS_TEMP_DIR"]]
 CONSERVED_IDENTITY = snakemake@params[["CONSERVED_IDENTITY"]]
 CONSERVED_COVERAGE = snakemake@params[["CONSERVED_COVERAGE"]]
 
-DELETE_CDS_ALIGNMENT = snakemake@params[["DELETE_CDS_ALIGNMENT"]]
 DELETE_INTERMEDIATE_FILES = snakemake@params[["DELETE_INTERMEDIATE_FILES"]]
 INTERMEDIATE_FILES_DIR = dirname(snakemake@input[[1]])
 
@@ -77,8 +76,10 @@ writeLines("Selecting best hits...")
 best_hits <- mmseqs_results[, .SD[1], by = .(query_fragment_id, reference_seq)]
 
 # Saving
-writeLines("Saving best hits...")
-fwrite(best_hits, BEST_HITS_PATH, row.names = FALSE)
+if (!DELETE_INTERMEDIATE_FILES) {
+	writeLines("Saving best hits...")
+	fwrite(best_hits, BEST_HITS_PATH, row.names = FALSE)
+}
 
 # Clean up
 rm(mmseqs_results)
@@ -183,7 +184,7 @@ if (CDS_BASED) {
 	# Specify columns to save
 	cols2save <- c("Seq1", "Seq2", "seq1_fragment_id", "seq2_fragment_id", "seq1_fragment_pident", "seq2_fragment_pident", "seq1_fragment_cov", "seq2_fragment_cov")
 
-	if (!DELETE_CDS_ALIGNMENT) {
+	if (!DELETE_INTERMEDIATE_FILES) {
 	    writeLines("Saving CDS alignment file... ")
 	    fwrite(cds_alignment_df[, ..cols2save], CDS_ALIGNMENT_FILE, row.names = FALSE)
 	}

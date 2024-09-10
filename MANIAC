@@ -2,8 +2,8 @@
 
 Tool for efficient comparison of DNA fragments optimized for phage genomes.
 
-Version: 0.2
-Authors: Jan Havranek, Wanangwa Ndovie, Janusz Koszucki, Rafal Mostowy 
+Version: 1.0
+Authors: Jan Havranek, Wanangwa Ndovie, Janusz Koszucki, Jade Leconte, Rafal Mostowy
 
 """
 
@@ -159,7 +159,6 @@ rule process_results:
             SEPARATOR = SEPARATOR,
             MEMORY_EFFICIENT = MEMORY_EFFICIENT,
             CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv") if CDS_BASED else Path(OUTPUT_DIR, "fragments-alignment.csv"),
-            DELETE_CDS_ALIGNMENT = DELETE_CDS_ALIGNMENT,
             DELETE_INTERMEDIATE_FILES = DELETE_INTERMEDIATE_FILES,
             MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
             CONSERVED_IDENTITY = CONSERVED_IDENTITY,
