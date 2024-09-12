@@ -1,7 +1,0 @@
-# Input file should match the selected mode: 
-# Here a fasta file with phage genome sequences will be used to run in Fragment mode
-
-INPUT_FILE: "test/data/fragment-based.fasta"
-OUTPUT_DIR: "test/output/FRAGMENT-BASED"
-MODE: "DNA_FRAGMENTS" # Should be one of [DNA_FRAGMENTS|DNA_ORF|PROTEIN_CDS]
-FAST: False

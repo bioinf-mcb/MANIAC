@@ -2,8 +2,8 @@
 # each record should follow convention: {GENOMEID}_PROTEIN_{PROTEINID}
 
 INPUT_FILE: "test/data/cds-aa-based.fasta"
-OUTPUT_DIR: "test/output/CDS-AA-BASED"
-MODE: "PROTEIN_CDS"
+OUTPUT_DIR: "test/output/ADVANCED-CDS-AA-BASED"
+MODE: "CDS_AA" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
 
 MEMORY_EFFICIENT: True

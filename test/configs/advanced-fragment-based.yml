@@ -1,9 +1,9 @@
-# input file is a fasta file with phage genome sequences
-# each record ID should be unique
+# Input file should match the selected mode:
+# Here a fasta file with phage genome sequences will be used to run in fragment mode
 
 INPUT_FILE: "test/data/fragment-based.fasta"
-OUTPUT_DIR: "test/output/FRAGMENT-BASED"
-MODE: "DNA_FRAGMENTS"
+OUTPUT_DIR: "test/output/ADVANCED-FRAGMENT-BASED"
+MODE: "FRAGMENTS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
 
 MEMORY_EFFICIENT: True

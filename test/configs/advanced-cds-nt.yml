@@ -2,8 +2,8 @@
 # each record should follow convention: {GENOMEID}_ORF_{ORFID}
 
 INPUT_FILE: "test/data/cds-nt-based.fasta"
-OUTPUT_DIR: "test/output/CDS-NT-BASED"
-MODE: "DNA_ORF"
+OUTPUT_DIR: "test/output/ADVANCED-CDS-NT-BASED"
+MODE: "CDS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
 
 MEMORY_EFFICIENT: True

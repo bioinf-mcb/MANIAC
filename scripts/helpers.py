@@ -64,108 +64,118 @@ def input_checkpoint(INPUT_FILE, SEPARATOR, CDS_BASED):
 
     return SEPARATOR
 
-def get_params(config, cores):
+def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_AA']):
     """ extract information about parameters from config file """
 
-    # mode
-    if config["CDS_BASED"]:
-        try: 
-            SEED_SUB_MATRIX = config['MMSEQS_PARAMS']['SEED_SUB_MATRIX']
-            MODE = 'CDS_BASED_NUCLEOTIDES'
-        except KeyError: MODE = 'CDS_BASED_AMINOACIDS'
 
-    elif not config["CDS_BASED"]:
-        MODE = 'FRAGMENT_BASED_NUCLEOTIDES'
-    else:
-        print(f'ERROR! CDS_BASED param error.')
+    # global params
+    MODE = nested_get(config, ['MODE'])
+    MMSEQS_THREADS = cores                  # mmseqs threads (equivalent to CPU cores)
+    FAST = config.get("FAST", False)
+    MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", True)
+    DELETE_INTERMEDIATE_FILES = config.get("DELETE_INTERMEDIATE_FILES", True)
+
+
+    # checkpoint for mode
+    modes_fstring = ' | '.join(modes_available)
+    if MODE in modes_available: print(f'MODE: "{MODE}"\t[{modes_fstring}]\nFAST: {FAST}\t[FAST MODE NOT IMPLEMENTED]')
+    else: 
+        print(f'\nFATAL ERROR! Incorrect mode "{MODE}"\t(FAST: {FAST}.\t Available modes: [{modes_fstring}]\nFAST: [True | False]')
         exit()
 
-    # params 
-    if MODE == 'CDS_BASED_AMINOACIDS':
-        
+
+    # mmseqs params per mode 
+    if MODE == 'CDS_AA':
+
+        # CDS
+        CDS_BASED = True
+        FRAGMENT_SIZE = None
+        SEPARATOR = config.get("SEPARATOR", "_CDS")
+
         # homologous proteins
-        HOMOLOGS_IDENTITY = config['HOMOLOGS']['IDENTITY']
-        HOMOLOGS_COVERAGE = config['HOMOLOGS']['COVERAGE']
+        HOMOLOGS_IDENTITY = nested_get(config, ['HOMOLOGS', 'IDENTITY'], default=0.3)
+        HOMOLOGS_COVERAGE = nested_get(config, ['HOMOLOGS', 'COVERAGE'], default=0.7)
 
         # conservative proteins
-        CONSERVED_IDENTITY = config['CONSERVED']['IDENTITY']
-        CONSERVED_COVERAGE = config['CONSERVED']['COVERAGE']
-
-        # mmseqs threads (equivalent to CPU cores)
-        MMSEQS_THREADS = cores 
+        CONSERVED_IDENTITY = nested_get(config, ['CONSERVED', 'IDENTITY'], default=0.8)
+        CONSERVED_COVERAGE = nested_get(config, ['CONSERVED', 'COVERAGE'], default=0.5)
 
         # mmseqs params
-        EVALUE = config['MMSEQS_PARAMS']['EVALUE']
-        SEARCH_TYPE = config['MMSEQS_PARAMS']['SEARCH_TYPE']
-        SENSITIVITY = config['MMSEQS_PARAMS']['SENSITIVITY']
-        ZDROP = config['MMSEQS_PARAMS']['ZDROP']
-        MAX_SEQS = config['MMSEQS_PARAMS']['MAX_SEQS']
-        MAX_SEQ_LEN = config['MMSEQS_PARAMS']['MAX_SEQ_LEN']
+        EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
+        SEARCH_TYPE = 1
+        SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
 
         MMSEQS_PARAMS = f"--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} --zdrop {ZDROP}"
 
 
-    elif MODE == 'CDS_BASED_NUCLEOTIDES':
+    elif MODE == 'CDS_NT':
+
+        # CDS
+        CDS_BASED = True
+        FRAGMENT_SIZE = None
+        SEPARATOR = config.get("SEPARATOR", "_CDS")
+
         # homologous proteins
-        HOMOLOGS_IDENTITY = config['HOMOLOGS']['IDENTITY']
-        HOMOLOGS_COVERAGE = config['HOMOLOGS']['COVERAGE']
+        HOMOLOGS_IDENTITY = nested_get(config, ['HOMOLOGS', 'IDENTITY'], default=0.3)
+        HOMOLOGS_COVERAGE = nested_get(config, ['HOMOLOGS', 'COVERAGE'], default=0.7)
 
         # conservative proteins
-        CONSERVED_IDENTITY = config['CONSERVED']['IDENTITY']
-        CONSERVED_COVERAGE = config['CONSERVED']['COVERAGE']
-
-        # mmseqs threads (equivalent to CPU cores)
-        MMSEQS_THREADS = cores 
+        CONSERVED_IDENTITY = nested_get(config, ['CONSERVED', 'IDENTITY'], default=0.8)
+        CONSERVED_COVERAGE = nested_get(config, ['CONSERVED', 'COVERAGE'], default=0.5)
 
         # mmseqs params
-        EVALUE = config['MMSEQS_PARAMS']['EVALUE']
-        SEARCH_TYPE = config['MMSEQS_PARAMS']['SEARCH_TYPE']
-        SENSITIVITY = config['MMSEQS_PARAMS']['SENSITIVITY']
-        ZDROP = config['MMSEQS_PARAMS']['ZDROP']
-        MAX_SEQS = config['MMSEQS_PARAMS']['MAX_SEQS']
-        MAX_SEQ_LEN = config['MMSEQS_PARAMS']['MAX_SEQ_LEN']
-        KMER = config['MMSEQS_PARAMS']['KMER']
-        SEED_SUB_MATRIX = config['MMSEQS_PARAMS']['SEED_SUB_MATRIX']
-        SUB_MATRIX = config['MMSEQS_PARAMS']['SUB_MATRIX']
+        EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
+        SEARCH_TYPE = 3
+        SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
+        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
+        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
 
 
-    elif MODE == 'FRAGMENT_BASED_NUCLEOTIDES':
+    elif MODE == 'FRAGMENTS_NT':
+
+        # CDS
+        CDS_BASED = False
+        SEPARATOR = config.get("SEPARATOR", "_FRAGMENT")
+        FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
 
         # filter significant proteins
-        HOMOLOGS_IDENTITY = config['IDENTITY']
-        HOMOLOGS_COVERAGE = config['COVERAGE']
+        HOMOLOGS_IDENTITY = nested_get(config, ['IDENTITY'], default=0.3)
+        HOMOLOGS_COVERAGE = nested_get(config, ['COVERAGE'], default=0.7)
 
         CONSERVED_IDENTITY = None
         CONSERVED_COVERAGE = None
 
-        # mmseqs threads (equivalent to CPU cores)
-        MMSEQS_THREADS = cores 
-
         # mmseqs params
-        EVALUE = config['MMSEQS_PARAMS']['EVALUE']
-        SEARCH_TYPE = config['MMSEQS_PARAMS']['SEARCH_TYPE']
-        SENSITIVITY = config['MMSEQS_PARAMS']['SENSITIVITY']
-        ZDROP = config['MMSEQS_PARAMS']['ZDROP']
-        MAX_SEQS = config['MMSEQS_PARAMS']['MAX_SEQS']
-        MAX_SEQ_LEN = config['MMSEQS_PARAMS']['MAX_SEQ_LEN']
-        KMER = config['MMSEQS_PARAMS']['KMER']
-        SEED_SUB_MATRIX = config['MMSEQS_PARAMS']['SEED_SUB_MATRIX']
-        SUB_MATRIX = config['MMSEQS_PARAMS']['SUB_MATRIX']
+        EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
+        SEARCH_TYPE = 3
+        SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
+        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
+        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
-
     else: 
-        print(f'CDS_BASED [True | False] cannot be {CDS_BASED} of {type(CDS_BASED)}! Abort!')
+        print('FATAL MODE ERROR!')
         exit()
 
-    return MODE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS
+    return MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, MEMORY_EFFICIENT, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS
 
 
-def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR, MMSEQS_THREADS, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE):    
+def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR, MMSEQS_THREADS, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, FAST, DELETE_INTERMEDIATE_FILES):    
     """ print settings to console """
 
     print('\nPATHS:')
@@ -174,12 +184,12 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
     print(f'Log directory: {LOG_DIR}')
     print(f'Intermediate directory: {INTERMEDIATE_FILES_DIR}\n')
 
-
-    if MODE == 'CDS_BASED_AMINOACIDS' or MODE == 'CDS_BASED_NUCLEOTIDES':
-        print(f'PARAMETERS ({MODE}):')
+    if MODE == 'CDS_AA' or MODE == 'CDS_NT':
+        print(f'PARAMETERS:')
         print(f'CDS based: {CDS_BASED}')
         print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
-        print(f'Separator: {SEPARATOR}\n')
+        print(f'Separator: {SEPARATOR}')
+        print(f'Delete intermediate files and fragment/CDS alignments: {DELETE_INTERMEDIATE_FILES})\n')
 
         print('Homologs proteins definition:')
         print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
@@ -189,22 +199,41 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
         print(f'Minimum identity: {CONSERVED_IDENTITY}')
         print(f'Minimum query & target coverage: {CONSERVED_COVERAGE}\n')
     
-    elif MODE == 'FRAGMENT_BASED_NUCLEOTIDES':
+    elif MODE == 'FRAGMENTS_NT':
         print(f'PARAMETERS ({MODE}):')
         print(f'Fragment size: {FRAGMENT_SIZE}')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}\n')
+        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
 
         print('DNA significant hits definition:')
         print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
         print(f'Minimum query & target coverage: {HOMOLOGS_COVERAGE}\n')
 
     else: 
-        print(f'CDS_BASED [True | False] cannot be {CDS_BASED} of {type(CDS_BASED)}! Abort!')
+        print('FATAL MODE ERROR!')
         exit()
-    
     
     print(f'MMSEQS CPU cores: {MMSEQS_THREADS}')
     print(f'MMSEQS params: {MMSEQS_PARAMS}\n')
     
+
+
+def nested_get(d, keys, default=None):
+    """
+    Recursively get a value from a nested dictionary using a list of keys.
+    
+    Parameters:
+    - d (dict): The dictionary to search.
+    - keys (list): A list of keys representing the path to the value.
+    - default: A default value if the key path doesn't exist.
+    
+    Returns:
+    - The value if found, else the default.
+    """
+    for key in keys:
+        if isinstance(d, dict):
+            d = d.get(key, default)
+        else:
+            return default
+    return d
 

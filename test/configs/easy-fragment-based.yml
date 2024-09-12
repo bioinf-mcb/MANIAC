@@ -1,0 +1,7 @@
+# Input file should match the selected mode:
+# Here a fasta file with phage genome sequences will be used to run in fragment mode
+
+INPUT_FILE: "test/data/fragment-based.fasta" 
+OUTPUT_DIR: "test/output/EASY-FRAGMENT-BASED"
+MODE: "FRAGMENTS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
+FAST: False

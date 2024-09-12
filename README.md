@@ -47,10 +47,9 @@ mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2
 #### Test
 ```
 cd MANIAC
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy_config.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/advanced_cds-nt.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
 

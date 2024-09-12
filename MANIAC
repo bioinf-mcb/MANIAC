@@ -13,7 +13,10 @@ from pathlib import Path
 from scripts.helpers import input_checkpoint, get_params
 from scripts.helpers import display_settings, format_mmseqs_params
 
-print('Running MANIAC!')
+print('Running MANIAC!\n')
+
+# default config file
+configfile: "config.yml"
 
 # paths
 INPUT_FILE = config["INPUT_FILE"]
@@ -25,29 +28,18 @@ INTERMEDIATE_FILES_DIR = Path(OUTPUT_DIR, "intermediate")
 MMSEQS_DIR = Path(INTERMEDIATE_FILES_DIR, "mmseqs2")
 MMSEQS_TEMP_DIR = Path(MMSEQS_DIR, "temp")
 
-# params
-FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
-CDS_BASED = config.get("CDS_BASED", False)
-SEPARATOR = config.get("SEPARATOR", "_CDS")
-MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", False)
-
-DELETE_CDS_ALIGNMENT = config.get("DELETE_CDS_ALIGNMENT", False)
-DELETE_INTERMEDIATE_FILES = config.get("DELETE_INTERMEDIATE_FILES", True)
-
-MODE, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS = get_params(config, workflow.cores)
+MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, MEMORY_EFFICIENT, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS = get_params(config, workflow.cores)
 
 # input file checkpoint
 SEPARATOR = input_checkpoint(INPUT_FILE, SEPARATOR, CDS_BASED)
 
-# overwrite separator for fragment based
-if not CDS_BASED: SEPARATOR = "_FRAGMENT" 
-
 # print settings to user
-display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, 
+display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR,
                  FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR,
                  MMSEQS_THREADS, MMSEQS_PARAMS, 
                  HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE,
-                 CONSERVED_IDENTITY, CONSERVED_COVERAGE)
+                 CONSERVED_IDENTITY, CONSERVED_COVERAGE, 
+                 FAST, DELETE_INTERMEDIATE_FILES)
 
 ### run MANIAC
 rule target:
