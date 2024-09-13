@@ -78,7 +78,7 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
 
     # checkpoint for mode
     modes_fstring = ' | '.join(modes_available)
-    if MODE in modes_available: print(f'MODE: "{MODE}"\t[{modes_fstring}]\nFAST: {FAST}\t[FAST MODE NOT IMPLEMENTED]')
+    if MODE in modes_available: print(f'MODE: "{MODE}"\t[{modes_fstring}]\nFAST: {FAST}\t[True | False]')
     else: 
         print(f'\nFATAL ERROR! Incorrect mode "{MODE}"\t(FAST: {FAST}.\t Available modes: [{modes_fstring}]\nFAST: [True | False]')
         exit()
@@ -137,6 +137,9 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
+        if FAST:
+            KMER = 15
+
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
 
@@ -165,6 +168,9 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
+
+        if FAST:
+            KMER = 15
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 

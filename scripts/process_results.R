@@ -1,4 +1,3 @@
-##Add the conda install r-base and r-essentials with versions (4.4.1 and 4.4)
 
 ##Get params
 INPUT_PATH = snakemake@input[[1]]

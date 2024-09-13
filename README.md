@@ -18,7 +18,7 @@ MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A*
 The standard and quickest way of ANI calculation is based on the approach proposed by Goris et al. for bacterial genomes [1]. Specifically, each query is chopped into short fragments of pre-defined length (by default 1020 nt). Then, each fragment is aligned with the subject and the best hit is found – but only if the query coverage is at least 70% and the sequence identity is 30% across the entire query length. ANI is then taken as the mean percentage identity of all aligned fragments and query AF is calculated as the length of the aligned query genome (i.e., the summed length of all aligned fragments) to the full query length.
 
 
-### Best-bidirectional hits mode
+### Best-bidirectional hits or CDS mode
 <p align="center"><img src="https://github.com/bioinf-mcb/MANIAC/blob/main/extras/ani-bbh.png" alt="BBH" width="600"></p>
 
 In addition to the standard, fragment-based ANI calculation, MANIAC carries out the calculation using best-bidirectional hits approach should the user provide coding sequences (CDSs) for input genomes, either in nucleotide or amino-acid. The calculation is then carried out analogously as in the fragment mode with the following differences:
@@ -94,7 +94,7 @@ Here are details of various parameters.
 #### Parameters: required
 * `INPUT_FILE`: full genome or CDS file
 * `OUTPUT_DIR`: directory where the output should be written
-* `MODE`: DNA_FRAGMENTS requires full genomes as an input, while DNA_ORF and PROTEIN_CDS use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [DNA_FRAGMENTS|DNA_ORF|PROTEIN_CDS]
+* `MODE`: FRAGMENTS_NT requires full genomes as an input, while CDS_NT and CDS_AA use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [FRAGMENTS_NT | CDS_NT | CDS_AA]
 * `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
 
 #### Parameters: specific to fragment mode (optional)
@@ -111,8 +111,8 @@ Here are details of various parameters.
   * `COVERAGE`: (default: `0.5`)
 
 #### Parameters: others (optional)
-* `DELETE_INTERMEDIATE_FILES`: [True/False]
-* `MEMORY_EFFICIENT`: mode used to run ANImm in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation [True/False]
+* `DELETE_INTERMEDIATE_FILES`: [True/False] (default: `True`)
+* `MEMORY_EFFICIENT`: mode used to run in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation [True/False] (default: `True`)
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
   * `EVALUE`: (default: `1e-15`)
   * `SENSITIVITY`: (default: `7.5`)
