@@ -1,5 +1,5 @@
-# input file is a fasta file with ORF sequences.
-# each record should follow convention: {GENOMEID}_ORF_{ORFID}
+# input file is a fasta file with ORF ("nucleotide CDS") sequences.
+# each record should follow convention: {GENOMEID}_CDS_{CDSID}
 
 INPUT_FILE: "test/data/cds-nt-based.fasta"
 OUTPUT_DIR: "test/output/EASY-CDS-NT-BASED"

@@ -1,5 +1,5 @@
 # input file is a fasta file with PROTEIN (CDS) sequences.
-# each record should follow convention: {GENOMEID}_PROTEIN_{PROTEINID}
+# each record should follow convention: {GENOMEID}_CDS_{CDSID}
 
 INPUT_FILE: "test/data/cds-aa-based.fasta"
 OUTPUT_DIR: "test/output/ADVANCED-CDS-AA-BASED"
