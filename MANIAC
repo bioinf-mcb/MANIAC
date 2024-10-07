@@ -89,7 +89,7 @@ rule mmseqs_qr_search:
     shell:
         """
         mmseqs search {input} {params.RESULTS_BASENAME} {params.MMSEQS_TEMP_DIR} \
-        --threads {threads} {params.MMSEQS_PARAMS} > {log}.log 2>&1
+        --threads {threads} {params.MMSEQS_PARAMS} >> {log} 2>&1
         """
 
 ### CDS-based ANI calculation (BBH) [all-by-all CDS]
@@ -120,7 +120,7 @@ rule mmseqs_cds_convert:
         """
         mmseqs convertalis {input[0]} {input[0]} \
         {params.RESULTS_BASENAME} {output} --threads {threads} \
-        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log} 2>&1
+        --format-output 'query,target,nident,alnlen,mismatch,pident,evalue,qlen'  > {log} 2>&1
         """
 
 rule mmseqs_qr_convert:
@@ -136,12 +136,26 @@ rule mmseqs_qr_convert:
         """
         mmseqs convertalis {input[0]} {input[1]} \
         {params.RESULTS_BASENAME} {output} --threads {threads} \
-        --format-output 'qset,query,tset,target,nident,alnlen,mismatch,pident,evalue,qlen,gapopen,qstart,qend,tstart,tend,bits'  > {log} 2>&1
+        --format-output 'query,target,nident,alnlen,mismatch,pident,evalue,qlen'  > {log} 2>&1
         """
+
+rule best_hits:
+    input: Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv")
+    output: Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.tsv")
+    log: Path(LOG_DIR, "best_hits.log")
+    params:
+        SORTPATH = Path(workflow.basedir, "scripts/sort.R"),
+        SEPARATOR = SEPARATOR,
+        CHUNK = Path(INTERMEDIATE_FILES_DIR, "chunk_"),
+        SORTED = Path(INTERMEDIATE_FILES_DIR, "sorted_"),
+        MERGED = Path(INTERMEDIATE_FILES_DIR, "merged_chunks"),
+        MMSEQS_THREADS = MMSEQS_THREADS,
+        CHUNKSIZE = 30000000
+    script: "scripts/best_hits.sh"
 
 rule process_results:
     input: 
-        Path(INTERMEDIATE_FILES_DIR, "1_search_results.tsv"),
+        Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.tsv"),
         Path(INTERMEDIATE_FILES_DIR, "phage_lengths.csv")
     output: Path(OUTPUT_DIR, "genome-alignment.csv")
     log: Path(LOG_DIR, "process_results.log")
@@ -150,10 +164,9 @@ rule process_results:
             CDS_BASED = CDS_BASED,
             SEPARATOR = SEPARATOR,
             MEMORY_EFFICIENT = MEMORY_EFFICIENT,
-            CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv") if CDS_BASED else Path(OUTPUT_DIR, "fragments-alignment.csv"),
+            CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv"),
             DELETE_INTERMEDIATE_FILES = DELETE_INTERMEDIATE_FILES,
             MMSEQS_TEMP_DIR = MMSEQS_TEMP_DIR,
             CONSERVED_IDENTITY = CONSERVED_IDENTITY,
             CONSERVED_COVERAGE = CONSERVED_COVERAGE,
-            BEST_HITS_PATH = Path(INTERMEDIATE_FILES_DIR, "2_significant_hits.csv")
     script: "scripts/process_results.R"

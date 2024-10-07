@@ -108,7 +108,11 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
         MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
 
-        MMSEQS_PARAMS = f"--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} --zdrop {ZDROP}"
+        if FAST:
+            ZDROP = 40
+            MAX_SEQ_LEN = 65000
+            
+        MMSEQS_PARAMS = f"--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2"
 
 
     elif MODE == 'CDS_NT':
@@ -139,8 +143,10 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
 
         if FAST:
             KMER = 15
+            ZDROP = 40
+            MAX_SEQ_LEN = 40000
 
-        MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
+        MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
 
 
@@ -171,8 +177,10 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
 
         if FAST:
             KMER = 15
+            ZDROP = 40
+            MAX_SEQ_LEN = 40000
 
-        MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
+        MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
     else: 
         print('FATAL MODE ERROR!')

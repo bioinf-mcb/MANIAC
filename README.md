@@ -41,7 +41,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials
+mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
 #### Test
@@ -58,12 +58,12 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 - python=3.9
 - r-base=4.4.1
 - r-essentials=4.4
+- r-arrows=17.0.0
 - snakemake=8.5
 - pandas=2.2
 - biopython=1.79
-- python=3.11
 - mmseqs2=15.6
-
+- datamash=1.8
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
