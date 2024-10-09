@@ -8,3 +8,4 @@ nohup*
 test/configs/cds-nt-test*.yml
 test/data/cds-*-test*.fasta
 test/output
+sftp-config.json

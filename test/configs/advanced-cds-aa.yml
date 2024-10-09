@@ -1,0 +1,29 @@
+# input file is a fasta file with PROTEIN (CDS) sequences.
+# each record should follow convention: {GENOMEID}_CDS_{CDSID}
+
+INPUT_FILE: "test/data/cds-aa-based.fasta"
+OUTPUT_DIR: "test/output/ADVANCED-CDS-AA-BASED"
+MODE: "CDS_AA" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
+FAST: False
+
+MEMORY_EFFICIENT: True
+DELETE_INTERMEDIATE_FILES: True
+
+# BBH & homologous proteins definition
+HOMOLOGS:
+  IDENTITY: 0.3
+  COVERAGE: 0.7
+
+# conservative proteins definition
+CONSERVED:
+  IDENTITY: 0.8 
+  COVERAGE: 0.5
+
+# mmseqs params
+MMSEQS_PARAMS:
+  EVALUE: 1e-15
+  SENSITIVITY: 7.5
+  SEARCH_TYPE: 1
+  ZDROP: 150
+  MAX_SEQS: 10000
+  MAX_SEQ_LEN: 100000

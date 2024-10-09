@@ -1,0 +1,24 @@
+# Input file should match the selected mode:
+# Here a fasta file with phage genome sequences will be used to run in fragment mode
+
+INPUT_FILE: "test/data/fragment-based.fasta"
+OUTPUT_DIR: "test/output/ADVANCED-FRAGMENT-BASED"
+MODE: "FRAGMENTS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
+FAST: False
+
+MEMORY_EFFICIENT: True
+DELETE_INTERMEDIATE_FILES: True
+
+FRAGMENT_SIZE: 1020
+IDENTITY: 0.3
+COVERAGE: 0.7
+
+MMSEQS_PARAMS:
+  EVALUE: 1e-15
+  SENSITIVITY: 7.5
+  ZDROP: 150
+  MAX_SEQS: 10000
+  MAX_SEQ_LEN: 100000
+  KMER: 11
+  SEED_SUB_MATRIX: "scoring/blastn-scoring.out" 
+  SUB_MATRIX: "scoring/blastn-scoring.out"
