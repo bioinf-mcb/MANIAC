@@ -41,7 +41,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
 #### Test
@@ -56,6 +56,7 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 #### MANIAC dependencies (with tested packages versions):
 
 - python=3.9
+- bash=5.2.21
 - r-base=4.4.1
 - r-essentials=4.4
 - r-arrows=17.0.0

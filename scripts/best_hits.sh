@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 split -l ${snakemake_params[CHUNKSIZE]} "${snakemake_input[0]}" "${snakemake_params[CHUNK]}"
 
