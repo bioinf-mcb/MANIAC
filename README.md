@@ -159,6 +159,7 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **seq2_n_prots** | Number of proteins or CDS in the reference sequence                                                                                                                                 |
 | **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences                                                                                                     |
 | **wGRR**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
+| **wgANI**         | wgANI is the whole genome ANI. It si calculated by multiplying ANI by the mean AF |
 
 
 
