@@ -57,7 +57,7 @@ wget --version
 ```
 <br>
 
-2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors
+**2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors**
 
 ```
 # install conda for Apple Silicon
