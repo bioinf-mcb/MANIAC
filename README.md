@@ -62,7 +62,7 @@ wget --version
 ```
 <br>
 
-**Choose conda installation for Apple Silicon processors (eg, M1) or Apple Intel processors**
+**2. Choose conda installation for Apple Silicon processors (eg, M1) or Apple Intel processors**
 
 ```
 # install conda for Apple Silicon
@@ -79,7 +79,7 @@ conda init
 ```
 <br>
 
-**Download the MANIAC repository and install the environment.**
+**3. Download the MANIAC repository and install the environment.**
 
 ```
 # download (clone) the MANIAC repository
