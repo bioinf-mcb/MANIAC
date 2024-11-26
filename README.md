@@ -89,7 +89,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 ```
 
 **[Test installation](#test-installation)**
-
+<br>
 
 ### Linux
 
@@ -125,7 +125,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 ```
 
 **[Test installation](#test-installation)**
-
+<br>
 
 ### Windows
 
