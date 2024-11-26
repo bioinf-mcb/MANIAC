@@ -55,6 +55,8 @@ MANIAC conda dependencies:
 ### macOS
 
 
+Install prerequisters: brew, git, wget
+
 ```
 # install package manager homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -71,6 +73,7 @@ brew install wget
 wget --version
 ```
 
+Select the appropriate conda version based on your Apple processor type.
 
 #### Apple Silicon processors (eg, M1)
 ```
@@ -88,6 +91,7 @@ bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
+Download (clone) the MANIAC repository
 
 ```
 # download (clone) the MANIAC repository
@@ -104,6 +108,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Linux Debian-Based (eg, Ubuntu)
 
+Install prerequisters: git, wget and conda
 
 ```
 # install git
@@ -119,7 +124,10 @@ wget --version
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
+```
 
+Download (clone) the MANIAC repository
+```
 # download (clone) the MANIAC repository
 # [OPTIONALLY] change the directory of MANIAC installation using cd command
 git clone https://github.com/bioinf-mcb/MANIAC
@@ -133,7 +141,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Windows
 
-To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set up a Linux environment. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
+To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
