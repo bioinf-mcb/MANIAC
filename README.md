@@ -51,6 +51,9 @@ MANIAC conda dependencies:
 - mmseqs2=15.6
 - datamash=1.8
 
+<br>
+<br>
+<br>
 
 ### macOS
 
@@ -73,7 +76,7 @@ brew install wget
 wget --version
 ```
 
-Install the appropriate conda version for Apple Silicon processors (eg, M1) or Apple Intel processors
+**Install the appropriate conda version** for Apple Silicon processors (eg, M1) or Apple Intel processors
 
 ```
 # install conda for Apple Silicon
@@ -90,7 +93,7 @@ conda init
 ```
 
 
-Download (clone) the MANIAC repository and install the MANIAC environment.
+Download the MANIAC repository and install the MANIAC environment.
 
 ```
 # download (clone) the MANIAC repository
@@ -103,9 +106,11 @@ conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
+<br>
+<br>
+<br>
 
-
-### Linux Debian-Based (eg, Ubuntu)
+### Linux Debian-Based
 
 Install prerequisters: git, wget and conda
 
@@ -137,6 +142,10 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
+
+<br>
+<br>
+<br>
 
 ### Windows
 
