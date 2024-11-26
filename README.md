@@ -123,30 +123,25 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Windows
 
-To use MANIAC on Windows install Windows subsytem for Linux (WSL). Then follow instructions for MANIAC installation for Linux (above).
+To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set up a Linux environment. Once WSL is installed, follow the instructions for installing MANIAC on Linux (above).
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
-3. Restart Your Computer, choose Linux to lunch it and set it up by providing credentials.
-4. To install MANIAC follow Linux Debian-Based (eg, Ubuntu) insallation above.
+3. Restart Your Computer, after restargin choose Linux to lunch and follow the on-screen instructions.
+4. Once your Linux environment is ready, follow the [Linux Debian-Based installation](#linux-debian-based-eg-ubuntu)) steps to install MANIAC .
 
 
 
 ### Details
 
-[Homebrew](https://brew.sh/) a package manager for macOS.
-
+[homebrew](https://brew.sh/) a package manager for macOS.
 [apt](https://packages.ubuntu.com/) a package manager for Linux.
-
-[Git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.
-
-[Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)
-
+[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.
+[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.
 
 
-
-Dependencies:
+MANIAC dependencies:
 
 - python=3.9
 - bash=5.2.21
