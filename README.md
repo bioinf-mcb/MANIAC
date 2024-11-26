@@ -121,7 +121,9 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 ```
 
 
-### Windows using Windows subsytem for Linux (WSL)
+### Windows
+
+To use MANIAC on Windows install Windows subsytem for Linux (WSL). Then follow instructions for MANIAC installation for Linux (above).
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
@@ -130,19 +132,17 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 
 
-
-
 ### Details
 
-[Homebrew](https://brew.sh/) for macOS
-[apt](https://packages.ubuntu.com/) for Linux (default for Debian-based distributions)
-[Git](https://github.com/git-guides/install-git): Installation Guide
+[Homebrew](https://brew.sh/) a package manager for macOS.
 
-[Conda Installation Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html)
-[Conda Installers for different operating systems](https://repo.anaconda.com/miniconda/)
-wget: for downloading installation scripts.
+[apt](https://packages.ubuntu.com/) a package manager for Linux.
 
-[Windows Subsystem for Linux (WSL) Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command)
+[Git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.
+
+[Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)
+
+[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.
 
 
 
