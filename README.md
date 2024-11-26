@@ -43,7 +43,7 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 Lunch terminal application on your computer and execute commands below.
 
 
-**1. Install prerequisites: homebrew, git and wget.**
+1. Install prerequisites: homebrew, git and wget.
 
 ```
 # install package manager homebrew
@@ -57,7 +57,7 @@ wget --version
 ```
 <br>
 
-**2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors**
+2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors
 
 ```
 # install conda for Apple Silicon
@@ -74,7 +74,7 @@ conda init
 ```
 <br>
 
-**3. Download the MANIAC repository and install the environment.**
+3. Download the MANIAC repository and install the environment.
 
 ```
 # download (clone) the MANIAC repository
@@ -87,11 +87,10 @@ conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
-<br>
 
 ### Linux Debian-Based
 
-**1. Install prerequisters: git, wget and conda**
+1. Install prerequisters: git, wget and conda
 ```
 # install git
 sudo apt update
@@ -107,10 +106,9 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
-<br>
 
 
-**2. Download the MANIAC repository and install the environment.**
+2. Download the MANIAC repository and install the environment.
 
 ```
 # download (clone) the MANIAC repository
@@ -122,7 +120,6 @@ conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
-<br>
 
 ### Windows
 
@@ -135,6 +132,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 
 
+<br><br>
 #### MANIAC conda dependencies details
 
 - python=3.9
