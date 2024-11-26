@@ -29,31 +29,26 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Installation
 
-### Clone repository
-First clone the GitHub directory
-```
-git clone https://github.com/bioinf-mcb/MANIAC
-```
+To install MANIAC on various operating systems, follow the instructions below.
 
-### Install dependencies (conda)
-#### Linux & MacOS
+Prerequisites:
 
-```
-conda create -n maniac -c conda-forge mamba python=3.9
-conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
-```
+**Git**: Required to clone the MANIAC repository.
+**Conda**: Manages MANIAC's dependencies.
+**General Steps**:
 
-#### Test
-```
-cd MANIAC
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
-```
+1. Install Git.
+2. Install Conda.
+3. Clone the MANIAC repository.
+4. Set up the Conda environment and install dependencies.
 
+**Details:**
+Git installation: https://github.com/git-guides/install-git
+Conda installation: https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html
+Conda distributions: https://repo.anaconda.com/miniconda/
+WSL installation (Windows only): https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command
 
-#### MANIAC dependencies (with tested packages versions):
+Dependencies details:
 
 - python=3.9
 - bash=5.2.21
@@ -66,6 +61,115 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 - mmseqs2=15.6
 - datamash=1.8
 
+
+### on MacOS
+
+#### install git to download (clone) MANIAC repository
+
+1. Install Homebrew
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install git
+git --version
+```
+
+2. Install git:
+```
+brew install git
+git --version
+```
+
+3. Install wget:
+```
+brew install wget
+wget --version
+```
+
+4. Install conda:
+Depending on you processor you need to select proper conda installer. After installtion **restart your terminal** to apply changes.
+
+Conda for Apple Silicon M1, M2, M3, M4
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -p $HOME/miniconda
+conda init
+```
+
+Conda for Apple Intel
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -p $HOME/miniconda
+conda init
+```
+
+5. Clone the MANIAC repository.
+```
+# [optionally] navigate to the folder where you want to install MANIAC using cd command
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+6. Create MANIAC environment and install dependencies
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+```
+
+
+### on Linux Debian-Based (eg, Ubuntu)
+
+1. Install git
+```
+sudo apt update
+sudo apt install git -y
+git --version
+```
+
+2. Install wget 
+```
+sudo apt install wget
+wget --version
+```
+
+3. Install conda 
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -p $HOME/miniconda
+conda init
+```
+
+4. Clone the MANIAC repository. Optionally navigate to the folder where you want to install MANIAC using cd command.
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+6. Create MANIAC environment and install dependencies
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+```
+
+
+### on Windows using Windows subsytem for Linux (WSL)
+
+1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
+2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
+3. Restart Your Computer and set up your Linux environment.
+4. Open Linux environment and follow Linux Debian-Based (eg, Ubuntu) insallation above.
+
+
+## 5. Test MANIAC installation
+
+```
+cd MANIAC
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
+
+
+
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
 
@@ -75,7 +179,7 @@ MANIAC requires one of two types of input files:
 1. Full genome files (for the fragment calculation), 
 2. Nucleotide or amino-acid coding-sequences (for the BBH calculation).
 
-Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` sting, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
+Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` string, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
 
 `>XYZ_phageVp123_CDS1`, `>XYZ_phageVp123_CDS2` and `>XYZ_phageVp123_CDS5`
 
