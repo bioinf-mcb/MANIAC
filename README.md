@@ -29,7 +29,27 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Installation
 
-Follow the instructions below to install MANIAC on your system. This guide covers installation for macOS, Linux (Debian-based), and Windows (via WSL).
+Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux Debian-Based](#linux-debian-based-eg-ubuntu), and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. To learn more you can refer to orignal websites of these tools.
+
+[homebrew](https://brew.sh/) a package manager for macOS.<br>
+[apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
+[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
+[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
+[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
+
+
+MANIAC dependencies:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
 
 
 ### macOS
@@ -130,29 +150,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, after restargin choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux Debian-Based installation](#linux-debian-based-eg-ubuntu)) steps to install MANIAC .
 
-
-
-### Details
-
-[homebrew](https://brew.sh/) a package manager for macOS.<br>
-[apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
-[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
-[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
-[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
-
-
-MANIAC dependencies:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
 
 
 ## 5. Test MANIAC installation
