@@ -134,11 +134,11 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 ### Details
 
-[homebrew](https://brew.sh/) a package manager for macOS.
-[apt](https://packages.ubuntu.com/) a package manager for Linux.
-[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.
-[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)
-[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.
+[homebrew](https://brew.sh/) a package manager for macOS.<br>
+[apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
+[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
+[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
+[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
 
 
 MANIAC dependencies:
