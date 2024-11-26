@@ -43,7 +43,7 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 Lunch terminal application on your computer and execute commands below.
 
 
-**1. Install prerequisites: homebrew, git and wget.**
+**1. Install: homebrew, git and wget.**
 
 ```
 # install package manager homebrew
@@ -90,7 +90,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Linux Debian-Based
 
-**1. Install prerequisters: git, wget and conda**
+**1. Install: git, wget and conda**
 ```
 # install git
 sudo apt update
