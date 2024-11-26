@@ -38,8 +38,6 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
 <br>
 
-<span style="color: gray;">
-
 Dependecies details:
 
 - python=3.9
@@ -53,7 +51,6 @@ Dependecies details:
 - mmseqs2=15.6
 - datamash=1.8
 
-</span>
 <br>
 
 
