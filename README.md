@@ -42,7 +42,8 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 
 Lunch terminal application on your computer and execute commands below.
 
-**Install prerequisites: homebrew, git, wget, conda and MANIAC.**
+
+**1. Install prerequisites: homebrew, git, wget, conda and MANIAC.**
 
 ```
 # install package manager homebrew
@@ -59,8 +60,9 @@ git --version
 brew install wget
 wget --version
 ```
+<br>
 
-**Install the appropriate conda version for Apple Silicon processors (eg, M1) or Apple Intel processors**
+**Choose conda installation for Apple Silicon processors (eg, M1) or Apple Intel processors**
 
 ```
 # install conda for Apple Silicon
@@ -75,7 +77,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -O ~/
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
-
+<br>
 
 **Download the MANIAC repository and install the environment.**
 
@@ -94,8 +96,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Linux Debian-Based
 
-**Install prerequisters: git, wget and conda**
-
+**1. Install prerequisters: git, wget and conda**
 ```
 # install git
 sudo apt update
@@ -111,8 +112,10 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
+<br>
 
-**Download the MANIAC repository and install the environment.**
+
+**2. Download the MANIAC repository and install the environment.**
 
 ```
 # download (clone) the MANIAC repository
