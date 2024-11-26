@@ -88,7 +88,8 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 <br>
-**4. [Test installation](#test-maniac-installation)**
+
+**[Test installation](#test-installation)**
 
 ### Linux
 
@@ -123,7 +124,7 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**3. [Test installation](#test-maniac-installation)**
+**[Test installation](#test-installation)**
 
 
 ### Windows
@@ -138,7 +139,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 <br>
 
 
-### Test MANIAC installation
+### Test installation
 
 ```
 cd MANIAC
@@ -148,8 +149,8 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 ```
 
 
-#### MANIAC conda dependencies details
-
+<br>
+Details conda dependecies:
 - python=3.9
 - bash=5.2.21
 - r-base=4.4.1
