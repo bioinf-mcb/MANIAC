@@ -54,8 +54,8 @@ MANIAC conda dependencies:
 
 ### macOS
 
+Lunch terminal application on your computer and execute commands below to install prerequisites: homebrew, git, wget, conda and MANIAC.
 
-Install prerequisters: brew, git, wget
 
 ```
 # install package manager homebrew
@@ -73,9 +73,8 @@ brew install wget
 wget --version
 ```
 
-Select the appropriate conda version based on your Apple processor type.
+Install the appropriate conda version for Apple Silicon processors (eg, M1) or Apple Intel processors
 
-#### Apple Silicon processors (eg, M1)
 ```
 # install conda for Apple Silicon
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
@@ -83,7 +82,6 @@ bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
-#### Apple Intel processors
 ```
 # install conda for Apple Intel
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -O ~/miniconda.sh
@@ -91,7 +89,8 @@ bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
-Download (clone) the MANIAC repository
+
+Download (clone) the MANIAC repository and install the MANIAC environment.
 
 ```
 # download (clone) the MANIAC repository
