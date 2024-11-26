@@ -38,6 +38,25 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
 <br>
 
+<span style="color: gray;">
+
+Dependecies details:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
+
+</span>
+<br>
+
+
 ### macOS
 
 Lunch terminal application on your computer and execute commands below.
@@ -149,20 +168,6 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 ```
 
 
-<br>
-Details conda dependecies:
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
-
-
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
@@ -265,10 +270,4 @@ Maniac generates output files in the user-defined output directory. The `genome-
 2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
   
 
-
-## NOTES
-
-* Fragment-based calculation has duplicate entries (a-b & b-a)
-* ANI for proteins (CDS) is AAI
-* wGRR for ORFs is not *sensu stricto* wGRR
 
