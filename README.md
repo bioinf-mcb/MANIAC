@@ -50,8 +50,6 @@ MANIAC conda dependencies:
 - biopython=1.79
 - mmseqs2=15.6
 - datamash=1.8
-
-<br>
 <br>
 <br>
 
@@ -107,8 +105,6 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 <br>
-<br>
-<br>
 
 ### Linux Debian-Based
 
@@ -141,10 +137,6 @@ conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
-
-
-<br>
-<br>
 <br>
 
 ### Windows
