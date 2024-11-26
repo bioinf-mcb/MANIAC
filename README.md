@@ -29,63 +29,33 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Installation
 
-To install MANIAC on various operating systems, follow the instructions below.
-
-Prerequisites:
-
-**Git**: Required to clone the MANIAC repository.
-**Conda**: Manages MANIAC's dependencies.
-**General Steps**:
-
-1. Install Git.
-2. Install Conda.
-3. Clone the MANIAC repository.
-4. Set up the Conda environment and install dependencies.
-
-**Details:**
-Git installation: https://github.com/git-guides/install-git
-Conda installation: https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html
-Conda distributions: https://repo.anaconda.com/miniconda/
-WSL installation (Windows only): https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command
-
-Dependencies details:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
+Follow the instructions below to install MANIAC on your system. This guide covers installation for macOS, Linux (Debian-based), and Windows (via WSL).
 
 
-### on MacOS
+### macOS
 
-#### install git to download (clone) MANIAC repository
+#### Install git to download (clone) MANIAC repository
 
-1. Install Homebrew
+1. Install package manager Homebrew
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install git
 git --version
 ```
 
-2. Install git:
+2. Install git necessary to download (clone) MANIAC 
 ```
 brew install git
 git --version
 ```
 
-3. Install wget:
+3. Install wget to donwload installers.
 ```
 brew install wget
 wget --version
 ```
 
-4. Install conda:
+4. Install conda to manage dependencies and environemnts. 
 Depending on you processor you need to select proper conda installer. After installtion **restart your terminal** to apply changes.
 
 Conda for Apple Silicon M1, M2, M3, M4
@@ -116,7 +86,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 ```
 
 
-### on Linux Debian-Based (eg, Ubuntu)
+### Linux Debian-Based (eg, Ubuntu)
 
 1. Install git
 ```
@@ -151,12 +121,43 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 ```
 
 
-### on Windows using Windows subsytem for Linux (WSL)
+### Windows using Windows subsytem for Linux (WSL)
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
-3. Restart Your Computer and set up your Linux environment.
-4. Open Linux environment and follow Linux Debian-Based (eg, Ubuntu) insallation above.
+3. Restart Your Computer, choose Linux to lunch it and set it up by providing credentials.
+4. To install MANIAC follow Linux Debian-Based (eg, Ubuntu) insallation above.
+
+
+
+
+
+### Details
+
+[Homebrew](https://brew.sh/) for macOS
+[apt](https://packages.ubuntu.com/) for Linux (default for Debian-based distributions)
+[Git](https://github.com/git-guides/install-git): Installation Guide
+
+[Conda Installation Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html)
+[Conda Installers for different operating systems](https://repo.anaconda.com/miniconda/)
+wget: for downloading installation scripts.
+
+[Windows Subsystem for Linux (WSL) Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command)
+
+
+
+Dependencies:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
 
 
 ## 5. Test MANIAC installation
