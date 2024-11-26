@@ -29,7 +29,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Installation
 
-Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux Debian-Based](#linux-debian-based-eg-ubuntu), and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. To learn more you can refer to orignal websites of these tools:
+Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux Debian-Based](#linux-debian-based-eg-ubuntu), and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
@@ -43,7 +43,7 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 Lunch terminal application on your computer and execute commands below.
 
 
-1. Install prerequisites: homebrew, git and wget.
+**1. Install prerequisites: homebrew, git and wget.**
 
 ```
 # install package manager homebrew
@@ -74,7 +74,7 @@ conda init
 ```
 <br>
 
-3. Download the MANIAC repository and install the environment.
+**3. Download the MANIAC repository and install the environment.**
 
 ```
 # download (clone) the MANIAC repository
@@ -90,7 +90,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Linux Debian-Based
 
-1. Install prerequisters: git, wget and conda
+**1. Install prerequisters: git, wget and conda**
 ```
 # install git
 sudo apt update
@@ -108,7 +108,7 @@ conda init
 ```
 
 
-2. Download the MANIAC repository and install the environment.
+**2. Download the MANIAC repository and install the environment.**
 
 ```
 # download (clone) the MANIAC repository
