@@ -87,6 +87,8 @@ conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
+<br>
+**4. [Test installation](#test-maniac-installation)**
 
 ### Linux
 
@@ -121,6 +123,9 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
+**3. [Test installation](#test-maniac-installation)**
+
+
 ### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
@@ -130,9 +135,19 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, after restartin choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
+<br>
 
 
-<br><br>
+### Test MANIAC installation
+
+```
+cd MANIAC
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
+
+
 #### MANIAC conda dependencies details
 
 - python=3.9
@@ -145,17 +160,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 - biopython=1.79
 - mmseqs2=15.6
 - datamash=1.8
-
-
-
-## 5. Test MANIAC installation
-
-```
-cd MANIAC
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
-```
 
 
 
