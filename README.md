@@ -51,18 +51,13 @@ Lunch terminal application on your computer and execute commands below.
 brew install git
 git --version
 
-# install git
-brew install git
-git --version
-
-
 # install wget
 brew install wget
 wget --version
 ```
 <br>
 
-**2. Choose conda installation for Apple Silicon processors (eg, M1) or Apple Intel processors**
+**2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors**
 
 ```
 # install conda for Apple Silicon
