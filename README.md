@@ -29,7 +29,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Installation
 
-Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux Debian-Based](#linux-debian-based), and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
+Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux](#linux) Debian-Based, and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
@@ -88,7 +88,7 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-### Linux Debian-Based
+### Linux
 
 **1. Install: git, wget and conda**
 ```
@@ -128,7 +128,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
 3. Restart Your Computer, after restartin choose Linux to lunch and follow the on-screen instructions.
-4. Once your Linux environment is ready, follow the [Linux](#linux-debian-based) Debian-Based installation steps to install MANIAC.
+4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
 
 
