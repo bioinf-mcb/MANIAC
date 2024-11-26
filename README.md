@@ -43,7 +43,7 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 Lunch terminal application on your computer and execute commands below.
 
 
-**1. Install prerequisites: homebrew, git, wget, conda and MANIAC.**
+**1. Install prerequisites: homebrew, git and wget.**
 
 ```
 # install package manager homebrew
@@ -131,7 +131,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
 3. Restart Your Computer, after restartin choose Linux to lunch and follow the on-screen instructions.
-4. Once your Linux environment is ready, follow the [Linux Debian-Based installation](#linux-debian-based-eg-ubuntu)) steps to install MANIAC .
+4. Once your Linux environment is ready, follow the [Linux Debian-Based installation](#linux-debian-based-eg-ubuntu)) steps to install MANIAC.
 
 
 
