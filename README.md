@@ -36,27 +36,13 @@ Follow the instructions below to install MANIAC on your system. This guide cover
 [git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
 [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
-
-
-MANIAC conda dependencies:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
-<br>
 <br>
 
 ### macOS
 
-Lunch terminal application on your computer and execute commands below to install prerequisites: homebrew, git, wget, conda and MANIAC.
+Lunch terminal application on your computer and execute commands below.
 
+**Install prerequisites: homebrew, git, wget, conda and MANIAC.**
 
 ```
 # install package manager homebrew
@@ -74,7 +60,7 @@ brew install wget
 wget --version
 ```
 
-**Install the appropriate conda version** for Apple Silicon processors (eg, M1) or Apple Intel processors
+**Install the appropriate conda version for Apple Silicon processors (eg, M1) or Apple Intel processors**
 
 ```
 # install conda for Apple Silicon
@@ -91,7 +77,7 @@ conda init
 ```
 
 
-Download the MANIAC repository and install the MANIAC environment.
+**Download the MANIAC repository and install the environment.**
 
 ```
 # download (clone) the MANIAC repository
@@ -108,7 +94,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 
 ### Linux Debian-Based
 
-Install prerequisters: git, wget and conda
+**Install prerequisters: git, wget and conda**
 
 ```
 # install git
@@ -126,7 +112,8 @@ bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
-Download (clone) the MANIAC repository
+**Download the MANIAC repository and install the environment.**
+
 ```
 # download (clone) the MANIAC repository
 # [OPTIONALLY] change the directory of MANIAC installation using cd command
@@ -147,6 +134,21 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
 3. Restart Your Computer, after restartin choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux Debian-Based installation](#linux-debian-based-eg-ubuntu)) steps to install MANIAC .
+
+
+
+#### MANIAC conda dependencies details
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
 
 
 
