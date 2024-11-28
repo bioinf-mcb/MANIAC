@@ -89,9 +89,9 @@ if(CDS_BASED){ #METHOD 1: CDS
 	aligned_nucleotides[, af_min := round(ani_alnlen / pmin(len_1, len_2), 6)]
 	aligned_nucleotides[, af_max := round(ani_alnlen / pmax(len_1, len_2), 6)]
 	aligned_nucleotides[, af_jaccard := round(ani_alnlen / (len_1 + len_2 - ani_alnlen), 6)]
-	aligned_nucleotides[, wgANI := round(ANI * af_mean, 6)]
 	# add measures and rename columns
 	merged <- merge(ani, aligned_nucleotides, by = c("query_seq", "reference_seq"))
+	merged[, wgANI := round(ANI * af_mean, 6)]
 	setnames(merged, c("query_seq", "reference_seq", "ANI"), c("Seq1", "Seq2", "ANI"))
 
 	writeLines("Calculating wGRR...")
