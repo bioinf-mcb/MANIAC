@@ -56,7 +56,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
 
-**[Test MANIAC](#test-installation)** 
+**[Test](#test-installation) MANIAC** 
 
 <br>
 Dependecies details:
@@ -73,7 +73,6 @@ Dependecies details:
 - datamash=1.8
 
 <br>
-
 
 
 ### Beginner users
@@ -111,7 +110,7 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test MANIAC](#test-installation)** 
+**[Test](#test-installation) MANIAC** 
 <br><br>
 
 #### macOS (not tested)
@@ -164,11 +163,11 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test MANIAC](#test-installation)** 
+**[Test](#test-installation) MANIAC** 
 <br><br>
 
 
-#### Windows (not tested)
+#### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
