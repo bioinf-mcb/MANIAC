@@ -57,8 +57,9 @@ git clone https://github.com/bioinf-mcb/MANIAC
 
 
 **[Test MANIAC](#test-installation)** 
-<br>
 
+<br>
+<br>
 
 Dependecies details:
 
@@ -73,7 +74,6 @@ Dependecies details:
 - mmseqs2=15.6
 - datamash=1.8
 
-<br>
 
 
 ### Beginner users
