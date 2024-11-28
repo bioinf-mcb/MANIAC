@@ -70,7 +70,7 @@ Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash pyopenssl=24.2
 ```
 
 Clone MANIAC repository. 
