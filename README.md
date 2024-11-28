@@ -173,7 +173,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 ### Test installation
 
-Run MANIAC using example input data and configuration files in `test/data` location. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
+Run MANIAC using example input data and configuration files in `test` folder. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
 
 ```
 cd MANIAC
@@ -187,7 +187,7 @@ Test input files:<br>
 `cds-nt-based.fasta` - phage ORF sequences (nucleotides)<br>
 `cds-aa-based.fasta` - phage protein sequences (aminoacids)<br>
 
-Test output file:
+Test output file:<br>
 `genome-alignment.csv` - results of the genomes alignments
 
 
