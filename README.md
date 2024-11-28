@@ -27,7 +27,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
 
 
-## 4. Installation
+## 4. Install MANIAC
 
 Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux](#linux) Debian-Based, and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
@@ -53,6 +53,32 @@ Dependecies details:
 
 <br>
 
+#### Advanced users
+
+Create a conda environment
+
+```
+# install dependencies using conda
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+```
+
+Activate the conda environment and clone MANIAC
+
+```
+# download (clone) the MANIAC repository
+# [OPTIONALLY] change the directory of MANIAC installation using cd command
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+
+**[Test MANIAC](#test-installation)** by running in-build data
+
+
+
+
+#### Basic users
 
 ### macOS
 
