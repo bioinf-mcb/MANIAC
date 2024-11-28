@@ -168,12 +168,10 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
-<br>
-
 
 ### Test installation
 
-Run MANIAC using example input data and configuration files in `test` folder. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
+Run MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
 
 ```
 cd MANIAC
@@ -189,6 +187,7 @@ Test input files:<br>
 
 Test output file:<br>
 `genome-alignment.csv` - results of the genomes alignments
+<br>
 
 
 ## 5. Running MANIAC
