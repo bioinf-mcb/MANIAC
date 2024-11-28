@@ -29,6 +29,18 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install
 
+### Dependecies details:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
 
 ### Linux
 
@@ -180,20 +192,6 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **cds_alignments_ani_sum** | Sum of nucleotide or aminoacid identities of aligned proteins or CDS between query and reference sequences |
 | **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences |
 | **wgrr**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
-
-
-### Dependecies details:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
 
 
 ## 6. References
