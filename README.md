@@ -66,6 +66,11 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
 ```
 
+Clone MANIAC repository
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
 ### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
