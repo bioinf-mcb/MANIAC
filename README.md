@@ -55,20 +55,17 @@ Dependecies details:
 
 ### Advanced users
 
-Create a conda environment
+Create and activate a conda environment
 
 ```
-# install dependencies using conda
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-Activate the conda environment and clone MANIAC
+Clone MANIAC repository
 
 ```
-# download (clone) the MANIAC repository
-# [OPTIONALLY] change the directory of MANIAC installation using cd command
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
