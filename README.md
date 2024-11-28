@@ -53,7 +53,7 @@ Dependecies details:
 
 <br>
 
-#### Advanced users
+### Advanced users
 
 Create a conda environment
 
@@ -74,13 +74,12 @@ git clone https://github.com/bioinf-mcb/MANIAC
 
 
 **[Test MANIAC](#test-installation)** by running in-build data
+<br>
+<br>
 
+### Beginner users
 
-
-
-#### Basic users
-
-### macOS
+#### macOS
 
 Lunch terminal application on your computer and execute commands below.
 
@@ -133,7 +132,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 **[Test installation](#test-installation)**
 <br><br>
 
-### Linux
+#### Linux
 
 **1. Install: git, wget and conda**
 ```
@@ -169,7 +168,7 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 **[Test installation](#test-installation)**
 <br><br>
 
-### Windows
+#### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
@@ -181,7 +180,10 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 <br>
 
 
+
 ### Test installation
+
+Run MANIAC using prepared config files. 
 
 ```
 cd MANIAC
