@@ -41,7 +41,6 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 Clone MANIAC repository
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
-cd MANIAC
 ```
 
 ### macOS
@@ -98,7 +97,7 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 - biopython=1.79
 - mmseqs2=15.6
 - datamash=1.8
-- pyopenssl 24.2
+- pyopenssl=24.2
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
