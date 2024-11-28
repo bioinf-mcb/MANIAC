@@ -173,7 +173,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 ### Test installation
 
-Run MANIAC using prepared config files. In the `test/data` location, you’ll find example input and configuration files for running tests, along with example output tables generated after successful MANIAC execution. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
+Run MANIAC using example input data and configuration files in `test/data` location. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
 
 ```
 cd MANIAC
