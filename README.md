@@ -29,7 +29,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install MANIAC
 
-Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced users](#advanced-users) and [begginer users](#beginner-users) on macOS, Linux Debian-Based, and Windows (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
+Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced](#advanced-users) and [begginer](#beginner-users) users on macOS, Linux Debian-Based, and Windows (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
@@ -56,7 +56,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
 
-**[Test](#test-installation) MANIAC** 
+[Test](#test-installation) MANIAC installation
 
 <br>
 Dependecies details:
@@ -77,49 +77,43 @@ Dependecies details:
 
 ### Beginner users
 
+Lunch terminal application on your computer and follow guide dedicated to your system.
+
 #### Linux
 
-**1. Install: git, wget and conda**
+Install conda for package management, git for version control and wget to install MANIAC.
 ```
-# install git
 sudo apt update
 sudo apt install git -y
 git --version
 
-# install wget
 sudo apt install wget
 wget --version
 
-# install and initialize conda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
-
-**2. Download the MANIAC repository and install the environment.**
-
+Install and activate the conda environment.
 ```
-# download (clone) the MANIAC repository
-# [OPTIONALLY] change the directory of MANIAC installation using cd command
-git clone https://github.com/bioinf-mcb/MANIAC
-
-# install dependencies using conda
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test](#test-installation) MANIAC** 
+Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+[Test](#test-installation) MANIAC
+
 <br><br>
 
 #### macOS (not tested)
 
-Lunch terminal application on your computer and execute commands below.
-
-
-**1. Install: homebrew, git and wget.**
-
+Install homebrew for package management, git for version control and wget to install MANIAC.
 ```
 # install package manager homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -130,40 +124,36 @@ git --version
 brew install wget
 wget --version
 ```
-<br>
 
-**2. Choose conda installation for Apple Silicon (eg, M1) or Apple Intel processors**
+Install the conda environment depending on your macOS processor architecture.
 
+Apple Silicon (eg, M1)
 ```
-# install conda for Apple Silicon
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
 
+Apple Intel
 ```
-# install conda for Apple Intel
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -O ~/miniconda.sh
 bash ~/miniconda.sh -p $HOME/miniconda
 conda init
 ```
-<br>
 
-**3. Download the MANIAC repository and install the environment.**
-
+Create and activate conda environmnet
 ```
-# download (clone) the MANIAC repository
-# [OPTIONALLY] change the directory of MANIAC installation using cd command
-git clone https://github.com/bioinf-mcb/MANIAC
-
-
-# install dependencies using conda
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test](#test-installation) MANIAC** 
+Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+[Test](#test-installation) MANIAC
 <br><br>
 
 
@@ -190,13 +180,16 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
-In the `test/data` directory you fill find example input files that are used to run test. 
 
-`fragment-based.fasta` - phage genomes
-`cds-nt-based.fasta` - phage ORF sequences (nucleotides)
-`cds-aa-based.fasta` - phage protein sequences (aminoacids)
+In the `test/data` directory, you’ll find example input files for running tests, along with example output tables generated after successful MANIAC execution for various input types. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#maniac-output-description) section.
 
-After sucessfull MANIAC run in the `test/output/` you will find output tables for different input types i.e.   
+Test input files:
+`fragment-based.fasta` - phage genomes<br>
+`cds-nt-based.fasta` - phage ORF sequences (nucleotides)<br>
+`cds-aa-based.fasta` - phage protein sequences (aminoacids)<br>
+
+Test output files:
+``
 
 
 ## 5. Running MANIAC
@@ -205,8 +198,8 @@ This section will guide you on how to prepare your input files, create a yaml co
 ### Input files
 MANIAC requires one of two types of input files: 
 
-1. Full genome files (for the fragment calculation), 
-2. Nucleotide or amino-acid coding-sequences (for the BBH calculation).
+1. Full genome files (for the fragment calculation) (example: `fragment-based.fasta`), 
+2. Nucleotide or amino-acid coding-sequences (for the BBH calculation) (example: `cds-nt-based.fasta` or `cds-aa-based.fasta`).
 
 Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` string, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
 
