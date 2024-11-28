@@ -59,7 +59,6 @@ git clone https://github.com/bioinf-mcb/MANIAC
 **[Test MANIAC](#test-installation)** 
 
 <br>
-
 Dependecies details:
 
 - python=3.9
