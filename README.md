@@ -27,40 +27,27 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
 
 
-## 4. Install MANIAC
-
-This guide offers installation instructions for [advanced](#advanced-users) and [begginer](#beginner-users) users. Beginners should follow the steps specific to their operating system: macOS, Linux, or Windows. The process involves setting up essential tools like git, conda, and wget, cloning the MANIAC repository, and creating a dedicated conda environment to install all required dependencies. Commands are supposed to be executed in terminal. To learn more you can refer to the source websites below.
-
-MANIAC [conda dependencies](#dependecies-details) details<br><br>
-[homebrew](https://brew.sh/) a package manager for macOS.<br>
-[apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
-[git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
-[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
-[WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
+## 4. Install
 
 
-### Advanced users
+### Linux
 
 Create and activate a conda environment.<br>
-
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 conda update cryptography pyopenssl
 ```
 
-Clone MANIAC repository
-
+Clone MANIAC repository<br>
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
-```
-
-
-Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
-
-```
 cd MANIAC
+```
+
+Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.<br>
+```
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
@@ -77,96 +64,17 @@ Test output file:<br>
 <br>
 
 
-### Beginner users
 
-Lunch terminal application on your computer and follow guide dedicated to your system.
+### macOS Apple Intel
 
-### Linux
-
-Install conda for package management, git for version control and wget.
-```
-sudo apt update
-sudo apt install git -y
-git --version
-
-sudo apt install wget
-wget --version
-
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -p $HOME/miniconda
-conda init
-```
-
-Install and activate the conda environment.
-```
-conda create -n maniac -c conda-forge mamba python=3.9
-conda activate maniac
-mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
-```
-
-Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
-```
-git clone https://github.com/bioinf-mcb/MANIAC
-cd MANIAC
-```
-
-To test refere to the [advanced users](#advanced-users) manual.
-
-<br>
-
-### macOS
-
-Install homebrew for package management, git for version control and wget.
-```
-# install package manager homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install git
-git --version
-
-# install wget
-brew install wget
-wget --version
-```
-
-Install the conda environment depending on your processor architecture i.e. Silicon or Intel
-
-Apple Silicon (eg, M1)
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -p $HOME/miniconda
-conda init
-```
-
-Apple Intel
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -p $HOME/miniconda
-conda init
-```
-
-Create and activate conda environmnet
-```
-conda create -n maniac -c conda-forge mamba python=3.9
-conda activate maniac
-mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
-```
-
-Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
-```
-git clone https://github.com/bioinf-mcb/MANIAC
-cd MANIAC
-```
-
-To test refere to the [advanced users](#advanced-users) manual.
-<br><br>
-
+### macOS Apple Silicon (eg, M1)
 
 ### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
-2. In the PowerShell window, enter the following command ```wsl --install``` to install WSL.
+2. In the PowerShell window, enter the following command `wsl --install` to install WSL.
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
@@ -204,8 +112,6 @@ Here are details of various parameters.
 * `OUTPUT_DIR`: directory where the output should be written
 * `MODE`: FRAGMENTS_NT requires full genomes as an input, while CDS_NT and CDS_AA use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [FRAGMENTS_NT | CDS_NT | CDS_AA]
 * `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
-* `MEMORY_GB`: Declare the memory available for MANIAC in GB. Note: This will not actually limit the memory and is only used to optimize post-processing run speed. (default: `16`)
-
 
 #### Parameters: specific to fragment mode (optional)
 * `COVERAGE`: minimal query coverage used for filtering (default: `0.7`)
@@ -222,6 +128,7 @@ Here are details of various parameters.
 
 #### Parameters: others (optional)
 * `DELETE_INTERMEDIATE_FILES`: [True/False] (default: `True`)
+* `MEMORY_EFFICIENT`: mode used to run in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation [True/False] (default: `True`)
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
   * `EVALUE`: (default: `1e-15`)
   * `SENSITIVITY`: (default: `7.5`)
@@ -279,10 +186,10 @@ Maniac generates output files in the user-defined output directory. The `genome-
 
 - python=3.9
 - bash=5.2.21
-- parallel=20240922
+- r-base=4.4.1
 - r-essentials=4.4
-- r-arrows=18.0.0
-- snakemake=7.32.4
+- r-arrows=17.0.0
+- snakemake=8.5
 - pandas=2.2
 - biopython=1.79
 - mmseqs2=15.6
