@@ -40,7 +40,8 @@ This guide offers installation instructions for [advanced](#advanced-users) and 
 
 ### Advanced users
 
-Create and activate a conda environment ([dependencies](#dependecies-details) details)
+Create and activate a conda environment.
+[dependencies details](#dependecies-details)
 
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
@@ -54,7 +55,6 @@ Clone MANIAC repository
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
-
 
 [Test](#test-installation) MANIAC installation
 
