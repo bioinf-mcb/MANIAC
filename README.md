@@ -60,17 +60,19 @@ brew install gnu-sed
 brew install gawk
 brew install parallel
 brew install datamash
+brew install mmseqs2
 
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/mmseqs2/bin:$PATH"
 ```
 
 Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash pyopenssl=24.2
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 r-base r-essentials r-arrow datamash pyopenssl=24.2
 ```
 
 Clone MANIAC repository. 
@@ -102,7 +104,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 - r-base=4.4.1
 - r-essentials=4.4
 - r-arrows=17.0.0
-- snakemake=8.5
+- snakemake=7.32.4
 - pandas=2.2
 - biopython=1.79
 - mmseqs2=15.6
