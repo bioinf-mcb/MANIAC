@@ -181,9 +181,9 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 ```
 
 Test input files:<br>
-`fragment-based.fasta` - phage genomes<br>
-`cds-nt-based.fasta` - phage ORF sequences (nucleotides)<br>
-`cds-aa-based.fasta` - phage protein sequences (aminoacids)<br>
+`fragment-based.fasta` - phage genomes (nucleotides)<br>
+`cds-nt-based.fasta` - phage CDS nucleotides sequences (nucleotides)<br>
+`cds-aa-based.fasta` - phage CDS proteins sequences (aminoacids)<br>
 
 Test output file:<br>
 `genome-alignment.csv` - results of the genomes alignments
@@ -196,8 +196,8 @@ This section will guide you on how to prepare your input files, create a yaml co
 ### Input files
 MANIAC requires one of two types of input files: 
 
-1. Full genome files (for the fragment calculation) (example: `fragment-based.fasta`), 
-2. Nucleotide or amino-acid coding-sequences (for the BBH calculation) (example: `cds-nt-based.fasta` or `cds-aa-based.fasta`).
+1. Full genome files (for the fragment calculation), 
+2. Nucleotide or amino-acid coding-sequences (for the BBH calculation).
 
 Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` string, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
 
@@ -269,7 +269,7 @@ Maniac generates output files in the user-defined output directory. The `genome-
 
 | Metrics        | Description                                                                                                                                                                         |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **ANI**        | Average nucleotide identity between the query and reference sequences                                                                                                               |
+| **ANI/AAI**    | Average nucleotide or aminoacid identity between the query and reference sequences                                                                                                  |
 | **len_1**      | The length of the query sequence                                                                                                                                                    |
 | **len_2**      | The length of the reference sequence                                                                                                                                                |
 | **ani_alnlen** | The total length of aligned nucleotides between the query and reference sequences                                                                                                    |
@@ -279,10 +279,16 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **af_max**     | The maximum alignment fraction between the query and reference sequence calculated by dividing the aligned nucleotide length by the longer sequence between the query and reference sequence                   |
 | **af_mean**    | Mean alignment fraction between the query and reference sequences. It is calculated by averaging the alignment fraction of both query and reference sequences weighted by their length. Users can also calculate `af_mean` by considering the alignment fraction between pairs since the results of MANIAC are asymmetrical i.e (af_1 + af_2)/2                                                                                                                                 |
 | **af_jaccard** | The jaccard index of the alignment fraction calculated as the ratio of the aligned length to the total length of the union of the query and reference sequences                                                              |
-| **seq1_n_prots** | Number of proteins or CDS in the query sequence                                                                                                                                    |
-| **seq2_n_prots** | Number of proteins or CDS in the reference sequence                                                                                                                                 |
-| **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences                                                                                                     |
-| **wGRR**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
+| **seq1_n_prots** | Number of proteins or CDS in the query sequence |
+| **seq2_n_prots** | Number of proteins or CDS in the reference sequence |
+| **seq1_n_prots_hom** | Number of homologous proteins or CDS in the query sequence |
+| **seq2_n_prots_hom** | Number of homologous proteins or CDS in the reference sequence |
+| **seq1_n_prots_cons** | Number of conservative proteins or CDS in the query sequence |
+| **seq2_n_prots_cons** | Number of conservative proteins or CDS in the reference sequence |
+| **cds_alignments_counts** | Number of aligned proteins or CDS between query and reference sequences |
+| **cds_alignments_ani_sum** | Sum of nucleotide or aminoacid identities of aligned proteins or CDS between query and reference sequences |
+| **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences |
+| **wgrr**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
 
 
 
