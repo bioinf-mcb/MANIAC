@@ -29,7 +29,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install MANIAC
 
-Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced users](#advanced-users) and begginer users on [macOS](#macOS), [Linux](#linux) Debian-Based, and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
+Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced users](#advanced-users) and [begginer users](#beginner-users) on macOS, Linux Debian-Based, and Windows (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
@@ -179,7 +179,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 <br>
 
 
-
 ### Test installation
 
 Run MANIAC using prepared config files. 
@@ -191,6 +190,13 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
+In the `test/data` directory you fill find example input files that are used to run test. 
+
+`fragment-based.fasta` - phage genomes
+`cds-nt-based.fasta` - phage ORF sequences (nucleotides)
+`cds-aa-based.fasta` - phage protein sequences (aminoacids)
+
+After sucessfull MANIAC run in the `test/output/` you will find output tables for different input types i.e.   
 
 
 ## 5. Running MANIAC
