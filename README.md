@@ -46,6 +46,7 @@ Create and activate a conda environment
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+conda update cryptography pyopenssl
 ```
 
 Clone MANIAC repository
@@ -111,7 +112,7 @@ cd MANIAC
 
 <br>
 
-### macOS (not tested)
+### macOS
 
 Install homebrew for package management, git for version control and wget.
 ```
@@ -172,7 +173,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 ### Test installation
 
-Run MANIAC using prepared config files. In the `test/data` location, you’ll find example input and configuration files for running tests, along with example output tables generated after successful MANIAC execution. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#maniac-output-description) section.
+Run MANIAC using prepared config files. In the `test/data` location, you’ll find example input and configuration files for running tests, along with example output tables generated after successful MANIAC execution. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#running-maniac) section.
 
 ```
 cd MANIAC
@@ -186,8 +187,8 @@ Test input files:<br>
 `cds-nt-based.fasta` - phage ORF sequences (nucleotides)<br>
 `cds-aa-based.fasta` - phage protein sequences (aminoacids)<br>
 
-Test output files:
-``
+Test output file:
+`genome-alignment.csv` - results of the genomes alignments
 
 
 ## 5. Running MANIAC
