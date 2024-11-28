@@ -44,7 +44,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ### Linux
 
-Create and activate a conda environment.<br>
+Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
@@ -52,30 +52,18 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 conda update cryptography pyopenssl
 ```
 
-Clone MANIAC repository<br>
+Clone MANIAC repository
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 cd MANIAC
 ```
 
-Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.<br>
+Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
 ```
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
-
-Test input files:<br>
-`fragment-based.fasta` - phage genomes (nucleotides)<br>
-`cds-nt-based.fasta` - phage CDS nucleotides sequences (nucleotides)<br>
-`cds-aa-based.fasta` - phage CDS proteins sequences (aminoacids)<br>
-
-Test output file:<br>
-`genome-alignment.csv` - results of the genomes alignments
-
-<br>
-
-
 
 ### macOS Apple Intel
 
@@ -89,8 +77,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 2. In the PowerShell window, enter the following command `wsl --install` to install WSL.
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
-
-<br>
 
 
 ## 5. Running MANIAC
