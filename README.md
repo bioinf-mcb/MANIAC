@@ -70,7 +70,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
 
-**[Test MANIAC](#test-installation)** by running in-build data
+**[Test MANIAC](#test-installation)** 
 <br>
 <br>
 
@@ -126,7 +126,7 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test installation](#test-installation)**
+**[Test MANIAC](#test-installation)** 
 <br><br>
 
 #### Linux
@@ -162,7 +162,7 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
 ```
 
-**[Test installation](#test-installation)**
+**[Test MANIAC](#test-installation)** 
 <br><br>
 
 #### Windows
