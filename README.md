@@ -38,9 +38,16 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
 ```
 
-Clone MANIAC repository
+Clone MANIAC repository. 
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+Test using example input data and configuration files in the `test` folder.
+```
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
 ### macOS
@@ -66,9 +73,12 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
 ```
 
-Clone MANIAC repository and test using example input data and configuration files in the `test` folder.
-`git clone https://github.com/bioinf-mcb/MANIAC`
+Clone MANIAC repository. 
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
 
+Test using example input data and configuration files in the `test` folder.
 ```
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
