@@ -56,9 +56,8 @@ Clone MANIAC repository
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
-Test installation
 
-Run MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
+Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
 
 ```
 cd MANIAC
