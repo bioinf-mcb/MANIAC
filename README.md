@@ -29,7 +29,7 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install MANIAC
 
-Follow the instructions below to install MANIAC on your system. This guide covers installation for [macOS](#macOS), [Linux](#linux) Debian-Based, and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
+Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced users](#advanced-users) and begginer users on [macOS](#macOS), [Linux](#linux) Debian-Based, and [Windows](#windows) (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
