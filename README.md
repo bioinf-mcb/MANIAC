@@ -66,9 +66,13 @@ conda activate maniac
 mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
 ```
 
-Clone MANIAC repository
+Clone MANIAC repository and test using example input data and configuration files in the `test` folder.
+`git clone https://github.com/bioinf-mcb/MANIAC`
+
 ```
-git clone https://github.com/bioinf-mcb/MANIAC
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
 ### Windows
@@ -80,15 +84,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
-
-### Test
-
-Test MANIAC using example input data and configuration files in the `test` folder.
-```
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
-```
 
 ### Dependecies details:
 
