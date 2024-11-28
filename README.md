@@ -78,7 +78,43 @@ Dependecies details:
 
 ### Beginner users
 
-#### macOS
+#### Linux
+
+**1. Install: git, wget and conda**
+```
+# install git
+sudo apt update
+sudo apt install git -y
+git --version
+
+# install wget
+sudo apt install wget
+wget --version
+
+# install and initialize conda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -p $HOME/miniconda
+conda init
+```
+
+
+**2. Download the MANIAC repository and install the environment.**
+
+```
+# download (clone) the MANIAC repository
+# [OPTIONALLY] change the directory of MANIAC installation using cd command
+git clone https://github.com/bioinf-mcb/MANIAC
+
+# install dependencies using conda
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+```
+
+**[Test MANIAC](#test-installation)** 
+<br><br>
+
+#### macOS (not tested)
 
 Lunch terminal application on your computer and execute commands below.
 
@@ -131,43 +167,8 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 **[Test MANIAC](#test-installation)** 
 <br><br>
 
-#### Linux
 
-**1. Install: git, wget and conda**
-```
-# install git
-sudo apt update
-sudo apt install git -y
-git --version
-
-# install wget
-sudo apt install wget
-wget --version
-
-# install and initialize conda
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
-bash ~/miniconda.sh -p $HOME/miniconda
-conda init
-```
-
-
-**2. Download the MANIAC repository and install the environment.**
-
-```
-# download (clone) the MANIAC repository
-# [OPTIONALLY] change the directory of MANIAC installation using cd command
-git clone https://github.com/bioinf-mcb/MANIAC
-
-# install dependencies using conda
-conda create -n maniac -c conda-forge mamba python=3.9
-conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
-```
-
-**[Test MANIAC](#test-installation)** 
-<br><br>
-
-#### Windows
+#### Windows (not tested)
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
