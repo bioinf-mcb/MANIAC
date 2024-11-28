@@ -40,8 +40,8 @@ This guide offers installation instructions for [advanced](#advanced-users) and 
 
 ### Advanced users
 
-Create and activate a conda environment.
-[dependencies details](#dependecies-details)
+Create and activate a conda environment.<br>
+[Dependencies details](#dependecies-details)
 
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
