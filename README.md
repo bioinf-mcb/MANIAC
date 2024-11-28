@@ -38,20 +38,6 @@ Follow the instructions below to install MANIAC on your system. This guide provi
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
 <br>
 
-Dependecies details:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
-
-<br>
 
 ### Advanced users
 
@@ -72,7 +58,23 @@ git clone https://github.com/bioinf-mcb/MANIAC
 
 **[Test MANIAC](#test-installation)** 
 <br>
+
+
+Dependecies details:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=8.5
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
+
 <br>
+
 
 ### Beginner users
 
