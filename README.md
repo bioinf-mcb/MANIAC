@@ -44,16 +44,31 @@ git clone https://github.com/bioinf-mcb/MANIAC
 cd MANIAC
 ```
 
-Test MANIAC using example input data and configuration files in the `test` folder.
-```
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
-```
-
 ### macOS Apple Intel
 
-### macOS Apple Silicon (eg, M1)
+
+### macOS Apple Silicon
+
+Install dependencies using [homebrew](https://brew.sh/)
+```
+brew update
+brew install coreutils
+brew install gnu-sed
+brew install gawk
+brew install parallel
+brew install datamash
+
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
+```
+
+Create and activate a conda environment.
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
+```
 
 ### Windows
 
@@ -63,6 +78,16 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 2. In the PowerShell window, enter the following command `wsl --install` to install WSL.
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
+
+
+### Test
+
+Test MANIAC using example input data and configuration files in the `test` folder.
+```
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
 
 ### Dependecies details:
 
