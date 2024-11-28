@@ -5,8 +5,8 @@ INPUT_FILE: "test/data/fragment-based.fasta"
 OUTPUT_DIR: "test/output/ADVANCED-FRAGMENT-BASED"
 MODE: "FRAGMENTS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
+MEMORY_GB: 16 #Declare available memory for MANIAC in GB 
 
-MEMORY_EFFICIENT: True
 DELETE_INTERMEDIATE_FILES: True
 
 FRAGMENT_SIZE: 1020

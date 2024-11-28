@@ -5,3 +5,4 @@ INPUT_FILE: "test/data/cds-aa-based.fasta"
 OUTPUT_DIR: "test/output/EASY-CDS-AA-BASED"
 MODE: "CDS_AA" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
+MEMORY_GB: 16 #Declare available memory for MANIAC in GB 

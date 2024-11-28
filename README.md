@@ -46,7 +46,7 @@ Create and activate a conda environment.<br>
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
 conda update cryptography pyopenssl
 ```
 
@@ -101,7 +101,7 @@ Install and activate the conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
 ```
 
 Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
@@ -148,7 +148,7 @@ Create and activate conda environmnet
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
+mamba install -c conda-forge -c bioconda bash parallel snakemake pandas biopython=1.79 mmseqs2 r-essentials r-arrow datamash
 ```
 
 Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
@@ -204,6 +204,8 @@ Here are details of various parameters.
 * `OUTPUT_DIR`: directory where the output should be written
 * `MODE`: FRAGMENTS_NT requires full genomes as an input, while CDS_NT and CDS_AA use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [FRAGMENTS_NT | CDS_NT | CDS_AA]
 * `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
+* `MEMORY_GB`: Declare the memory available for MANIAC in GB. Note: This will not actually limit the memory and is only used to optimize post-processing run speed. (default: `16`)
+
 
 #### Parameters: specific to fragment mode (optional)
 * `COVERAGE`: minimal query coverage used for filtering (default: `0.7`)
@@ -220,7 +222,6 @@ Here are details of various parameters.
 
 #### Parameters: others (optional)
 * `DELETE_INTERMEDIATE_FILES`: [True/False] (default: `True`)
-* `MEMORY_EFFICIENT`: mode used to run in a memory stringent manner. Only loads table columns that are important for the analysis and drops all columns that are not used for ANI calculation [True/False] (default: `True`)
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
   * `EVALUE`: (default: `1e-15`)
   * `SENSITIVITY`: (default: `7.5`)
@@ -278,10 +279,10 @@ Maniac generates output files in the user-defined output directory. The `genome-
 
 - python=3.9
 - bash=5.2.21
-- r-base=4.4.1
+- parallel=20240922
 - r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
+- r-arrows=18.0.0
+- snakemake=7.32.4
 - pandas=2.2
 - biopython=1.79
 - mmseqs2=15.6

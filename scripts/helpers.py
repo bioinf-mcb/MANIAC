@@ -72,9 +72,8 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
     MODE = nested_get(config, ['MODE'])
     MMSEQS_THREADS = cores                  # mmseqs threads (equivalent to CPU cores)
     FAST = config.get("FAST", False)
-    MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", True)
     DELETE_INTERMEDIATE_FILES = config.get("DELETE_INTERMEDIATE_FILES", True)
-
+    MEMORY_GB = config.get("MEMORY_GB", 16)
 
     # checkpoint for mode
     modes_fstring = ' | '.join(modes_available)
@@ -186,10 +185,10 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         print('FATAL MODE ERROR!')
         exit()
 
-    return MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, MEMORY_EFFICIENT, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS
+    return MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MEMORY_GB, MMSEQS_THREADS
 
 
-def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR, MMSEQS_THREADS, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, FAST, DELETE_INTERMEDIATE_FILES):    
+def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, SEPARATOR, MMSEQS_THREADS, MEMORY_GB, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, FAST, DELETE_INTERMEDIATE_FILES):    
     """ print settings to console """
 
     print('\nPATHS:')
@@ -201,7 +200,6 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
     if MODE == 'CDS_AA' or MODE == 'CDS_NT':
         print(f'PARAMETERS:')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
         print(f'Separator: {SEPARATOR}')
         print(f'Delete intermediate files and fragment/CDS alignments: {DELETE_INTERMEDIATE_FILES})\n')
 
@@ -217,7 +215,6 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
         print(f'PARAMETERS ({MODE}):')
         print(f'Fragment size: {FRAGMENT_SIZE}')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
 
         print('DNA significant hits definition:')
         print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
@@ -226,7 +223,8 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
     else: 
         print('FATAL MODE ERROR!')
         exit()
-    
+
+    print(f'Available memory: {MEMORY_GB}G')
     print(f'MMSEQS CPU cores: {MMSEQS_THREADS}')
     print(f'MMSEQS params: {MMSEQS_PARAMS}\n')
     

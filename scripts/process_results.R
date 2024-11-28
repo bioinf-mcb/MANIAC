@@ -8,7 +8,6 @@ IDENTITY_THR = snakemake@params[["IDENTITY"]]
 CDS_BASED = snakemake@params[["CDS_BASED"]]
 SEPARATOR = snakemake@params[["SEPARATOR"]]
 
-MEMORY_EFFICIENT = snakemake@params[["MEMORY_EFFICIENT"]]
 GENOME_ALIGNMENT = snakemake@output[[1]]
 CDS_ALIGNMENT_FILE = snakemake@params[["CDS_ALIGNMENT_FILE"]]
 MMSEQS_TEMP_DIR = snakemake@params[["MMSEQS_TEMP_DIR"]]
