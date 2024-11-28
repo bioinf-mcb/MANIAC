@@ -56,7 +56,24 @@ Clone MANIAC repository
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
-[Test](#test-installation) MANIAC installation
+Test installation
+
+Run MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
+
+```
+cd MANIAC
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
+
+Test input files:<br>
+`fragment-based.fasta` - phage genomes (nucleotides)<br>
+`cds-nt-based.fasta` - phage CDS nucleotides sequences (nucleotides)<br>
+`cds-aa-based.fasta` - phage CDS proteins sequences (aminoacids)<br>
+
+Test output file:<br>
+`genome-alignment.csv` - results of the genomes alignments
 
 <br>
 
@@ -94,7 +111,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 cd MANIAC
 ```
 
-[Test](#test-installation) MANIAC
+To test refere to the [advanced users](#advanced-users) manual.
 
 <br>
 
@@ -141,7 +158,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 cd MANIAC
 ```
 
-[Test](#test-installation) MANIAC
+To test refere to the [advanced users](#advanced-users) manual.
 <br><br>
 
 
@@ -154,25 +171,6 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
-
-### Test installation
-
-Run MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
-
-```
-cd MANIAC
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
-snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
-```
-
-Test input files:<br>
-`fragment-based.fasta` - phage genomes (nucleotides)<br>
-`cds-nt-based.fasta` - phage CDS nucleotides sequences (nucleotides)<br>
-`cds-aa-based.fasta` - phage CDS proteins sequences (aminoacids)<br>
-
-Test output file:<br>
-`genome-alignment.csv` - results of the genomes alignments
 <br>
 
 
