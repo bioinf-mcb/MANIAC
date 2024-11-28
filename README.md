@@ -79,9 +79,9 @@ Dependecies details:
 
 Lunch terminal application on your computer and follow guide dedicated to your system.
 
-#### Linux
+### Linux
 
-Install conda for package management, git for version control and wget to install MANIAC.
+Install conda for package management, git for version control and wget.
 ```
 sudo apt update
 sudo apt install git -y
@@ -105,15 +105,16 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
+cd MANIAC
 ```
 
 [Test](#test-installation) MANIAC
 
-<br><br>
+<br>
 
-#### macOS (not tested)
+### macOS (not tested)
 
-Install homebrew for package management, git for version control and wget to install MANIAC.
+Install homebrew for package management, git for version control and wget.
 ```
 # install package manager homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -125,7 +126,7 @@ brew install wget
 wget --version
 ```
 
-Install the conda environment depending on your macOS processor architecture.
+Install the conda environment depending on your processor architecture i.e. Silicon or Intel
 
 Apple Silicon (eg, M1)
 ```
@@ -151,13 +152,14 @@ mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mm
 Download the MANIAC repository. Optinally, change the directory of MANIAC installation using cd command
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
+cd MANIAC
 ```
 
 [Test](#test-installation) MANIAC
 <br><br>
 
 
-#### Windows
+### Windows
 
 To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
 
