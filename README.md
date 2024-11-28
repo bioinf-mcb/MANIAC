@@ -29,14 +29,13 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install MANIAC
 
-Follow the instructions below to install MANIAC on your system. This guide provides installation instructions for both [advanced](#advanced-users) and [begginer](#beginner-users) users on macOS, Linux Debian-Based, and Windows (via WSL). You will begin by setting up essential tools like git, conda, and wget, then clone the MANIAC repository, and finally create a dedicated conda environment to install all required dependencies. Detailed instructions are provided for each operating system to ensure a smooth installation process. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
+This guide offers installation instructions for [advanced](#advanced-users) and [begginer](#beginner-users) users. Beginners should follow the steps specific to their operating system: macOS, Linux, or Windows. The process involves setting up essential tools like git, conda, and wget, cloning the MANIAC repository, and creating a dedicated conda environment to install all required dependencies. Commands are supposed to be executed in terminal. To learn more you can refer to orignal websites of these tools:
 
 [homebrew](https://brew.sh/) a package manager for macOS.<br>
 [apt](https://packages.ubuntu.com/) a package manager for Linux.<br>
 [git](https://github.com/git-guides/install-git) distributed version control system for downloading repository.<br>
 [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html) package and environment manager with different [distributions](https://repo.anaconda.com/miniconda/)<br>
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command) a Linux subsystem for Windows.<br>
-<br>
 
 
 ### Advanced users
@@ -173,7 +172,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 ### Test installation
 
-Run MANIAC using prepared config files. 
+Run MANIAC using prepared config files. In the `test/data` location, you’ll find example input and configuration files for running tests, along with example output tables generated after successful MANIAC execution. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#maniac-output-description) section.
 
 ```
 cd MANIAC
@@ -182,10 +181,7 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
-
-In the `test/data` directory, you’ll find example input files for running tests, along with example output tables generated after successful MANIAC execution for various input types. Detailed descriptions of the output tables and instructions for preparing the configuration file are available in the [running MANIAC](#maniac-output-description) section.
-
-Test input files:
+Test input files:<br>
 `fragment-based.fasta` - phage genomes<br>
 `cds-nt-based.fasta` - phage ORF sequences (nucleotides)<br>
 `cds-aa-based.fasta` - phage protein sequences (aminoacids)<br>
