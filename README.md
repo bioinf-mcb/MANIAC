@@ -281,11 +281,11 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **af_jaccard** | The jaccard index of the alignment fraction calculated as the ratio of the aligned length to the total length of the union of the query and reference sequences                                                              |
 | **seq1_n_prots** | Number of proteins or CDS in the query sequence |
 | **seq2_n_prots** | Number of proteins or CDS in the reference sequence |
-| **seq1_n_prots_hom** | Number of homologous in the query sequence (proteins or CDS) |
-| **seq2_n_prots_hom** | Number of homologous in the reference sequence (proteins or CDS) |
-| **seq1_n_prots_cons** | Number of conservative in the query sequence (proteins or CDS) |
-| **seq2_n_prots_cons** | Number of conservative in the reference sequence (proteins or CDS) |
-| **cds_alignments_counts** | Number of alignments between query and reference sequences (proteins or CDS) |
+| **seq1_n_prots_hom** | Number of homologous proteins or CDS in the query sequence |
+| **seq2_n_prots_hom** | Number of homologous proteins or CDS in the reference sequence |
+| **seq1_n_prots_cons** | Number of conservative proteins or CDS in the query sequence |
+| **seq2_n_prots_cons** | Number of conservative proteins or CDS in the reference sequence |
+| **cds_alignments_counts** | Number of alignments proteins or CDS between query and reference sequences |
 | **cds_alignments_ani_sum** | Sum of nucleotide or aminoacid identities of aligned proteins or CDS between query and reference sequences |
 | **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences |
 | **wgrr**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
