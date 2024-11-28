@@ -44,10 +44,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 cd MANIAC
 ```
 
-### macOS Apple Intel
-
-
-### macOS Apple Silicon
+### macOS
 
 Install dependencies using [homebrew](https://brew.sh/)
 ```
