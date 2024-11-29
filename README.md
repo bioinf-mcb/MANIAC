@@ -29,45 +29,63 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 
 ## 4. Install
 
-### Dependecies details:
-
-- python=3.9
-- bash=5.2.21
-- r-base=4.4.1
-- r-essentials=4.4
-- r-arrows=17.0.0
-- snakemake=8.5
-- pandas=2.2
-- biopython=1.79
-- mmseqs2=15.6
-- datamash=1.8
-
 ### Linux
 
 Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
-conda update cryptography pyopenssl
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
 ```
 
-Clone MANIAC repository
+Clone MANIAC repository. 
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
-cd MANIAC
 ```
 
-Test MANIAC using example input data and configuration files in the `test` folder. Detailed output descriptions and configuration instructions are available in the [running MANIAC](#running-maniac) section.
+Test using example input data and configuration files in the `test` folder.
 ```
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
-### macOS Apple Intel
+### macOS
 
-### macOS Apple Silicon (eg, M1)
+Install dependencies using [homebrew](https://brew.sh/)
+```
+brew update
+brew install coreutils
+brew install gnu-sed
+brew install gawk
+brew install parallel
+brew install datamash
+brew install mmseqs2
+
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/mmseqs2/bin:$PATH"
+```
+
+Create and activate a conda environment.
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 r-base r-essentials r-arrow datamash pyopenssl=24.2
+```
+
+Clone MANIAC repository. 
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+Test using example input data and configuration files in the `test` folder.
+```
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
 
 ### Windows
 
@@ -78,6 +96,20 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
+
+### Dependecies details:
+
+- python=3.9
+- bash=5.2.21
+- r-base=4.4.1
+- r-essentials=4.4
+- r-arrows=17.0.0
+- snakemake=7.32.4
+- pandas=2.2
+- biopython=1.79
+- mmseqs2=15.6
+- datamash=1.8
+- pyopenssl=24.2
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
@@ -178,7 +210,7 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **cds_alignments_ani_sum** | Sum of nucleotide or aminoacid identities of aligned proteins or CDS between query and reference sequences |
 | **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences |
 | **wgrr**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
-| **wgANI**         | wgANI is the whole genome ANI. It si calculated by multiplying ANI by the mean AF |
+
 
 ## 6. References
 1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
