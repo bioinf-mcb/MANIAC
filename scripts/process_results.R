@@ -7,8 +7,8 @@ COVERAGE_THR = snakemake@params[["COVERAGE"]]
 IDENTITY_THR = snakemake@params[["IDENTITY"]]
 CDS_BASED = snakemake@params[["CDS_BASED"]]
 SEPARATOR = snakemake@params[["SEPARATOR"]]
+MODE = snakemake@params[["MODE"]]
 
-MEMORY_EFFICIENT = snakemake@params[["MEMORY_EFFICIENT"]]
 GENOME_ALIGNMENT = snakemake@output[[1]]
 CDS_ALIGNMENT_FILE = snakemake@params[["CDS_ALIGNMENT_FILE"]]
 MMSEQS_TEMP_DIR = snakemake@params[["MMSEQS_TEMP_DIR"]]
@@ -174,6 +174,9 @@ if(CDS_BASED){ #METHOD 1: CDS
 	genome_alignment_df[, cds_alignments_ani_sum := round(ANI * cds_alignments_counts, 6)]
 	genome_alignment_df[, wgrr := round(cds_alignments_ani_sum / min_prots, 3)]
 
+	if (MODE == "CDS_AA") {
+		setnames(genome_alignment_df, old = c("ANI", "wgANI"), new = c("AAI", "wgAAI"))
+	}
 	# Save
 	writeLines("Saving final table...")
 	fwrite(genome_alignment_df, GENOME_ALIGNMENT, row.names = FALSE)

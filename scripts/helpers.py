@@ -72,9 +72,8 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
     MODE = nested_get(config, ['MODE'])
     MMSEQS_THREADS = cores                  # mmseqs threads (equivalent to CPU cores)
     FAST = config.get("FAST", False)
-    MEMORY_EFFICIENT = config.get("MEMORY_EFFICIENT", True)
     DELETE_INTERMEDIATE_FILES = config.get("DELETE_INTERMEDIATE_FILES", True)
-
+    MEMORY_GB = config.get("MEMORY_GB", 16)
 
     # checkpoint for mode
     modes_fstring = ' | '.join(modes_available)
@@ -104,13 +103,9 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 1
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
-
-        if FAST:
-            ZDROP = 40
-            MAX_SEQ_LEN = 65000
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
             
         MMSEQS_PARAMS = f"--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2"
 
@@ -134,17 +129,15 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 3
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         if FAST:
             KMER = 15
-            ZDROP = 40
-            MAX_SEQ_LEN = 40000
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
@@ -155,7 +148,7 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         # CDS
         CDS_BASED = False
         SEPARATOR = config.get("SEPARATOR", "_FRAGMENT")
-        FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
+        FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 500)
 
         # filter significant proteins
         HOMOLOGS_IDENTITY = nested_get(config, ['IDENTITY'], default=0.3)
@@ -168,17 +161,16 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 3
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         if FAST:
             KMER = 15
-            ZDROP = 40
-            MAX_SEQ_LEN = 40000
+            FRAGMENT_SIZE = 1020
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
@@ -186,10 +178,10 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         print('FATAL MODE ERROR!')
         exit()
 
-    return MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, MEMORY_EFFICIENT, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MMSEQS_THREADS
+    return MODE, FAST, CDS_BASED, FRAGMENT_SIZE, SEPARATOR, DELETE_INTERMEDIATE_FILES, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, MMSEQS_PARAMS, MEMORY_GB, MMSEQS_THREADS
 
 
-def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, MEMORY_EFFICIENT, SEPARATOR, MMSEQS_THREADS, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, FAST, DELETE_INTERMEDIATE_FILES):    
+def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_DIR, FRAGMENT_SIZE, CDS_BASED, SEPARATOR, MMSEQS_THREADS, MEMORY_GB, MMSEQS_PARAMS, HOMOLOGS_IDENTITY, HOMOLOGS_COVERAGE, CONSERVED_IDENTITY, CONSERVED_COVERAGE, FAST, DELETE_INTERMEDIATE_FILES):    
     """ print settings to console """
 
     print('\nPATHS:')
@@ -201,7 +193,6 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
     if MODE == 'CDS_AA' or MODE == 'CDS_NT':
         print(f'PARAMETERS:')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
         print(f'Separator: {SEPARATOR}')
         print(f'Delete intermediate files and fragment/CDS alignments: {DELETE_INTERMEDIATE_FILES})\n')
 
@@ -217,7 +208,6 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
         print(f'PARAMETERS ({MODE}):')
         print(f'Fragment size: {FRAGMENT_SIZE}')
         print(f'CDS based: {CDS_BASED}')
-        print(f'Memory efficient mode: {MEMORY_EFFICIENT}')
 
         print('DNA significant hits definition:')
         print(f'Minimum identity: {HOMOLOGS_IDENTITY}')
@@ -226,7 +216,8 @@ def display_settings(MODE, INPUT_FILE, OUTPUT_DIR, LOG_DIR, INTERMEDIATE_FILES_D
     else: 
         print('FATAL MODE ERROR!')
         exit()
-    
+
+    print(f'Available memory: {MEMORY_GB}G')
     print(f'MMSEQS CPU cores: {MMSEQS_THREADS}')
     print(f'MMSEQS params: {MMSEQS_PARAMS}\n')
     

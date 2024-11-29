@@ -1,12 +1,17 @@
 #!/usr/bin/env Rscript
+
 # Load the necessary library
 library(data.table)
+# Limit cpus for better parallel handling
+setDTthreads(1)
 
 # Check command line arguments
 args <- commandArgs(trailingOnly = TRUE)
-input_file <- args[1]  # Input file
-output_file <- args[2]  # Output file
-separator <- args[3]       # Separator for splitting (e.g., "_CDS")
+separator <- args[1] # Separator for splitting (e.g., "_CDS")
+input_file <- args[2]  # Input file
+input_name <- basename(input_file)
+input_path <- dirname(input_file)
+output_file <- file.path(input_path, paste0("sorted_", input_name))
 
 # Read the input file into a data.table
 dt <- fread(input_file)

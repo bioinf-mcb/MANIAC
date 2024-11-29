@@ -5,8 +5,8 @@ INPUT_FILE: "test/data/cds-nt-based.fasta"
 OUTPUT_DIR: "test/output/ADVANCED-CDS-NT-BASED"
 MODE: "CDS_NT" # [FRAGMENTS_NT | CDS_NT | CDS_AA]
 FAST: False
+MEMORY_GB: 16 #Declare available memory for MANIAC in GB
 
-MEMORY_EFFICIENT: True
 DELETE_INTERMEDIATE_FILES: True
 
 # BBH & homologous proteins definition
@@ -23,9 +23,9 @@ CONSERVED:
 MMSEQS_PARAMS:
   EVALUE: 1e-15
   SENSITIVITY: 7.5
-  ZDROP: 150
+  ZDROP: 40
   MAX_SEQS: 10000
-  MAX_SEQ_LEN: 100000
+  MAX_SEQ_LEN: 65000
   KMER: 11
   SEED_SUB_MATRIX: "scoring/blastn-scoring.out" 
   SUB_MATRIX: "scoring/blastn-scoring.out"

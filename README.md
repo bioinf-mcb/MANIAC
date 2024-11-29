@@ -27,44 +27,90 @@ In addition to the standard, fragment-based ANI calculation, MANIAC carries out 
 2. To calculate ANI and AF, in both query and subject only CDSs which are each others best hits are considered.
 
 
-## 4. Installation
+## 4. Install
 
-### Clone repository
-First clone the GitHub directory
+### Linux
+
+Create and activate a conda environment.
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash pyopenssl=24.2 parallel=20240922
+```
+
+Clone MANIAC repository. 
 ```
 git clone https://github.com/bioinf-mcb/MANIAC
 ```
 
-### Install dependencies (conda)
-#### Linux & MacOS
-
+Test using example input data and configuration files in the `test` folder.
 ```
-conda create -n maniac -c conda-forge mamba python=3.9
-conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash
-```
-
-#### Test
-```
-cd MANIAC
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
 
+### macOS
 
-#### MANIAC dependencies (with tested packages versions):
+Install dependencies using [homebrew](https://brew.sh/)
+```
+brew update
+brew install coreutils
+brew install gnu-sed
+brew install gawk
+brew install parallel
+brew install datamash
+brew install mmseqs2
 
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
+export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/mmseqs2/bin:$PATH"
+```
+
+Create and activate a conda environment.
+```
+conda create -n maniac -c conda-forge mamba python=3.9
+conda activate maniac
+mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 r-base r-essentials r-arrow datamash pyopenssl=24.2
+```
+
+Clone MANIAC repository. 
+```
+git clone https://github.com/bioinf-mcb/MANIAC
+```
+
+Test using example input data and configuration files in the `test` folder.
+```
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
+```
+
+### Windows
+
+To install MANIAC on Windows, you first need to install Windows Subsystem for Linux (WSL) and set it up. Once WSL is installed, follow the instructions for installing MANIAC on Linux.
+
+1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
+2. In the PowerShell window, enter the following command `wsl --install` to install WSL.
+3. Restart Your Computer, choose Linux to launch and follow the on-screen instructions.
+4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
+
+
+### Dependencies details:
+MANIAC was successfully tested on Linux, macOS and Windows with the following dependencies versions. Make sure the bash version used is 5.0 or above.
 - python=3.9
 - bash=5.2.21
 - r-base=4.4.1
 - r-essentials=4.4
 - r-arrows=17.0.0
-- snakemake=8.5
+- snakemake=7.32.4
 - pandas=2.2
 - biopython=1.79
 - mmseqs2=15.6
 - datamash=1.8
+- pyopenssl=24.2
+- parallel=20240922
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
@@ -75,7 +121,7 @@ MANIAC requires one of two types of input files:
 1. Full genome files (for the fragment calculation), 
 2. Nucleotide or amino-acid coding-sequences (for the BBH calculation).
 
-Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` sting, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
+Each file should be in FASTA format. The header convention for CDS input should be the genome name, followed by a `_CDS` string, followed by its unique suffix. For example, if genome named **XYZ_phageVp123** has three coding sequences, the input file headers could be  
 
 `>XYZ_phageVp123_CDS1`, `>XYZ_phageVp123_CDS2` and `>XYZ_phageVp123_CDS5`
 
@@ -87,8 +133,9 @@ MANIAC uses a yaml configuration file to set the workflow parameters. Here's an 
 ```
 INPUT_FILE: "test/data/fragment-based.fasta"
 OUTPUT_DIR: "test/output/FRAGMENT-BASED"
-MODE: DNA_FRAGMENTS
+MODE: FRAGMENTS_NT
 FAST: False
+MEMORY_GB: 16
 ```
 Here are details of various parameters.
 
@@ -96,12 +143,13 @@ Here are details of various parameters.
 * `INPUT_FILE`: full genome or CDS file
 * `OUTPUT_DIR`: directory where the output should be written
 * `MODE`: FRAGMENTS_NT requires full genomes as an input, while CDS_NT and CDS_AA use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [FRAGMENTS_NT | CDS_NT | CDS_AA]
-* `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
+* `FAST`: Enable Fast mode. Fast mode will automatically overwrite some parameters to prioritize speed over accuracy (KMER: 15, FRAGMENT_SIZE: 1020) [True/False]
+* `MEMORY_GB`: Declare the memory available for MANIAC in GB. Note: This will not actually limit the memory and is only used to optimize post-processing run speed. (default: `16`)
 
 #### Parameters: specific to fragment mode (optional)
 * `COVERAGE`: minimal query coverage used for filtering (default: `0.7`)
 * `IDENTITY`: minimal query identity used for filtering (default: `0.3`)
-* `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `1020`)
+* `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `500`)
 
 #### Parameters: specific to BBH mode (optional)
 * `HOMOLOGS:` BBH & homologous CDS definition
@@ -117,10 +165,10 @@ Here are details of various parameters.
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
   * `EVALUE`: (default: `1e-15`)
   * `SENSITIVITY`: (default: `7.5`)
-  * `ZDROP`: (default: `150`)
+  * `ZDROP`: (default: `40`)
   * `MAX_SEQS`: (default: `10000`)
-  * `MAX_SEQ_LEN`: (default: `100000`)
-  * `KMER`: (default: `100000`)
+  * `MAX_SEQ_LEN`: (default: `65000`)
+  * `KMER`: (default: `11`)
   * `SEED_SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
   * `SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
 
@@ -145,7 +193,7 @@ Maniac generates output files in the user-defined output directory. The `genome-
 
 | Metrics        | Description                                                                                                                                                                         |
 |----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **ANI**        | Average nucleotide identity between the query and reference sequences                                                                                                               |
+| **ANI/AAI**    | Average nucleotide or aminoacid identity between the query and reference sequences                                                                                                  |
 | **len_1**      | The length of the query sequence                                                                                                                                                    |
 | **len_2**      | The length of the reference sequence                                                                                                                                                |
 | **ani_alnlen** | The total length of aligned nucleotides between the query and reference sequences                                                                                                    |
@@ -155,23 +203,22 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **af_max**     | The maximum alignment fraction between the query and reference sequence calculated by dividing the aligned nucleotide length by the longer sequence between the query and reference sequence                   |
 | **af_mean**    | Mean alignment fraction between the query and reference sequences. It is calculated by averaging the alignment fraction of both query and reference sequences weighted by their length. Users can also calculate `af_mean` by considering the alignment fraction between pairs since the results of MANIAC are asymmetrical i.e (af_1 + af_2)/2                                                                                                                                 |
 | **af_jaccard** | The jaccard index of the alignment fraction calculated as the ratio of the aligned length to the total length of the union of the query and reference sequences                                                              |
-| **seq1_n_prots** | Number of proteins or CDS in the query sequence                                                                                                                                    |
-| **seq2_n_prots** | Number of proteins or CDS in the reference sequence                                                                                                                                 |
-| **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences                                                                                                     |
-| **wGRR**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
-| **wgANI**         | wgANI is the whole genome ANI. It si calculated by multiplying ANI by the mean AF |
-
+| **wgANI/wgAAI**        | wgANI/AAI is the whole genome ANI/AAI. It is calculated by multiplying ANI or AAI by the mean AF |
+| **seq1_n_prots** | Number of proteins or CDS in the query sequence |
+| **seq2_n_prots** | Number of proteins or CDS in the reference sequence |
+| **seq1_n_prots_hom** | Number of homologous proteins or CDS in the query sequence |
+| **seq2_n_prots_hom** | Number of homologous proteins or CDS in the reference sequence |
+| **seq1_n_prots_cons** | Number of conservative proteins or CDS in the query sequence |
+| **seq2_n_prots_cons** | Number of conservative proteins or CDS in the reference sequence |
+| **cds_alignments_counts** | Number of alignments proteins or CDS between query and reference sequences |
+| **cds_alignments_ani_sum** | Sum of nucleotide or aminoacid identities of aligned proteins or CDS between query and reference sequences |
+| **min_prots**    | The minimum number of proteins or CDS between the query and reference sequences |
+| **wgrr**         | wGRR is the weighted gene repertoire relatedness. It is calculated as the ratio of bi-directional best hits between the query and reference genomes weighted by the sequence identity of homologs (CDS or protein homologs for the CDS or protein mode respectively) |
 
 
 ## 6. References
 1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
 2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
-  
-
-
-## NOTES
-
-* Fragment-based calculation has duplicate entries (a-b & b-a)
-* ANI for proteins (CDS) is AAI
-* wGRR for ORFs is not *sensu stricto* wGRR
-
+3. Johannes Köster, Sven Rahmann, Snakemake—a scalable bioinformatics workflow engine. Bioinformatics, Volume 28, Issue 19, Pages 2520–2522 (2012).
+4. Richardson N, Cook I, Crane N, Dunnington D, François R, Keane J, Moldovan-Grünfeld D, Ooms J, Wujciak-Jens J, Apache Arrow. arrow: Integration to 'Apache' 'Arrow'. R package version 17.0.0, https://github.com/apache/arrow (2024).
+5. Tange, O. GNU Parallel 20240922 ('Gold Apollo AR924'). Zenodo. doi: 10.5281/zenodo.13826092 (2024) 
