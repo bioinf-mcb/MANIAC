@@ -45,7 +45,7 @@ git clone https://github.com/bioinf-mcb/MANIAC
 
 Test using example input data and configuration files in the `test` folder.
 ```
-snakemake --cores 8 --quiet --snakefile MANIAC --config.file test/configs/easy-fragment-based.yml
+snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-fragment-based.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-aa.yml
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cds-nt.yml
 ```
