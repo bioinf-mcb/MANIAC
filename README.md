@@ -133,7 +133,7 @@ MANIAC uses a yaml configuration file to set the workflow parameters. Here's an 
 ```
 INPUT_FILE: "test/data/fragment-based.fasta"
 OUTPUT_DIR: "test/output/FRAGMENT-BASED"
-MODE: DNA_FRAGMENTS
+MODE: FRAGMENTS_NT
 FAST: False
 MEMORY_GB: 16
 ```
