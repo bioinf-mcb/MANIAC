@@ -219,4 +219,6 @@ Maniac generates output files in the user-defined output directory. The `genome-
 ## 6. References
 1. Goris, J. et al. DNA-DNA hybridization values and their relationship to whole-genome sequence similarities. Int. J. Syst. Evol. Microbiol. 57, 81–91 (2007).
 2. Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets. Nat. Biotechnol. 35, 1026–1028 (2017).
-  
+3. Johannes Köster, Sven Rahmann, Snakemake—a scalable bioinformatics workflow engine. Bioinformatics, Volume 28, Issue 19, Pages 2520–2522 (2012).
+4. Richardson N, Cook I, Crane N, Dunnington D, François R, Keane J, Moldovan-Grünfeld D, Ooms J, Wujciak-Jens J, Apache Arrow. arrow: Integration to 'Apache' 'Arrow'. R package version 17.0.0, https://github.com/apache/arrow (2024).
+5. Tange, O. GNU Parallel 20240922 ('Gold Apollo AR924'). Zenodo. doi: 10.5281/zenodo.13826092 (2024) 
