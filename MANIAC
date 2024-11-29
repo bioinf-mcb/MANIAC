@@ -162,6 +162,7 @@ rule process_results:
     log: Path(LOG_DIR, "process_results.log")
     params: COVERAGE = HOMOLOGS_COVERAGE,
             IDENTITY = HOMOLOGS_IDENTITY,
+            MODE = MODE,
             CDS_BASED = CDS_BASED,
             SEPARATOR = SEPARATOR,
             CDS_ALIGNMENT_FILE = Path(OUTPUT_DIR, "cds-alignment.csv"),
