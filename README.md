@@ -35,7 +35,7 @@ Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash  pyopenssl=24.2
+mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 mmseqs2 r-base r-essentials r-arrow datamash pyopenssl=24.2
 ```
 
 Clone MANIAC repository. 
@@ -93,12 +93,12 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 1. Click the Start menu, type "PowerShell," right-click on Windows PowerShell, and select Run as administrator.
 2. In the PowerShell window, enter the following command `wsl --install` to install WSL.
-3. Restart Your Computer, choose Linux to lunch and follow the on-screen instructions.
+3. Restart Your Computer, choose Linux to launch and follow the on-screen instructions.
 4. Once your Linux environment is ready, follow the [Linux](#linux) Debian-Based installation steps to install MANIAC.
 
 
-### Dependecies details:
-
+### Dependencies details:
+MANIAC was successfully tested on Linux, macOS and Windows with the following dependencies versions. Make sure the bash version used is 5.0 or above.
 - python=3.9
 - bash=5.2.21
 - r-base=4.4.1
@@ -110,6 +110,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 - mmseqs2=15.6
 - datamash=1.8
 - pyopenssl=24.2
+- parallel=20240922
 
 ## 5. Running MANIAC
 This section will guide you on how to prepare your input files, create a yaml configuration file, and run the MANIAC software. We'll also cover the types of output files you can expect from MANIAC.
@@ -134,6 +135,7 @@ INPUT_FILE: "test/data/fragment-based.fasta"
 OUTPUT_DIR: "test/output/FRAGMENT-BASED"
 MODE: DNA_FRAGMENTS
 FAST: False
+MEMORY_GB: 16
 ```
 Here are details of various parameters.
 
@@ -141,12 +143,13 @@ Here are details of various parameters.
 * `INPUT_FILE`: full genome or CDS file
 * `OUTPUT_DIR`: directory where the output should be written
 * `MODE`: FRAGMENTS_NT requires full genomes as an input, while CDS_NT and CDS_AA use BBH to calculate ANI and require the input to be CDS (nucleotide or protein respectively) [FRAGMENTS_NT | CDS_NT | CDS_AA]
-* `FAST`: Enable Fast mode. Fast mode will overwrite some parameters to prioritize speed over accuracy (KMER: 15) [True/False]
+* `FAST`: Enable Fast mode. Fast mode will automatically overwrite some parameters to prioritize speed over accuracy (KMER: 15, FRAGMENT_SIZE: 1020) [True/False]
+* `MEMORY_GB`: Declare the memory available for MANIAC in GB. Note: This will not actually limit the memory and is only used to optimize post-processing run speed. (default: `16`)
 
 #### Parameters: specific to fragment mode (optional)
 * `COVERAGE`: minimal query coverage used for filtering (default: `0.7`)
 * `IDENTITY`: minimal query identity used for filtering (default: `0.3`)
-* `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `1020`)
+* `FRAGMENT_SIZE`: length of the genome fragments to be used in search (default: `500`)
 
 #### Parameters: specific to BBH mode (optional)
 * `HOMOLOGS:` BBH & homologous CDS definition
@@ -162,10 +165,10 @@ Here are details of various parameters.
 * `MMSEQS_PARAMS`: any additional parameters to be passed to MMseqs2 search, default values calibrated with Pyani
   * `EVALUE`: (default: `1e-15`)
   * `SENSITIVITY`: (default: `7.5`)
-  * `ZDROP`: (default: `150`)
+  * `ZDROP`: (default: `40`)
   * `MAX_SEQS`: (default: `10000`)
-  * `MAX_SEQ_LEN`: (default: `100000`)
-  * `KMER`: (default: `100000`)
+  * `MAX_SEQ_LEN`: (default: `65000`)
+  * `KMER`: (default: `11`)
   * `SEED_SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
   * `SUB_MATRIX`: (default: `scoring/blastn-scoring.out`)
 
@@ -200,6 +203,7 @@ Maniac generates output files in the user-defined output directory. The `genome-
 | **af_max**     | The maximum alignment fraction between the query and reference sequence calculated by dividing the aligned nucleotide length by the longer sequence between the query and reference sequence                   |
 | **af_mean**    | Mean alignment fraction between the query and reference sequences. It is calculated by averaging the alignment fraction of both query and reference sequences weighted by their length. Users can also calculate `af_mean` by considering the alignment fraction between pairs since the results of MANIAC are asymmetrical i.e (af_1 + af_2)/2                                                                                                                                 |
 | **af_jaccard** | The jaccard index of the alignment fraction calculated as the ratio of the aligned length to the total length of the union of the query and reference sequences                                                              |
+| **wgANI/wgAAI**        | wgANI/AAI is the whole genome ANI/AAI. It is calculated by multiplying ANI or AAI by the mean AF |
 | **seq1_n_prots** | Number of proteins or CDS in the query sequence |
 | **seq2_n_prots** | Number of proteins or CDS in the reference sequence |
 | **seq1_n_prots_hom** | Number of homologous proteins or CDS in the query sequence |
