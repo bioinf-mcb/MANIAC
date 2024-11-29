@@ -103,13 +103,9 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 1
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
-
-        if FAST:
-            ZDROP = 40
-            MAX_SEQ_LEN = 65000
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
             
         MMSEQS_PARAMS = f"--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2"
 
@@ -133,17 +129,15 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 3
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         if FAST:
             KMER = 15
-            ZDROP = 40
-            MAX_SEQ_LEN = 40000
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
@@ -154,7 +148,7 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         # CDS
         CDS_BASED = False
         SEPARATOR = config.get("SEPARATOR", "_FRAGMENT")
-        FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 1020)
+        FRAGMENT_SIZE = config.get("FRAGMENT_SIZE", 500)
 
         # filter significant proteins
         HOMOLOGS_IDENTITY = nested_get(config, ['IDENTITY'], default=0.3)
@@ -167,17 +161,16 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         EVALUE = nested_get(config, ['MMSEQS_PARAMS', 'EVALUE'], default='1e-15')
         SEARCH_TYPE = 3
         SENSITIVITY = nested_get(config, ['MMSEQS_PARAMS', 'SENSITIVITY'], default=7.5)
-        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=150)
+        ZDROP = nested_get(config, ['MMSEQS_PARAMS', 'ZDROP'], default=40)
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
-        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=100000)
+        MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
         SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
         SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
 
         if FAST:
             KMER = 15
-            ZDROP = 40
-            MAX_SEQ_LEN = 40000
+            FRAGMENT_SIZE = 1020
 
         MMSEQS_PARAMS = f'--search-type {SEARCH_TYPE} -a --max-seqs {MAX_SEQS} --max-seq-len {MAX_SEQ_LEN} -s {SENSITIVITY} --mask 0 -e {EVALUE} -k {KMER} --zdrop {ZDROP} -c {HOMOLOGS_COVERAGE} --cov-mode 2 --seed-sub-mat "{SEED_SUB_MATRIX}" --sub-mat "{SUB_MATRIX}"'
 
