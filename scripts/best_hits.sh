@@ -9,7 +9,7 @@ fi
 
 split -l ${snakemake_params[CHUNKSIZE]} "${snakemake_input[0]}" "${snakemake_params[CHUNK]}"
 
-ls "${snakemake_params[CHUNK]}"* | parallel -j$JOBNB Rscript ${snakemake_params[SORTPATH]} ${snakemake_params[SEPARATOR]} {} 1> /dev/null
+ls "${snakemake_params[CHUNK]}"* | parallel --will-cite --silent -j$JOBNB Rscript ${snakemake_params[SORTPATH]} ${snakemake_params[SEPARATOR]} {} 1> /dev/null
 
 sort --parallel=${snakemake_params[MMSEQS_THREADS]} -m -k1,1 -k9,9 -k7,7g "${snakemake_params[INTERMEDIATE_FILES_DIR]}"/sorted_* > "${snakemake_params[MERGED]}"
 
