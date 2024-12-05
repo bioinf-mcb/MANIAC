@@ -55,6 +55,7 @@ snakemake --cores 8 --quiet --snakefile MANIAC --configfile test/configs/easy-cd
 Install dependencies using [homebrew](https://brew.sh/)
 ```
 brew update
+brew install bash
 brew install coreutils
 brew install gnu-sed
 brew install gawk
@@ -65,6 +66,7 @@ brew install mmseqs2
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/mmseqs2/bin:$PATH"
 ```
 
@@ -72,7 +74,7 @@ Create and activate a conda environment.
 ```
 conda create -n maniac -c conda-forge mamba python=3.9
 conda activate maniac
-mamba install -c conda-forge -c bioconda bash snakemake pandas biopython=1.79 r-base r-essentials r-arrow datamash pyopenssl=24.2
+mamba install -c conda-forge -c bioconda snakemake pandas biopython=1.79 r-base r-essentials r-arrow datamash pyopenssl=24.2
 ```
 
 Clone MANIAC repository. 
