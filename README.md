@@ -66,7 +66,6 @@ brew install mmseqs2
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix gawk)/libexec/gnubin:$PATH"
-export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/mmseqs2/bin:$PATH"
 ```
 
