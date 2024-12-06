@@ -99,7 +99,7 @@ To install MANIAC on Windows, you first need to install Windows Subsystem for Li
 
 
 ### Dependencies details:
-MANIAC was successfully tested on Linux, macOS and Windows with the following dependencies versions. Make sure the bash version used is 5.0 or above.
+MANIAC was successfully tested on Linux, macOS and Windows with the following dependencies versions. Make sure the bash version used is 5.0 or above by running `bash --version` and that all dependencies were successfully installed with homebrew and/or conda.
 - python=3.9
 - bash=5.2.21
 - r-base=4.4.1
@@ -187,6 +187,8 @@ After your input files are ready and your configuration file is set, you can run
 snakemake --cores 8 --quiet --snakefile MANIAC --configfile your-path-to-configuration-file.yml
 ```
 where `your-path-to-configuration-file.yml` is the full path to your configuration file. The type of the configuration file will determine whether MANIAC runs in the fragment mode or the BBH mode. `cores` should be adapted to the machine you are using to run MANIAC.
+
+If MANIAC ran into an error because of an issue (such as wrong installation) that you were able to correct, please delete the output directory before trying to run the pipeline again.
 
 ### Maniac Output Description
 
