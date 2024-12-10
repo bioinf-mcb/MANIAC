@@ -1,3 +1,4 @@
+import os
 
 HEADER_LINE_START = "Seq1,Seq2"
 
@@ -64,7 +65,7 @@ def input_checkpoint(INPUT_FILE, SEPARATOR, CDS_BASED):
 
     return SEPARATOR
 
-def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_AA']):
+def get_params(config, cores, basedir, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_AA']):
     """ extract information about parameters from config file """
 
 
@@ -133,8 +134,8 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
         MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
-        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
-        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
+        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default=os.path.join(basedir, 'scoring/blastn-scoring.out'))
+        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default=os.path.join(basedir, 'scoring/blastn-scoring.out'))
 
         if FAST:
             KMER = 15
@@ -165,8 +166,8 @@ def get_params(config, cores, modes_available = ['FRAGMENTS_NT', 'CDS_NT', 'CDS_
         MAX_SEQS = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQS'], default=10000)
         MAX_SEQ_LEN = nested_get(config, ['MMSEQS_PARAMS', 'MAX_SEQ_LEN'], default=65000)
         KMER = nested_get(config, ['MMSEQS_PARAMS', 'KMER'], default=11)
-        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default='scoring/blastn-scoring.out')
-        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default='scoring/blastn-scoring.out')
+        SEED_SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SEED_SUB_MATRIX'], default=os.path.join(basedir, 'scoring/blastn-scoring.out'))
+        SUB_MATRIX = nested_get(config, ['MMSEQS_PARAMS', 'SUB_MATRIX'], default=os.path.join(basedir, 'scoring/blastn-scoring.out'))
 
         if FAST:
             KMER = 15
