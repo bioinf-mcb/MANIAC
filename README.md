@@ -4,7 +4,7 @@
 ## 1. What is MANIAC?
 MANIAC stands for **M**Mseqs2-based **A**verage **N**ucleotide **I**dentity **A**ccurate **C**alculator. It is a bioinformatic pipeline, written using SnakeMake, for rapid and accurate calculation of average nucleotide identity (ANI) and Alignment Fraction (AF) between viral genomes. The goal of MANIAC is to provide a user-friendly and efficient tool for researchers in genomics, bioinformatics, and virology. MANIAC has been developed and optimised for bacteriophages but in principle can be used on any microbial genomes.
 
-Publication: https://doi.org/10.1101/2024.04.23.590796
+Publication: https://doi.org/10.1101/2024.04.23.590796<br>
 Contact: jade.leconte@uj.edu.pl
 
 ## 2. Features
